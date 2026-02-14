@@ -1,11 +1,6 @@
 
 # ROADMAP - SIGHT AND VISION TO "PROJECT CONTEXT-CLUES"
 
-RTFM is KEY!
-
-
-
-
 
 ## Purpose:
 Modern cyber operations generate massive, high‑dimensional data, alerts, asset inventories, scan results, DNS and
