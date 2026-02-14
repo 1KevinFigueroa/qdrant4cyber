@@ -1,6 +1,6 @@
 # Subdomain Subfinder  → JSON Converter
 
-Convert subdomains from a plain text file into structured JSON with IDs for use in red team pipelines, dashboards, or vector databases.
+Convert Subfinder results in plain text file vs JSON file shows a huge difference if the data is being vectorized. Structured JSON with IDs is quite useful when aggregrating and correlating complex data in a vectorized format. Useful fast and accurate data is key for use in red team pipelines, dashboards, or vector databases.
 
 ---
 
@@ -15,7 +15,7 @@ As a Red Team operator, most recon tools (`nuclei`, `nmap`, `amass`, etc.) becom
 
 Typical use cases:
 
-- Ingesting subdomains into a **vector database** (Qdrant, Milvus, etc.) for semantic search and correlation
+- Ingesting subdomains into a **vector database** (Qdrant, Milvus, Weaviate, more coming soon etc.) for semantic search and correlation made easier
 - Powering recon dashboards or graphs (e.g., host → vuln → service relationships)
 - Joining subdomains with WHOIS, DNS, HTTP fingerprinting, or vulnerability scan data
 
