@@ -1,3 +1,3 @@
 This will store a collection of images to display examples
 
-![Alt text](img/Vector4Cyber.png)
+![Alt text](/Vector4Cyber.png)
