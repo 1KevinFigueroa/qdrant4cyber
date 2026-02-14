@@ -1,4 +1,4 @@
-In the most polite way possible, RTFM-Knowledge, is my way of bringing old school slag from the earlier times in 1999 @ DEFCON 7 Alexis Park Resort and boy what a resort.
+In the most polite way possible, RTFM-Knowledge, is my way of bringing old school slag from the earlier times in 1999 @ DEFCON 7 Alexis Park Resort and boy what a resort. RTFM is KEY!
 
 Purpose:
 Modern cyber operations generate massive, high‑dimensional data, alerts, asset inventories, scan results, DNS and
