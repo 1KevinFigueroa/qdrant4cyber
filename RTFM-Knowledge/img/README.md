@@ -1,3 +1,3 @@
-# Vector4Cyber is now here!
+# Vector4Cyber - "PROJECT CONTEXT-CLUES" is now here!
 
 ![My Project Screenshot](Vector4Cyber.png)
