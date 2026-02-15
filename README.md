@@ -1,3 +1,4 @@
+![My Project Screenshot](../RTFM-Knowledge/img/Vector4Cyber.png)
 "PROJECT CONTEXT-CLUES"
 
 Modern cyber operations generate massive, high‑dimensional data, alerts, asset inventories, scan results, DNS and
