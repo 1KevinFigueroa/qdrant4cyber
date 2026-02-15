@@ -12,6 +12,10 @@
   <a href="LICENSE">
     <img src="https://img.shields.io/github/license/1KevinFigueroa/vector4cyber" alt="License">
   </a>
+  <a href="https://github.com/users/1KevinFigueroa/vector4cyber/RTFM-Knowledge/Roadmap/README.md">
+    <img src="https://img.shields.io/badge/Roadmap-Live%20Board-ff69b4?style=for-the-badge" alt="Roadmap">
+  </a>
+</p>
 </p>
 
 <h2 style="text-align: center;">PROJECT CONTEXT-CLUES</h2>
