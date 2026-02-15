@@ -1,5 +1,6 @@
 ![My Project Screenshot](../main/RTFM-Knowledge/img/Vector4Cyber.png)
-"PROJECT CONTEXT-CLUES"
+
+# PROJECT CONTEXT-CLUES
 
 Modern cyber operations generate massive, high‑dimensional data, alerts, asset inventories, scan results, DNS and
 TLS telemetry, threat intel feeds, and more—yet most teams still force this data into legacy, row‑and‑column patterns that were never designed for AI‑driven analysis. This is my practical approach to modernize, vectorize, and visualize your
