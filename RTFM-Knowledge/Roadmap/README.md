@@ -2,7 +2,7 @@
 # ROADMAP - SIGHT AND VISION TO "PROJECT CONTEXT-CLUES"
 
 <p align="center">
-<img src="../main/RTFM-Knowledge/img/Roadmap.png" align="center" width="400" height="500">
+<img src="../main/RTFM-Knowledge/img/Roadmap.png">
 
 ## Purpose:
 Modern cyber operations generate massive, high‑dimensional data, alerts, asset inventories, scan results, DNS and
