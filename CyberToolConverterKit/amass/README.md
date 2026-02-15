@@ -2,8 +2,8 @@
   <a href="https://owasp.org/projects/">
     <img src="https://img.shields.io/badge/OWASP-Flagship-00589d?logo=owasp&logoColor=white" alt="OWASP Flagship">
   </a>
-  <a href="https://github.com/1KevinFigueroa/vector4cyber/blob/main/LICENSE">
-    <img src="https://img.shields.io/github/license/1KevinFigueroa/vector4cyber?style=for-the-badge" alt="License">
+  <a href="LICENSE">
+    <img src="https://img.shields.io/github/license/1KevinFigueroa/vector4cyber" alt="License">
   </a>
 </p>
 <h2 style="text-align: center;">Converter AMass  → JSON for vectorization</h2>
