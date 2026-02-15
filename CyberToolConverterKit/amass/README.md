@@ -1,5 +1,11 @@
-<img alt="Static Badge" src="https://img.shields.io/badge/:badgeContent">
-# Subdomain Subfinder  → JSON Converter
+<a href="https://owasp.org/projects/">
+    <img src="https://img.shields.io/badge/OWASP-Flagship%20Project-00589d?style=for-the-badge&logo=owasp" alt="OWASP Flagship">
+  </a>
+  <a href="https://github.com/1KevinFigueroa/vector4cyber/blob/main/LICENSE">
+    <img src="https://img.shields.io/github/license/1KevinFigueroa/vector4cyber?style=for-the-badge" alt="License">
+  </a>
+</p>
+# Converter aMass  → JSON for vectorization
 
 Converting Subfinder results from a plain text file to a structured JSON format makes a significant difference when the data is being vectorized. Properly structured JSON with unique IDs is extremely useful for aggregating and correlating complex data in a vectorized workflow. High-quality, fast, and accurate data is critical for red team pipelines, security dashboards, and vector databases.
 
