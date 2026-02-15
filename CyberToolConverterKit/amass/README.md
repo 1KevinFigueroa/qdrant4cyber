@@ -1,6 +1,9 @@
 <a href="https://owasp.org/projects/">
     <img src="https://img.shields.io/badge/OWASP-Flagship%20Project-00589d?style=for-the-badge&logo=owasp" alt="OWASP Flagship">
   </a>
+  <a href="https://owasp.org/projects/">
+    <img src="https://img.shields.io/badge/OWASP-Flagship-00589d?logo=owasp&logoColor=white" alt="OWASP Flagship">
+  </a>
   <a href="https://github.com/1KevinFigueroa/vector4cyber/blob/main/LICENSE">
     <img src="https://img.shields.io/github/license/1KevinFigueroa/vector4cyber?style=for-the-badge" alt="License">
   </a>
