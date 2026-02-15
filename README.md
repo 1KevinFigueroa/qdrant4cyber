@@ -10,3 +10,5 @@ How to transform heterogeneous cyber data (from tools such as Nmap, Amass, sslsc
 sources) into embeddings that capture semantic relationships—between assets, indicators, behaviors, and attack paths—instead of just static fields. Once vectorized, Qdrant enables fast similarity search, context‑aware pivoting (e.g., “find assets that
 behave like this compromised host”), and automated clustering for campaign or infrastructure grouping. On top of that, we will
 show how to leverage Qdrant’s filtering and metadata capabilities to combine classic threat hunting (by IP, ASN, tags, exposure) with vector search workflows.
+
+More to come...
