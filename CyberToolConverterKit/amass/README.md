@@ -5,7 +5,7 @@
     <img src="https://img.shields.io/github/license/1KevinFigueroa/vector4cyber?style=for-the-badge" alt="License">
   </a>
 </p>
-# Converter aMass  → JSON for vectorization
+<h2 style="text-align: center;">Converter aMass  → JSON for vectorization</h2>
 
 Converting Subfinder results from a plain text file to a structured JSON format makes a significant difference when the data is being vectorized. Properly structured JSON with unique IDs is extremely useful for aggregating and correlating complex data in a vectorized workflow. High-quality, fast, and accurate data is critical for red team pipelines, security dashboards, and vector databases.
 
