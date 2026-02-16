@@ -1,7 +1,7 @@
 <table align="center">
   <tr>
     <td align="center" width="50%">
-      <a href=" ">
+      <a href="https://github.com/v0re/dirb">
         <img src="https://img.shields.io/badge/Open%20Source-10000000?style=flat&logo=github&logoColor=black" alt="DIRB open-source tool" width="100">
       </a>
     </td>
