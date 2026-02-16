@@ -6,8 +6,8 @@
       </a>
     </td>
     <td align="center" style="padding: 10px;">
-      <a href="LICENSE">
-        <img src="https://img.shields.io/github/license/1KevinFigueroa/vector4cyber/blob/main/LICENSE" alt="License" style="width: 40%; height: auto;">
+      <a href="https://img.shields.io/github/license/1KevinFigueroa/vector4cyber/blob/main/LICENSE">
+        <img src="https://img.shields.io/github/license/1KevinFigueroa/vector4cyber" alt="License" style="width: 40%; height: auto;">
       </a>
     </td>
   </tr>
