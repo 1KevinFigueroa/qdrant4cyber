@@ -1,6 +1,6 @@
 
 <p align="center">
-<img src="../main/RTFM-Knowledge/img/Vector4Cyber.png" align="center" width="400" height="250">
+<img src="../RTFM-Knowledge/img/Vector4Cyber.png" align="center" width="400" height="250">
 
 <p align="center">
   <a href="https://github.com/1KevinFigueroa/vector4cyber/tree/main/RTFM-Knowledge">
