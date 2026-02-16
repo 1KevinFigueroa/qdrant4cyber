@@ -22,11 +22,6 @@
       <img src="https://github.com/1KevinFigueroa/vector4cyber/blob/main/RTFM-Knowledge/img/Vector4Cyber_extraSmalllogo.png" width="300" alt="Program Logo">
     </td>
   </tr>
-  <tr>
-    <td colspan="2" align="center">
-      <h2>Convert dirb results → JSON file vectorized</h2>
-    </td>
-  </tr>
 </table>
 
 
