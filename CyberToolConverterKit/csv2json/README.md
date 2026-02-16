@@ -1,3 +1,29 @@
+<table align="center">
+  <tr>
+    <td align="center" width="50%">
+      <a href="https://github.com/v0re/dirb">
+        <img src="https://img.shields.io/badge/Open%20Source-10000000?style=flat&logo=github&logoColor=black" alt="DIRB open-source tool" width="100">
+      </a>
+    </td>
+    <td align="center" width="50%">
+      <a href="https://github.com/1KevinFigueroa/vector4cyber/blob/main/LICENSE">
+        <img src="https://img.shields.io/badge/License-Apache%202.0-brightgreen?labelColor=gray&logo=github" alt="Apache 2.0">
+    </a>
+      </a>
+    </td>
+  </tr>
+  <tr>
+    <td align="center" width="50%">
+      <a href="">
+        <img src="https://github.com/1KevinFigueroa/vector4cyber/blob/main/RTFM-Knowledge/img/appLogos/csv.png" width="150" alt="Amass Logo">
+      </a>
+    </td>
+    <td align="center" width="50%">
+      <img src="https://github.com/1KevinFigueroa/vector4cyber/blob/main/RTFM-Knowledge/img/Vector4Cyber_extraSmalllogo.png" width="300" alt="Program Logo">
+    </td>
+  </tr>
+</table>
+
 # Convert CSV file  → JSON file vectorized
 
 Converting structed CSV file result file and a structured JSON format makes a significant difference when the data is being vectorized. Properly structured JSON with unique IDs is extremely useful for aggregating and correlating complex data in a vectorized workflow. High-quality, fast, and accurate data is critical for red team pipelines, security dashboards, and vector databases.
