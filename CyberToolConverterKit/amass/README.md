@@ -5,12 +5,12 @@
   <a href="LICENSE">
     <img src="https://img.shields.io/github/license/1KevinFigueroa/vector4cyber" alt="License">
   </a>
-
+<br>
 <a href="">
 <img src="https://github.com/1KevinFigueroa/vector4cyber/blob/main/RTFM-Knowledge/img/appLogos/Amass.png" width=20% alt="Amass Logo">
 </a>
 
-<img src="https://github.com/1KevinFigueroa/vector4cyber/blob/main/RTFM-Knowledge/img/Vector4Cyber_extraSmalllogo.png" width=20% alt="Program Logo">
+<img src="https://github.com/1KevinFigueroa/vector4cyber/blob/main/RTFM-Knowledge/img/Vector4Cyber_extraSmalllogo.png" width=25% alt="Program Logo">
 </p>
 <h2 style="text-align: center;">Convert AMass results → JSON file vectorized</h2>
 
