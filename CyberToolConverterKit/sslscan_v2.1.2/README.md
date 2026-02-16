@@ -1,8 +1,8 @@
 <table align="center">
   <tr>
     <td align="center" width="50%">
-      <a href="https://owasp.org/projects/">
-        <img src="https://img.shields.io/badge/OWASP-Flagship-00589d?logo=owasp&logoColor=white" alt="OWASP Flagship" width="100">
+      <a href="https://github.com/rbsec/sslscan">
+        <img src="https://img.shields.io/badge/sslscan-active-orange?style=flat&logo=simple-icons&logoColor=white" alt="sslscan" width="100">
       </a>
     </td>
     <td align="center" width="50%">
