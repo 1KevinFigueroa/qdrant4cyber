@@ -7,7 +7,7 @@
     </td>
     <td align="center" width="50%">
       <a href="https://github.com/1KevinFigueroa/vector4cyber/blob/main/LICENSE">
-        <img src="https://github.com/1KevinFigueroa/vector4cyber/blob/main/LICENSE" alt="License" width="100">
+        <img src="https://img.shields.io/badge/License-Apache%202.0-brightgreen?labelColor=gray&logo=github" alt="Apache 2.0 License">
       </a>
     </td>
   </tr>
