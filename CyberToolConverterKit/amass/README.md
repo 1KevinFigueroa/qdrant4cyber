@@ -1,19 +1,32 @@
-<p align="center">
-  <a href="https://owasp.org/projects/">
-    <img src="https://img.shields.io/badge/OWASP-Flagship-00589d?logo=owasp&logoColor=white" alt="OWASP Flagship">
-  </a>
-  <a href="LICENSE">
-    <img src="https://img.shields.io/github/license/1KevinFigueroa/vector4cyber" alt="License">
-  </a>
-<br>
-<a href="">
-<img src="https://github.com/1KevinFigueroa/vector4cyber/blob/main/RTFM-Knowledge/img/appLogos/Amass.png" width=20% alt="Amass Logo">
-</a>
-
-<img src="https://github.com/1KevinFigueroa/vector4cyber/blob/main/RTFM-Knowledge/img/Vector4Cyber_extraSmalllogo.png" width=25% alt="Program Logo">
-<br>
-<h2 style="text-align: center;">Convert AMass results → JSON file vectorized</h2>
-</p>
+<table border="0" align="center">
+  <tr>
+    <td align="center">
+      <a href="https://owasp.org/projects/">
+        <img src="https://img.shields.io/badge/OWASP-Flagship-00589d?logo=owasp&logoColor=white" alt="OWASP Flagship">
+      </a>
+    </td>
+    <td align="center">
+      <a href="LICENSE">
+        <img src="https://img.shields.io/github/license/1KevinFigueroa/vector4cyber/blob/main/LICENSE" alt="License">
+      </a>
+    </td>
+  </tr>
+  <tr>
+    <td align="center">
+      <a href="">
+        <img src="https://github.com/1KevinFigueroa/vector4cyber/blob/main/RTFM-Knowledge/img/appLogos/Amass.png" width="20%" alt="Amass Logo">
+      </a>
+    </td>
+    <td align="center">
+      <img src="https://github.com/1KevinFigueroa/vector4cyber/blob/main/RTFM-Knowledge/img/Vector4Cyber_extraSmalllogo.png" width="25%" alt="Program Logo">
+    </td>
+  </tr>
+  <tr>
+    <td colspan="2" align="center">
+      <h2>Convert AMass results → JSON file vectorized</h2>
+    </td>
+  </tr>
+</table>
 Converting Amass results from a plain text file to a structured JSON format makes a significant difference when the data is being vectorized. Properly structured JSON with unique IDs is extremely useful for aggregating and correlating complex data in a vectorized workflow. High-quality, fast, and accurate data is critical for red team pipelines, security dashboards, and vector databases.
 
 The problem with subfinder's output to a text file will be structured subdomains in a list. When the output in a JSON file 
