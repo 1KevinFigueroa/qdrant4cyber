@@ -1,14 +1,40 @@
-# Subdomain Subfinder  → JSON Converter
+<table align="center">
+  <tr>
+    <td align="center" width="50%">
+      <a href="https://github.com/v0re/dirb">
+        <img src="https://img.shields.io/badge/Open%20Source-10000000?style=flat&logo=github&logoColor=black" alt="DIRB open-source tool" width="100">
+      </a>
+    </td>
+    <td align="center" width="50%">
+      <a href="https://github.com/1KevinFigueroa/vector4cyber/blob/main/LICENSE">
+        <img src="https://img.shields.io/badge/License-Apache%202.0-brightgreen?labelColor=gray&logo=github" alt="Apache 2.0">
+    </a>
+      </a>
+    </td>
+  </tr>
+  <tr>
+    <td align="center" width="50%">
+      <a href="">
+        <img src="https://github.com/1KevinFigueroa/vector4cyber/blob/main/RTFM-Knowledge/img/appLogos/dirb.png" width="150" alt="Amass Logo">
+      </a>
+    </td>
+    <td align="center" width="50%">
+      <img src="https://github.com/1KevinFigueroa/vector4cyber/blob/main/RTFM-Knowledge/img/Vector4Cyber_extraSmalllogo.png" width="300" alt="Program Logo">
+    </td>
+  </tr>
+</table>
 
-Converting Subfinder results from a plain text file to a structured JSON format makes a significant difference when the data is being vectorized. Properly structured JSON with unique IDs is extremely useful for aggregating and correlating complex data in a vectorized workflow. High-quality, fast, and accurate data is critical for red team pipelines, security dashboards, and vector databases.
+
+# Converter DIRB results  → JSON Converter vectorized
+
+Converting DIBR results from a plain text file to a structured JSON format makes a significant difference when the data is being vectorized. Properly structured JSON with unique IDs is extremely useful for aggregating and correlating complex data in a vectorized workflow. High-quality, fast, and accurate data is critical for red team pipelines, security dashboards, and vector databases.
 
 The problem with subfinder's output to a text file will be structured subdomains in a list. When the output in a JSON file 
 
-### Subfinder TEXT file structure output example ❌
-
+### DIRB TEXT file structure output example ❌
 example.com
 
-### Subfinder JSON file structure output example ❌
+### DIBR JSON file structure output currently does not exist ❌
 {"host":"aleksandr-kulishov.yandex.ru","input":"yandex.ru","source":"reconeer"}
 
 ### A JSON structure option to vectorized ✅
