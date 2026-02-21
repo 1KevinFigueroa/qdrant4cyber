@@ -246,21 +246,50 @@ class NucleiIngestor:
             vector.append((byte_val / 127.5) - 1)
         return vector
 
-    def _parse_jsonl(self, file_path: str) -> List[Dict[str, Any]]:
-        """Parse nuclei JSON output file."""
+    def _parse_json(self, file_path: str) -> List[Dict[str, Any]]:
+        """
+        Parse nuclei JSON output file.
+
+        Supports two formats:
+        1. JSON array: [{"template-id": ...}, {"template-id": ...}]
+        2. NDJSON/JSONL: One JSON object per line
+        """
         results = []
+
         with open(file_path, "r", encoding="utf-8") as f:
-            for line_num, line in enumerate(f, 1):
-                line = line.strip()
-                if not line:
-                    continue
-                try:
-                    result = json.loads(line)
-                    result["_source_line"] = line_num
+            content = f.read().strip()
+
+        if not content:
+            return results
+
+        # Try parsing as JSON array first
+        try:
+            data = json.loads(content)
+            if isinstance(data, list):
+                for i, result in enumerate(data, 1):
+                    result["_source_line"] = i
                     results.append(result)
-                except json.JSONDecodeError as e:
-                    print(f"[WARNING] Failed to parse line {line_num}: {e}")
-                    self.stats["errors"] += 1
+                return results
+            elif isinstance(data, dict):
+                # Single JSON object
+                data["_source_line"] = 1
+                return [data]
+        except json.JSONDecodeError:
+            pass  # Fall through to NDJSON parsing
+
+        # Parse as NDJSON (newline-delimited JSON)
+        for line_num, line in enumerate(content.split("\n"), 1):
+            line = line.strip()
+            if not line:
+                continue
+            try:
+                result = json.loads(line)
+                result["_source_line"] = line_num
+                results.append(result)
+            except json.JSONDecodeError as e:
+                print(f"[WARNING] Failed to parse line {line_num}: {e}")
+                self.stats["errors"] += 1
+
         return results
 
     def _normalize_result(self, result: Dict[str, Any]) -> Dict[str, Any]:
@@ -540,7 +569,7 @@ def main():
 
     # Parse JSONL file
     try:
-        results = ingestor._parse_jsonl(args.input_file)
+        results = ingestor._parse_json(args.input_file)
         print(f"[INFO] Loaded {len(results)} nuclei results")
     except Exception as e:
         print(f"[ERROR] Failed to load input file: {e}")
