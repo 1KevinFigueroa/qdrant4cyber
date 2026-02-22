@@ -15,7 +15,7 @@
   <tr>
     <td align="center" width="50%">
       <a href="">
-        <img src="https://github.com/1KevinFigueroa/vector4cyber/blob/main/RTFM-Knowledge/img/appLogos/nikto.png" width="150" alt="Amass Logo">
+        <img src="https://github.com/1KevinFigueroa/vector4cyber/blob/main/RTFM-Knowledge/img/appLogos/wafw00f.png" width="150" alt="Amass Logo">
       </a>
     </td>
     <td align="center" width="50%">
@@ -35,7 +35,7 @@ The problem with subfinder's output to a text file will be structured subdomains
 
 [
   {
-    "url": "https://23andme.com",
+    "url": " ",
     "detected": true,
     "firewall": "Cloudflare",
     "manufacturer": "Cloudflare Inc."
