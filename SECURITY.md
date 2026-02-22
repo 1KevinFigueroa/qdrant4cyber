@@ -16,8 +16,8 @@ currently being supported with security updates.
 | ---------------- | ----------------- |
 |:white_check_mark:|  Qdrant           |
 |:white_check_mark:|  ChomaDB          |
-|:white_check_mark:|  Weaviate         |
-|:white_check_mark:|  Pinecone         |
+| in progress      |  Weaviate         |
+| coming soon      |  Pinecone         |
 
 ## Reporting a Vulnerability
 Use this section to tell people how to report a vulnerability.
