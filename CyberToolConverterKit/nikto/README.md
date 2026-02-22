@@ -32,10 +32,12 @@ The problem with subfinder's output to a text file will be structured subdomains
 
 
 ### Nikto JSON file structure output example ❌
+
 {"host":"www..com","ip":"","port":"443","banner":"cloudflare","vulnerabilities":[{"id": "999986","method":"GET","url":"","msg":"/: Retrieved via header: 1.1 8dd4c7f1d7b55b5ac0fc5b7f8532cf32.cloudfront.net (CloudFront)."},{"id": "999986","method":"GET","url":"","msg":"/: Retrieved x-powered-by header: Next.js."},{"id": "95","references": "https://developer.mozilla.org/en-US/docs/Web/HTTP/Cookies","method":"GET","url":"","msg":"/: Cookie selected_country created without the httponly flag."},
 
 ### A JSON structure option to vectorized ✅
 JSON file structure example:
+
 "scan_info": {
     "target": " ",
     "scanner": "Nikto",
@@ -63,7 +65,7 @@ From a high-level architecture perspective, the shift from flat-file ingestion t
 
 In the world of vector databases—specifically Qdrant, Milvus, and Weaviate, context is the currency of accuracy. Here is the breakdown of why parsers is the "missing link" for these systems.
 
-- Reads a text file containing subdomains (e.g., from `subfinder -silent -o subs.txt`)
+- Reads a text file containing subdomains 
 - Cleans and normalizes each line
 - Assigns a unique, stable ID to every entry
 - Serializes the result as JSON for downstream automation
