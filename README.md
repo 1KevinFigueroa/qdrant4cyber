@@ -32,3 +32,14 @@ mapping external and internal attack surface postures into vectors, and visualiz
 dimensionality reduction and graph‑style views to support recon and threat modeling around Qdrant and other vector
 databases. Users will leave with concrete patterns, schema ideas, and code‑level concepts they can immediately apply to
 replace brittle dashboards and ad‑hoc spreadsheets with scalable, AI‑ready, vector‑driven threat intel backbone.
+
+<hr>
+<h2> Attention Contributors </h2>
+
+Thank you to everyone who has expressed interest in contributing to this GitHub project—we truly appreciate the enthusiasm and support.
+
+At the moment, we are still actively publishing and organizing new components to establish a stable foundation. To avoid conflicts and ensure a smooth contribution process, we kindly ask that you hold off on submitting requests just a little longer.
+
+Once we reach the point where we’re ready to accept external contributions, we will make an announcement and provide clear guidelines. All approved contributors will be recognized and listed as contributors to the project.
+
+Thank you again for your patience and for being part of the community. We’re excited to collaborate with you very soon.
