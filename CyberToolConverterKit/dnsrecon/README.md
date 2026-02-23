@@ -25,21 +25,45 @@
 </table>
 
 
-# Converter DIRB results  → JSON Converter vectorized
+# Converter DNSRecon results  → JSON Converter vectorized
 
-Converting DIBR results from a plain text file to a structured JSON format makes a significant difference when the data is being vectorized. Properly structured JSON with unique IDs is extremely useful for aggregating and correlating complex data in a vectorized workflow. High-quality, fast, and accurate data is critical for red team pipelines, security dashboards, and vector databases.
+Converting DNSRecon results from a plain text file to a structured JSON format makes a significant difference when the data is being vectorized. Properly structured JSON with unique IDs is extremely useful for aggregating and correlating complex data in a vectorized workflow. High-quality, fast, and accurate data is critical for red team pipelines, security dashboards, and vector databases.
 
 The problem with subfinder's output to a text file will be structured subdomains in a list. When the output in a JSON file 
 
-### DIRB TEXT file structure output example ❌
-example.com
-
-### DIBR JSON file structure output currently does not exist ❌
-{"host":"aleksandr-kulishov.yandex.ru","input":"yandex.ru","source":"reconeer"}
+### DNSRecon CSV file structure output example ❌
+MX, , ,,,
+MX, , ,,,
+A,  , ,,,
+A, , ,,,
+AAAA, , ,,,
+AAAA, , ,,,
+TXT, ,,,,'dropbox-domain-verification= '
 
 ### A JSON structure option to vectorized ✅
 JSON file structure example:
-{"id": 1, "host": "example.com", "input": "example.com", "source": "subfinder"}
+  "scan_info": {
+    "input_file": "23andme_dnsrecon.csv",
+    "total_records": 39,
+    "headers": [
+      "Type",
+      "Name",
+      "Address",
+      "Target",
+      "Port",
+      "String"
+    ]
+  },
+  "records": [
+    {
+      "id": 1,
+      "type": "SOA",
+      "name": "alina.ns.cloudflare.com",
+      "address": "172.64.32.61",
+      "target": "",
+      "port": "",
+      "string": ""
+    },
 
 With a plain text file, two important pieces of information are missing: the original input and the source from which the data was obtained. From a cybersecurity perspective, these small but crucial data points are essential for traceability, context, and confident decision-making during analysis.
 
