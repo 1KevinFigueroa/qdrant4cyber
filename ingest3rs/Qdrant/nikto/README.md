@@ -30,6 +30,8 @@ Converting Subfinder results from a plain text file to a structured JSON format 
 
 The problem with subfinder's output to a text file will be structured subdomains in a list. When the output in a JSON file 
 
+### Usage:
+ingest3r_nikto.py [-h] [--vector-size VECTOR_SIZE] collection_name json_file
 
 ### Nikto JSON file structure output example ❌
 

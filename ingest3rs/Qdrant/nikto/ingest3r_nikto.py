@@ -1,7 +1,8 @@
+#!/usr/bin/env python3
 import json
 import os
+import argparse
 import random
-import sys
 from typing import List, Dict, Any
 
 from qdrant_client import QdrantClient
@@ -9,25 +10,19 @@ from qdrant_client.http.models import Distance, VectorParams, PointStruct
 
 # ---------------- Configuration ---------------- #
 
-QDRANT_URL = "http://localhost:6333"   # Local Qdrant
-DEFAULT_COLLECTION_NAME = "JSONFILENAME"
-DEFAULT_VECTOR_SIZE = 384               # Fallback size if we can't infer
+QDRANT_URL = "http://localhost:6333"
+DEFAULT_VECTOR_SIZE = 384
 
 
 # ---------------- Helper functions ---------------- #
 
 def generate_dummy_vector(size: int) -> List[float]:
-    """
-    Generate a dummy vector for each record.
-    Replace this with a real embedding model in production.
-    """
+    """Generate a dummy vector for each record."""
     return [random.uniform(-1.0, 1.0) for _ in range(size)]
 
 
 def load_json(path: str) -> List[Dict[str, Any]]:
-    """
-    Load JSON file and ensure it is a list of dicts.
-    """
+    """Load JSON file and ensure it is a list of dicts."""
     with open(path, "r", encoding="utf-8") as f:
         data = json.load(f)
 
@@ -44,26 +39,18 @@ def load_json(path: str) -> List[Dict[str, Any]]:
 
 
 def infer_vector_size_from_records(records: List[Dict[str, Any]]) -> int:
-    """
-    Infer vector size from JSON records.
-    - If a record has a 'vector' field that is a list of numbers, use its length.
-    - Otherwise fall back to DEFAULT_VECTOR_SIZE.
-    """
+    """Infer vector size from JSON records."""
     for r in records:
         vec = r.get("vector")
         if isinstance(vec, list) and vec and all(isinstance(x, (int, float)) for x in vec):
             return len(vec)
-
     return DEFAULT_VECTOR_SIZE
 
 
 # ---------------- Qdrant upload logic ---------------- #
 
 def create_collection_if_needed(client: QdrantClient, name: str, vector_size: int) -> None:
-    """
-    Create a new collection with given name and vector size.
-    If it already exists, it will be deleted and recreated fresh.
-    """
+    """Create a new collection with given name and vector size (deletes existing)."""
     if client.collection_exists(name):
         client.delete_collection(name)
 
@@ -80,16 +67,19 @@ def create_collection_if_needed(client: QdrantClient, name: str, vector_size: in
 def upload_json_to_qdrant(
     json_path: str,
     collection_name: str,
+    vector_size: int = None,
     qdrant_url: str = QDRANT_URL,
 ) -> None:
-    """
-    Main function: read JSON file, infer vector size, create collection, upload points.
-    """
+    """Load JSON, determine vector size, create collection, and upload points."""
+    
     records = load_json(json_path)
     print(f"✓ Loaded {len(records)} records from {json_path}")
 
-    vector_size = infer_vector_size_from_records(records)
-    print(f"✓ Using vector size: {vector_size}")
+    if vector_size is None:
+        vector_size = infer_vector_size_from_records(records)
+        print(f"✓ Inferred vector size: {vector_size}")
+    else:
+        print(f"✓ Using specified vector size: {vector_size}")
 
     client = QdrantClient(url=qdrant_url)
     print(f"✓ Connected to Qdrant at {qdrant_url}")
@@ -97,33 +87,26 @@ def upload_json_to_qdrant(
     create_collection_if_needed(client, collection_name, vector_size)
 
     points: List[PointStruct] = []
-
     for idx, record in enumerate(records, start=1):
         point_id = record.get("id", idx)
-
         record_vector = record.get("vector")
+
         if isinstance(record_vector, list) and len(record_vector) == vector_size:
             vector = record_vector
         else:
             vector = generate_dummy_vector(vector_size)
 
-        payload = record
-
         points.append(
             PointStruct(
                 id=point_id,
                 vector=vector,
-                payload=payload,
+                payload=record,
             )
         )
 
-    op_info = client.upsert(
-        collection_name=collection_name,
-        points=points,
-        wait=True,
-    )
-    print(f"✓ Upsert completed with status: {op_info.status}")
-    print(f"✓ Uploaded {len(points)} points into collection '{collection_name}'")
+    op_info = client.upsert(collection_name=collection_name, points=points, wait=True)
+    print(f"✓ Upsert completed: {op_info.status}")
+    print(f"✓ Uploaded {len(points)} points to '{collection_name}'")
 
     print("\nSample payloads:")
     for p in points[:3]:
@@ -132,26 +115,34 @@ def upload_json_to_qdrant(
 
 # ---------------- CLI entrypoint ---------------- #
 
-if __name__ == "__main__":
-    # Expected:
-    #   python upload_json_to_qdrant.py <collection_name> <path/to/file.json>
+def main():
+    parser = argparse.ArgumentParser(description="Upload JSON data to Qdrant collection")
+    parser.add_argument("collection_name", help="Name of the Qdrant collection")
+    parser.add_argument("json_file", help="Path to JSON file")
+    parser.add_argument(
+        "--vector-size",
+        type=int,
+        default=DEFAULT_VECTOR_SIZE,
+        help=f"Vector size (default: {DEFAULT_VECTOR_SIZE}, overrides inference)",
+    )
+    args = parser.parse_args()
 
-    if len(sys.argv) != 3:
-        print("Error: missing arguments.")
-        print("Usage: python upload_json_to_qdrant.py <collection_name> <path/to/file.json>")
-        sys.exit(1)
-
-    collection_name = sys.argv[1]
-    json_file = sys.argv[2]
-
-    if not os.path.exists(json_file):
-        print(f"Error: JSON file '{json_file}' not found.")
-        print("Usage: python upload_json_to_qdrant.py <collection_name> <path/to/file.json>")
+    if not os.path.exists(args.json_file):
+        print(f"❌ JSON file '{args.json_file}' not found.")
         sys.exit(1)
 
     try:
-        upload_json_to_qdrant(json_file, collection_name=collection_name)
-        print("\nDone. You can now query Qdrant on collection:", collection_name)
+        upload_json_to_qdrant(
+            json_path=args.json_file,
+            collection_name=args.collection_name,
+            vector_size=args.vector_size,
+        )
+        print(f"\n✅ Done! Query Qdrant collection: {args.collection_name}")
     except Exception as e:
-        print(f"Error: {e}")
+        print(f"❌ Error: {e}")
         sys.exit(1)
+
+
+if __name__ == "__main__":
+    import sys
+    main()
