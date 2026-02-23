@@ -31,11 +31,14 @@ Converting DIBR results from a plain text file to a structured JSON format makes
 
 The problem with subfinder's output to a text file will be structured subdomains in a list. When the output in a JSON file 
 
+### Usage:
+ingest3r_dirb.py [-h] [--url URL] [--vector-size VECTOR_SIZE] json_file collection
+
 ### DIRB TEXT file structure output example ❌
 example.com
 
 ### DIBR JSON file structure output currently does not exist ❌
-{"host":"aleksandr-kulishov.yandex.ru","input":"yandex.ru","source":"reconeer"}
+{"host":" ","input":" ","source":"reconeer"}
 
 ### A JSON structure option to vectorized ✅
 JSON file structure example:
