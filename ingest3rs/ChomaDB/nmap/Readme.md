@@ -2,6 +2,8 @@
 
 This Python script imports nmap scan results from JSON files into a ChromaDB vector database collection.
 
+
+
 ## Features
 
 - ✅ Imports nmap scan data into ChromaDB collection named "nmaptest"
@@ -10,7 +12,7 @@ This Python script imports nmap scan results from JSON files into a ChromaDB vec
 - ✅ Creates searchable documents for each host
 - ✅ Validates JSON file format
 - ✅ Provides clear error messages and usage instructions
-
+- ⚠️ Remember you must have already utilized the CyberToolConverterKit to convert the Nmap XML to JSON
 ## Installation
 
 1. Install Python dependencies:
