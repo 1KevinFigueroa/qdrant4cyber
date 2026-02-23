@@ -21,15 +21,40 @@
 
 <h2 style="text-align: center;">PROJECT CONTEXT-CLUES - with ChomaDB</h2>
 
+<h2>Setup Instructions</h2>
+
+# ChromaDB Docker Installation
+
+The following is instructions on how to install ChromaDB in a local docker container setup to utilize the ingest3rs
+
+## Requirements
+
+- ✅ 🧠
+- ✅ Docker
+- ✅ Python 3+
+- ✅ For testing / lab
+- ❌ Production 
+
+## Installation
+
+1. docker run -p 8000:8000 chromadb/chroma
+	- This will download the latest Chromadb docker image and start the container running on 8000
+2. pip install chromadb
+	- Highly suggested to be installed in a virtual python environment 🔍 https://docs.python.org/3/library/venv.html
+3. Browse to http://localhost:8000/api/v2/heartbeat
+	- This will return the heartbeat 
+	- Sample expected result:
+		{"nanosecond heartbeat":1771827785706459389}
+3. python connect.py
+	- This is a test script that if your setup is correct will return a heartbeat and the version of ChromaDB 
+	- Sample exepcted results: 
+		Heartbeat: 1771827370416586781
+		Version: 1.0.0
+
+## Security
+Remeber this is just for testing and not to be run in production, there are no security controls 
+
+- ❌ Production 
 
 
-Modern cyber operations generate massive, high‑dimensional data, alerts, asset inventories, scan results, DNS and
-TLS telemetry, threat intel feeds, and more;yet most teams still force this data into legacy, row‑and‑column patterns that were never designed for AI‑driven analysis. This is my practical approach to modernize, vectorize, and visualize your
-cyber operations data using Vector Databases (VectorDBs) as the core of a next‑generation threat intelligence and recon platform.
 
-How to transform heterogeneous cyber data (from tools such as Nmap, Amass, sslscan, passive DNS, and OSINT
-sources) into embeddings that capture semantic relationships—between assets, indicators, behaviors, and attack paths—instead of just static fields. Once vectorized, Qdrant enables fast similarity search, context‑aware pivoting (e.g., “find assets that
-behave like this compromised host”), and automated clustering for campaign or infrastructure grouping. On top of that, we will
-show how to leverage Qdrant’s filtering and metadata capabilities to combine classic threat hunting (by IP, ASN, tags, exposure) with vector search workflows.
-
-More to come...
