@@ -26,10 +26,10 @@ Pinecone Docker Installation
 The following is instructions on how to install Pinecone in a local docker container setup to utilize the ingest3rs
 
 Requirements
-✅ 🧠
-✅ Docker
-✅ Python 3+
-✅ For testing / lab
-❌ Production
+- ✅ 🧠
+- ✅ Docker
+- ✅ Python 3+
+- ✅ For testing / lab
+- ❌ Production
 
 --- Will be uploaded shortly
