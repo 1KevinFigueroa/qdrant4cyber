@@ -29,9 +29,10 @@
 Converting structed CSV file result file and a structured JSON format makes a significant difference when the data is being vectorized. Properly structured JSON with unique IDs is extremely useful for aggregating and correlating complex data in a vectorized workflow. High-quality, fast, and accurate data is critical for red team pipelines, security dashboards, and vector databases.
 
 The problem with subfinder's output to a text file will be structured subdomains in a list. When the output in a JSON file 
+### Usage:
+ ingest3r_uploadJSON_v0.3.py [-h] [--vector-size VECTOR_SIZE] collection_name json_file
 
 ### CSV file structure output example ❌
-
 example.com, IP address, port
 
 ### A JSON structure option to vectorized ✅
