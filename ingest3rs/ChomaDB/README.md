@@ -1,6 +1,7 @@
 
 <p align="center">
-<img src="../main/RTFM-Knowledge/img/Vector4Cyber.png" align="center" width="400" height="250">
+<img src="https://github.com/1KevinFigueroa/vector4cyber/blob/main/ingest3rs/ChomaDB/chromadb.png" align="center" width="300" height="250">
+  <img src="https://github.com/1KevinFigueroa/vector4cyber/blob/main/RTFM-Knowledge/img/Vector4Cyber.png" align="center" width="400" height="250">
 
 <p align="center">
   <a href="https://github.com/1KevinFigueroa/vector4cyber/tree/main/CyberToolConverterKit">
@@ -19,6 +20,8 @@
 </p>
 
 <h2 style="text-align: center;">PROJECT CONTEXT-CLUES - with ChomaDB</h2>
+
+
 
 Modern cyber operations generate massive, high‑dimensional data, alerts, asset inventories, scan results, DNS and
 TLS telemetry, threat intel feeds, and more;yet most teams still force this data into legacy, row‑and‑column patterns that were never designed for AI‑driven analysis. This is my practical approach to modernize, vectorize, and visualize your
