@@ -55,7 +55,7 @@ The following is instructions on how to install ChromaDB in a local docker conta
 Remeber this is just for testing and not to be run in production, there are no security controls 
 
 - ❌ Production 
-## What to expect
+## What to expect e.g. Nmap Queries
 <p align="center">
 <img src="https://github.com/1KevinFigueroa/vector4cyber/blob/main/ingest3rs/ChomaDB/1.jpg" align="center" width="350" height="750">
 <img src="https://github.com/1KevinFigueroa/vector4cyber/blob/main/ingest3rs/ChomaDB/2.jpg" align="center" width="350" height="750">
