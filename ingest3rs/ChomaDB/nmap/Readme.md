@@ -93,62 +93,7 @@ After importing, the script **automatically demonstrates several query examples*
 
 ### Example Queries You Can Run:
 
-```python
-import chromadb
-from chromadb.config import Settings
-
-# Initialize client
-client = chromadb.Client(Settings(
-    anonymized_telemetry=False,
-    allow_reset=True
-))
-
-# Get the collection
-collection = client.get_collection("nmaptest")
-
-# Query 1: Search for HTTP servers and display IP, port, service
-results = collection.query(
-    query_texts=["HTTP web server"],
-    n_results=5
-)
-
-for doc, metadata in zip(results['documents'][0], results['metadatas'][0]):
-    print(f"IP: {metadata['ip_address']}")
-    lines = doc.split('\n')
-    for line in lines:
-        if '/' in line and ':' in line:  # Port/service lines
-            print(f"  {line.strip()}")
-
-# Query 2: Get all hosts with more than 5 open ports
-results = collection.get(
-    where={"open_port_count": {"$gt": 5}}
-)
-
-# Query 3: Search for SMB services (port 445)
-results = collection.query(
-    query_texts=["445 SMB netbios microsoft-ds"],
-    n_results=5
-)
-
-# Query 4: Get all active hosts
-results = collection.get(
-    where={"state": "up"}
-)
-```
-
-### Sample Query Output:
-
-```
-🔍 Query: Search for 'HTTP' services
-
-Result 1:
-  IP Address: 172.16.0.241
-  80/tcp: http (nginx 1.18.0)
-  
-Result 2:
-  IP Address: 172.16.0.165
-  5357/tcp: http (Microsoft HTTPAPI httpd 2.0)
-```
+- ✅ downnload and execute the "cli_nmap_query_examples.py" to get a sample understanding of what type of data you can retrieve from your results.
 
 ## Data Structure
 
