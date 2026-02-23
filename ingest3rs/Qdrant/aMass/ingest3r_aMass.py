@@ -2,18 +2,16 @@ import json
 import random
 import argparse
 from typing import List
-
 from qdrant_client import QdrantClient, models
 
 
 QDRANT_URL = "http://localhost:6333"
-VECTOR_SIZE = 4  # adjust if you later use real embeddings
 
 
 def load_json(path: str) -> List[dict]:
     """Load list of records from JSON file."""
     with open(path, "r", encoding="utf-8") as f:
-        data = json.load(f)  # expects a JSON array
+        data = json.load(f)
     if not isinstance(data, list):
         raise ValueError("Top-level JSON must be a list of objects")
     return data
@@ -24,7 +22,7 @@ def make_dummy_vector(dim: int) -> List[float]:
     return [random.random() for _ in range(dim)]
 
 
-def ensure_collection(client: QdrantClient, collection_name: str):
+def ensure_collection(client: QdrantClient, collection_name: str, vector_size: int):
     """Create collection if it does not exist."""
     collections = client.get_collections().collections
     existing = {c.name for c in collections}
@@ -34,42 +32,34 @@ def ensure_collection(client: QdrantClient, collection_name: str):
     client.recreate_collection(
         collection_name=collection_name,
         vectors_config=models.VectorParams(
-            size=VECTOR_SIZE,
+            size=vector_size,
             distance=models.Distance.COSINE,
         ),
     )
 
 
-def upload_records(client: QdrantClient, records: List[dict], collection_name: str):
+def upload_records(
+    client: QdrantClient, records: List[dict], collection_name: str, vector_size: int
+):
+    """Upload records to Qdrant with generated dummy vectors."""
     points = []
     for rec in records:
-        # required fields
         rec_id = rec["id"]
         source = rec.get("source")
         relation = rec.get("relation")
         target = rec.get("target")
 
-        payload = {
-            "source": source,
-            "relation": relation,
-            "target": target,
-        }
+        payload = {"source": source, "relation": relation, "target": target}
 
         point = models.PointStruct(
             id=rec_id,
-            vector=make_dummy_vector(VECTOR_SIZE),
+            vector=make_dummy_vector(vector_size),
             payload=payload,
         )
         points.append(point)
 
-    if not points:
-        return
-
-    client.upsert(
-        collection_name=collection_name,
-        points=points,
-        wait=True,
-    )
+    if points:
+        client.upsert(collection_name=collection_name, points=points, wait=True)
 
 
 def main():
@@ -85,14 +75,23 @@ def main():
         required=True,
         help="Name of the Qdrant collection to use/store data in",
     )
+    parser.add_argument(
+        "--vector-size",
+        type=int,
+        default=4,
+        help="Vector dimension size (default: 4)",
+    )
     args = parser.parse_args()
 
     records = load_json(args.json_path)
     client = QdrantClient(url=QDRANT_URL)
 
-    ensure_collection(client, args.collection)
-    upload_records(client, records, args.collection)
-    print(f"Uploaded {len(records)} records into collection '{args.collection}'")
+    ensure_collection(client, args.collection, args.vector_size)
+    upload_records(client, records, args.collection, args.vector_size)
+    print(
+        f"Uploaded {len(records)} records into collection '{args.collection}' "
+        f"with vector size {args.vector_size}"
+    )
 
 
 if __name__ == "__main__":
