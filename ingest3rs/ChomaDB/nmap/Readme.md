@@ -95,6 +95,8 @@ After importing, the script **automatically demonstrates several query examples*
 
 - ✅ downnload and execute the "cli_nmap_query_examples.py" to get a sample understanding of what type of data you can retrieve from your results.
 
+  <b> Keep in mind you will have to modify the collection name in "cli_nmap_query_examples.py" if you are not using "nmaptest" </b>
+
 ## Data Structure
 
 Each host is stored with:
