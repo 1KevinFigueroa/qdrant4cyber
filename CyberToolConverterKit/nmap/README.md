@@ -34,6 +34,7 @@ The problem with subfinder's output to a text file will be structured subdomains
 convert_NmapTXT.py [-h] [--pretty] input_file [output_file]
 
 ### Nmap TEXT file structure output example ❌
+'''
 ORT    STATE SERVICE   VERSION
 80/tcp  open  http      Netlify
 | fingerprint-strings:
@@ -62,6 +63,7 @@ ORT    STATE SERVICE   VERSION
 |_Content-Length: 0
 |_http-server-header: Netlify
 443/tcp open  ssl/https Netlify
+'''
 
 ### A JSON structure option to vectorized ✅
 JSON file structure example:
