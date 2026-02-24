@@ -2,7 +2,7 @@
 
 This Python script imports nmap scan results from JSON files into a ChromaDB vector database collection.
 
-## Features
+## Overview
 
 - ✅ Imports nmap scan data into ChromaDB collection named "nmaptest"
 - ✅ Extracts host information including IP addresses, hostnames, MAC addresses, vendors, OS detection
@@ -11,32 +11,25 @@ This Python script imports nmap scan results from JSON files into a ChromaDB vec
 - ✅ Validates JSON file format
 - ✅ Provides clear error messages and usage instructions
 
-## Requirements
+## Prerequisites
 
 - Python 3.7+
 - chromadb >= 0.4.0
 
-## Installation
+## Quick Start
 
-1. Install Python dependencies:
-```bash
-pip install -r requirements.txt
-```
-
-Or install ChromaDB directly:
+install ChromaDB directly:
 ```bash
 pip install chromadb
 ```
 
 ## Usage
 
-### Basic Usage
-
 ```bash
 python nmap_to_chromadb-MiniLM-L6.py <json_file_path>
 ```
 
-### Examples
+### Demo Mode
 
 Import the provided sample file:
 ```bash
