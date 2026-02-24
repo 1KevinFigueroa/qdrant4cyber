@@ -23,15 +23,12 @@
   </tr>
 </table>
 
-# Converter  Plain Text → JSON file vectorized
+# Converter  XML → JSON file vectorized uploader
 
 Convert a plain text file into structured JSON with IDs for use in pipelines, dashboards, or vector databases.
 
----
-
-## Overview
-
-Many recon tools (like `sublist3r`, `subfinder`, `amass`, etc.) output parser to come...
+### Usage: 
+ingest3r_uploadXML.py [-h] [--host HOST] [--port PORT] [--vector-size VECTOR_SIZE] xml_file [collection]
 
 **one subdomain per line** to a text file. This repository provides a simple Python script that:
 
@@ -51,5 +48,3 @@ Example use cases:
 ## Input Format
 
 The script expects a text file with **one subdomain per line**, for example:
-
-```text
