@@ -1,6 +1,6 @@
 
 <p align="center">
-<img src="https://github.com/1KevinFigueroa/vector4cyber/blob/main/ingest3rs/ChomaDB/chromadb.png" align="center" width="300" height="250">
+<img src="https://github.com/1KevinFigueroa/vector4cyber/blob/main/RTFM-Knowledge/img/appLogos/chromadb.png" align="center" width="300" height="250">
   <img src="https://github.com/1KevinFigueroa/vector4cyber/blob/main/RTFM-Knowledge/img/Vector4Cyber.png" align="center" width="400" height="250">
 
 <p align="center">
@@ -50,6 +50,10 @@ The following is instructions on how to install ChromaDB in a local docker conta
 	- Sample exepcted results: 
 		Heartbeat: 1771827370416586781
 		Version: 1.0.0
+4. browse to the <a href="https://github.com/1KevinFigueroa/vector4cyber/tree/main/ingest3rs/ChomaDB/nmap-import">nmap-import</a>  folder
+	- Read the Readme.md to learn how to use
+5. browse to the <a href="https://github.com/1KevinFigueroa/vector4cyber/tree/main/ingest3rs/ChomaDB/nmap-query">nmap-query</a> folder 
+	- Read the Readme.md to learn how to use
 
 ## Security
 Remeber this is just for testing and not to be run in production, there are no security controls 
@@ -57,8 +61,8 @@ Remeber this is just for testing and not to be run in production, there are no s
 - ❌ Production 
 ## What to expect e.g. Nmap Queries
 <p align="center">
-<img src="https://github.com/1KevinFigueroa/vector4cyber/blob/main/ingest3rs/ChomaDB/1.jpg" align="center" width="350" height="750">
-<img src="https://github.com/1KevinFigueroa/vector4cyber/blob/main/ingest3rs/ChomaDB/2.jpg" align="center" width="350" height="750">
-<img src="https://github.com/1KevinFigueroa/vector4cyber/blob/main/ingest3rs/ChomaDB/3.jpg" align="center" width="350" height="750">
+<img src="https://github.com/1KevinFigueroa/vector4cyber/blob/main/RTFM-Knowledge/img/ChromaNmap1.jpg" align="center" width="350" height="750">
+<img src="https://github.com/1KevinFigueroa/vector4cyber/blob/main/RTFM-Knowledge/img/ChromaNmap2.jpg" align="center" width="350" height="750">
+<img src="https://github.com/1KevinFigueroa/vector4cyber/blob/main/RTFM-Knowledge/img/ChromaNmap3.jpg" align="center" width="350" height="750">
 </p>
 

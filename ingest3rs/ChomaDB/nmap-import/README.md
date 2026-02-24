@@ -2,9 +2,7 @@
 
 This Python script imports nmap scan results from JSON files into a ChromaDB vector database collection.
 
-
-
-## Features
+## Overview
 
 - ✅ Imports nmap scan data into ChromaDB collection named "nmaptest"
 - ✅ Extracts host information including IP addresses, hostnames, MAC addresses, vendors, OS detection
@@ -12,37 +10,35 @@ This Python script imports nmap scan results from JSON files into a ChromaDB vec
 - ✅ Creates searchable documents for each host
 - ✅ Validates JSON file format
 - ✅ Provides clear error messages and usage instructions
-- ⚠️ Remember you must have already utilized the CyberToolConverterKit to convert the Nmap XML to JSON
-## Installation
 
-1. Install Python dependencies:
-```bash
-pip install -r requirements.txt
-```
+## Prerequisites
 
-Or install ChromaDB directly:
+- Python 3.7+
+- chromadb >= 0.4.0
+
+## Quick Start
+
+install ChromaDB directly:
 ```bash
 pip install chromadb
 ```
 
 ## Usage
 
-### Basic Usage
-
 ```bash
-python nmap_to_chromadb.py <json_file_path>
+python nmap_to_chromadb-MiniLM-L6.py <json_file_path>
 ```
 
-### Examples
+### Demo Mode
 
 Import the provided sample file:
 ```bash
-python nmap_to_chromadb.py LocalNmapTest.json
+python nmap_to_chromadb-MiniLM-L6.py LocalNmapTest.json
 ```
 
 Import from a different location:
 ```bash
-python nmap_to_chromadb.py /path/to/nmap_scan.json
+python nmap_to_chromadb-MiniLM-L6.py /path/to/nmap_scan.json
 ```
 
 ### What Happens
@@ -95,9 +91,62 @@ After importing, the script **automatically demonstrates several query examples*
 
 ### Example Queries You Can Run:
 
-- ✅ downnload and execute the "cli_nmap_query_examples.py" to get a sample understanding of what type of data you can retrieve from your results.
+```python
+import chromadb
+from chromadb.config import Settings
 
-  <b> Keep in mind you will have to modify the collection name in "cli_nmap_query_examples.py" if you are not using "nmaptest" </b>
+# Initialize client
+client = chromadb.Client(Settings(
+    anonymized_telemetry=False,
+    allow_reset=True
+))
+
+# Get the collection
+collection = client.get_collection("nmaptest")
+
+# Query 1: Search for HTTP servers and display IP, port, service
+results = collection.query(
+    query_texts=["HTTP web server"],
+    n_results=5
+)
+
+for doc, metadata in zip(results['documents'][0], results['metadatas'][0]):
+    print(f"IP: {metadata['ip_address']}")
+    lines = doc.split('\n')
+    for line in lines:
+        if '/' in line and ':' in line:  # Port/service lines
+            print(f"  {line.strip()}")
+
+# Query 2: Get all hosts with more than 5 open ports
+results = collection.get(
+    where={"open_port_count": {"$gt": 5}}
+)
+
+# Query 3: Search for SMB services (port 445)
+results = collection.query(
+    query_texts=["445 SMB netbios microsoft-ds"],
+    n_results=5
+)
+
+# Query 4: Get all active hosts
+results = collection.get(
+    where={"state": "up"}
+)
+```
+
+### Sample Query Output:
+
+```
+🔍 Query: Search for 'HTTP' services
+
+Result 1:
+  IP Address: 172.16.0.241
+  80/tcp: http (nginx 1.18.0)
+  
+Result 2:
+  IP Address: 172.16.0.165
+  5357/tcp: http (Microsoft HTTPAPI httpd 2.0)
+```
 
 ## Data Structure
 
@@ -150,12 +199,6 @@ Total documents in collection: 10
    results = collection.query(query_texts=['HTTP server'], n_results=5)
 ```
 
-## Requirements
-
-- Python 3.7+
-- chromadb >= 0.4.0
-
 ## License
 
 This script is provided as-is for educational and security testing purposes.
-

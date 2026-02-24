@@ -4,10 +4,10 @@ Nmap to ChromaDB Importer
 This script imports nmap scan results from a JSON file into a ChromaDB collection.
 
 Usage:
-    python nmap_to_chromadb.py <json_file_path>
+    python nmap_to_chromadb-MiniLM-L6.py <json_file_path>
 
 Example:
-    python nmap_to_chromadb.py LocalNmapTest.json
+    python nmap_to_chromadb-MiniLM-L6.py LocalNmapTest.json
 """
 
 import sys
@@ -24,10 +24,10 @@ def print_usage():
     print("Nmap to ChromaDB Importer")
     print("="*70)
     print("\nUsage:")
-    print("    python nmap_to_chromadb.py <json_file_path>")
+    print("    python nmap_to_chromadb-MiniLM-L6.py <json_file_path>")
     print("\nExample:")
-    print("    python nmap_to_chromadb.py LocalNmapTest.json")
-    print("    python nmap_to_chromadb.py /path/to/nmap_scan.json")
+    print("    python nmap_to_chromadb-MiniLM-L6.py LocalNmapTest.json")
+    print("    python nmap_to_chromadb-MiniLM-L6.py /path/to/nmap_scan.json")
     print("\nDescription:")
     print("    This script imports nmap scan results from a JSON file")
     print("    into a ChromaDB collection named 'nmaptest'.")
@@ -275,7 +275,7 @@ def main():
     """Main function."""
     parser = argparse.ArgumentParser(
         description='Import nmap JSON scan results into ChromaDB',
-        usage='python nmap_to_chromadb.py <json_file_path>'
+        usage='python nmap_to_chromadb-MiniLM-L6.py <json_file_path>'
     )
     parser.add_argument('json_file', nargs='?', help='Path to the nmap JSON file')
     

@@ -6,10 +6,12 @@ This script demonstrates how to query the 'nmaptest' collection
 and retrieve IP addresses, ports, and services.
 
 Prerequisites:
-- Run nmap_to_chromadb.py first to import your nmap data
+- Run query-nmap-chromadb-MiniLM-L6.py first to import your nmap data
 - ChromaDB must be installed: pip install chromadb
 """
 
+import argparse
+import sys
 import chromadb
 from chromadb.config import Settings
 
@@ -196,8 +198,161 @@ def simple_query_example(collection):
         print("No Results")
 
 
+def interactive_mode(collection):
+    """Run an interactive query session against the collection."""
+    print_section("Interactive Query Mode")
+    print(f"Collection: 'nmaptest' ({collection.count()} documents)")
+    print("\nCommands:")
+    print("  <query>          Search for services/hosts (e.g. 'http', 'ssh', 'mysql')")
+    print("  :k <number>      Set number of results to return (default: 5)")
+    print("  :all              List all active hosts")
+    print("  :ports <n>        Show hosts with more than <n> open ports")
+    print("  :count            Show total document count")
+    print("  :help             Show this help message")
+    print("  :quit / :q        Exit interactive mode")
+    print()
+
+    n_results = 5
+
+    while True:
+        try:
+            user_input = input(f"nmap-query [k={n_results}]> ").strip()
+        except (EOFError, KeyboardInterrupt):
+            print("\nExiting interactive mode.")
+            break
+
+        if not user_input:
+            continue
+
+        # Handle commands
+        if user_input.lower() in (":quit", ":q", ":exit"):
+            print("Exiting interactive mode.")
+            break
+
+        if user_input.lower() == ":help":
+            print("\nCommands:")
+            print("  <query>          Search for services/hosts")
+            print("  :k <number>      Set number of results (current: {})".format(n_results))
+            print("  :all             List all active hosts")
+            print("  :ports <n>       Show hosts with more than <n> open ports")
+            print("  :count           Show total document count")
+            print("  :help            Show this help message")
+            print("  :quit / :q       Exit interactive mode")
+            continue
+
+        if user_input.lower().startswith(":k "):
+            try:
+                new_k = int(user_input.split()[1])
+                if new_k < 1:
+                    print("  ⚠ Number of results must be at least 1")
+                    continue
+                n_results = new_k
+                print(f"  ✓ Results per query set to {n_results}")
+            except (ValueError, IndexError):
+                print("  ⚠ Usage: :k <number>  (e.g. :k 10)")
+            continue
+
+        if user_input.lower() == ":count":
+            print(f"  Total documents: {collection.count()}")
+            continue
+
+        if user_input.lower() == ":all":
+            results = collection.get(
+                where={"state": "up"},
+                limit=100
+            )
+            if results['documents']:
+                print(f"\n  Found {len(results['documents'])} active hosts\n")
+                print(f"  {'IP Address':<18} {'Hostname':<25} {'Ports'}")
+                print(f"  {'-'*55}")
+                for metadata in results['metadatas']:
+                    ip = metadata.get('ip_address', 'N/A')
+                    hostname = metadata.get('hostname', 'N/A')[:24]
+                    ports = metadata.get('open_port_count', 0)
+                    print(f"  {ip:<18} {hostname:<25} {ports}")
+            else:
+                print("  No active hosts found")
+            continue
+
+        if user_input.lower().startswith(":ports"):
+            try:
+                threshold = int(user_input.split()[1]) if len(user_input.split()) > 1 else 3
+            except ValueError:
+                threshold = 3
+            results = collection.get(
+                where={"open_port_count": {"$gt": threshold}},
+                limit=n_results
+            )
+            if results['documents']:
+                print(f"\n  Hosts with more than {threshold} open ports:")
+                for i, (doc, metadata) in enumerate(zip(results['documents'], results['metadatas']), 1):
+                    print(f"\n  [{i}] {metadata.get('ip_address', 'N/A')} "
+                          f"({metadata.get('hostname', 'N/A')}) - "
+                          f"{metadata.get('open_port_count', 0)} open ports")
+                    lines = doc.split('\n')
+                    shown = 0
+                    for line in lines:
+                        if '/' in line and 'tcp' in line.lower() and ':' in line:
+                            print(f"      {line.strip()}")
+                            shown += 1
+                            if shown >= 5:
+                                remaining = metadata.get('open_port_count', 0) - shown
+                                if remaining > 0:
+                                    print(f"      ... and {remaining} more")
+                                break
+            else:
+                print(f"  No hosts found with more than {threshold} open ports")
+            continue
+
+        # Default: treat input as a semantic search query
+        results = collection.query(
+            query_texts=[user_input],
+            n_results=n_results
+        )
+
+        if results['documents'] and results['documents'][0]:
+            print(f"\n  Top {len(results['documents'][0])} results for '{user_input}':\n")
+            for i, (doc, metadata, distance) in enumerate(
+                zip(results['documents'][0], results['metadatas'][0], results['distances'][0]), 1
+            ):
+                ip = metadata.get('ip_address', 'N/A')
+                hostname = metadata.get('hostname', 'N/A')
+                ports = metadata.get('open_port_count', 0)
+                print(f"  [{i}] {ip} ({hostname}) - {ports} open ports  [score: {distance:.4f}]")
+
+                # Show matching lines from the document
+                lines = doc.split('\n')
+                query_terms = user_input.lower().split()
+                shown = 0
+                for line in lines:
+                    if any(term in line.lower() for term in query_terms):
+                        print(f"      {line.strip()}")
+                        shown += 1
+                        if shown >= 3:
+                            break
+                # If no specific matches found, show first service line
+                if shown == 0:
+                    for line in lines:
+                        if '/' in line and ':' in line:
+                            print(f"      {line.strip()}")
+                            break
+            print()
+        else:
+            print(f"  No results found for '{user_input}'")
+
+
 def main():
     """Main function to demonstrate all queries."""
+    parser = argparse.ArgumentParser(
+        description="ChromaDB Query Examples for Nmap Data"
+    )
+    parser.add_argument(
+        "-i", "--interactive",
+        action="store_true",
+        help="Launch interactive query mode"
+    )
+    args = parser.parse_args()
+
     print("\n" + "="*70)
     print("ChromaDB Query Examples - Nmap Data")
     print("="*70)
@@ -225,26 +380,30 @@ def main():
         print(f"✓ Successfully loaded collection 'nmaptest'")
         print(f"✓ Total documents in collection: {collection.count()}")
         
-        # Run all query demonstrations
-        query_http_services(collection)
-        query_ssh_services(collection)
-        query_by_port_count(collection)
-        query_smb_services(collection)
-        get_all_active_hosts(collection)
-        custom_query_example(collection)
-        simple_query_example(collection)
-        
-        print("\n" + "="*70)
-        print("Query demonstrations complete!")
-        print("="*70)
-        print("\nTip: Modify these functions to create your own custom queries")
-        print("     based on your specific needs.\n")
+        if args.interactive:
+            interactive_mode(collection)
+        else:
+            # Run all query demonstrations
+            query_http_services(collection)
+            query_ssh_services(collection)
+            query_by_port_count(collection)
+            query_smb_services(collection)
+            get_all_active_hosts(collection)
+            custom_query_example(collection)
+            simple_query_example(collection)
+            
+            print("\n" + "="*70)
+            print("Query demonstrations complete!")
+            print("="*70)
+            print("\nTip: Run with -i or --interactive for interactive query mode")
+            print("     Modify these functions to create your own custom queries")
+            print("     based on your specific needs.\n")
         
     except Exception as e:
         print(f"\n❌ Error: {str(e)}")
         print("\nMake sure you have:")
         print("  1. Installed ChromaDB: pip install chromadb")
-        print("  2. Run nmap_to_chromadb.py first to import your data")
+        print("  2. Run query-nmap-chromadb-MiniLM-L6.py first to import your data")
         print()
 
 
