@@ -29,9 +29,8 @@ Converting Python WHOIS results from a plain text file to a structured JSON form
 
 The problem with subfinder's output to a text file will be structured subdomains in a list. When the output in a JSON file 
 
-### Subfinder TEXT file structure output example ❌
-
-example.com
+### Usage:
+ ingest3r_whois.py [-h] [--output-json OUTPUT_JSON] [--host HOST] [--port PORT] [--vector-size VECTOR_SIZE] input_file [collection]
 
 ### Subfinder JSON file structure output example ❌
 {"host":"aleksandr-kulishov.yandex.ru","input":"yandex.ru","source":"reconeer"}

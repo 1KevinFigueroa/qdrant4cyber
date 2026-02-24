@@ -1,110 +1,197 @@
-#/usr/bin/env python3
-import json
+#!/usr/bin/env python3
 import argparse
+import json
+import os
+import sys
+from pathlib import Path
+from qdrant_client import QdrantClient
+from qdrant_client.http.models import Distance, VectorParams, PointStruct
+import numpy as np
 import random
 from typing import List, Dict, Any
 
-from qdrant_client import QdrantClient, models
+# ---------------- Configuration ---------------- #
+DEFAULT_VECTOR_SIZE = 384
+DEFAULT_HOST = "localhost"
+DEFAULT_PORT = 6333
+DEFAULT_COLLECTION_NAME = "sslscan_results"
 
+def create_simple_embedding(text: str, dim: int = 128) -> List[float]:
+    """Simple hash-based embedding for demo purposes."""
+    vec = np.zeros(dim)
+    for i, char in enumerate(text.lower()):
+        if i >= dim:
+            break
+        vec[i] = (ord(char) % 256) / 255.0
+    
+    # Add slight random noise for unique vectors
+    vec += np.random.normal(0, 0.01, dim)
+    vec = np.clip(vec, -1.0, 1.0)
+    
+    return vec.tolist()
 
-def load_whois_json(path: str) -> List[Dict[str, Any]]:
-    """Load list of WHOIS records from JSON file."""
-    with open(path, "r", encoding="utf-8") as f:
-        data = json.load(f)
-
-    if not isinstance(data, list):
-        raise ValueError("Top-level JSON must be a list of objects")
-    return data
-
-
-def make_dummy_vector(dim: int = 16) -> List[float]:
-    """Create a dummy vector for now (replace with real embeddings later)."""
-    return [random.random() for _ in range(dim)]
-
-
-def ensure_collection(client: QdrantClient, collection_name: str, dim: int):
-    """Create/recreate collection with a single dense vector."""
-    client.recreate_collection(
-        collection_name=collection_name,
-        vectors_config=models.VectorParams(
-            size=dim,
-            distance=models.Distance.COSINE,
-        ),
-    )
-
-
-def upload_whois_records(
-    client: QdrantClient,
-    collection_name: str,
-    records: List[Dict[str, Any]],
-    dim: int,
+def upload_sslscan_to_qdrant(
+    json_file: str, 
+    collection_name: str = DEFAULT_COLLECTION_NAME,
+    host: str = DEFAULT_HOST,
+    port: int = DEFAULT_PORT,
+    vector_size: int = DEFAULT_VECTOR_SIZE
 ):
-    points: List[models.PointStruct] = []
-
-    for rec in records:
-        point_id = rec.get("id")  # use existing id
-        if point_id is None:
-            continue
-
-        # Payload: keep everything except maybe very large raw blobs if you want
-        payload = {
-            "domain": rec.get("domain"),
-            "timestamp": rec.get("timestamp"),
-            "whois_data": rec.get("whois_data"),
-            "raw_whois": rec.get("raw_whois"),
-        }
-
-        points.append(
-            models.PointStruct(
-                id=point_id,
-                vector=make_dummy_vector(dim),
-                payload=payload,
-            )
-        )
-
-    if not points:
-        print("No points to upload.")
+    """Parse sslscan JSON and upload to Qdrant with full CLI options."""
+    
+    # Verify file exists
+    if not os.path.exists(json_file):
+        print(f"❌ SSLscan JSON file '{json_file}' not found.")
         return
-
-    client.upsert(
-        collection_name=collection_name,
-        points=points,
-        wait=True,
-    )
-    print(f"Uploaded {len(points)} WHOIS records to collection '{collection_name}'")
-
+    
+    # Connect to Qdrant
+    try:
+        client = QdrantClient(host=host, port=port)
+        print(f"✓ Connected to Qdrant at {host}:{port}")
+    except Exception as e:
+        print(f"❌ Cannot connect to Qdrant at {host}:{port}: {e}")
+        print("Start Qdrant: docker run -p 6333:6333 -p 6334:6334 qdrant/qdrant")
+        return
+    
+    # Read JSON results
+    try:
+        with open(json_file, 'r', encoding='utf-8') as f:
+            sslscan_data = json.load(f)
+        if isinstance(sslscan_data, dict):
+            sslscan_data = [sslscan_data]
+    except Exception as e:
+        print(f"❌ Error reading JSON: {e}")
+        return
+    
+    print(f"✓ Loaded {len(sslscan_data)} sslscan entries")
+    
+    # Create/recreate collection
+    try:
+        if client.collection_exists(collection_name):
+            print(f"Collection '{collection_name}' exists. Recreating...")
+            client.delete_collection(collection_name)
+        
+        client.create_collection(
+            collection_name=collection_name,
+            vectors_config=VectorParams(size=vector_size, distance=Distance.COSINE)
+        )
+        print(f"✓ Collection '{collection_name}' created (vector_size={vector_size})")
+        
+    except Exception as e:
+        print(f"❌ Collection creation failed: {e}")
+        return
+    
+    # Prepare points for upload
+    points = []
+    
+    for entry in sslscan_data:
+        entry_id = entry.get("id", len(points) + 1)
+        
+        # Create comprehensive text summary for embedding
+        protocols = list(entry.get('protocols', {}).keys()) if entry.get('protocols') else []
+        ciphers_count = len(entry.get('ciphers', []))
+        cert = entry.get('certificate', {})
+        subject = cert.get('subject', 'N/A')
+        
+        summary = (
+            f"{entry.get('target', 'N/A')} "
+            f"{entry.get('ip', 'N/A')} "
+            f"TLS protocols: {', '.join(protocols)} "
+            f"Ciphers: {ciphers_count} "
+            f"Subject: {subject}"
+        )
+        
+        # Generate embedding with correct dimension
+        vector = create_simple_embedding(summary, vector_size)
+        
+        # Build complete payload
+        payload = {
+            "entry_id": entry_id,
+            "scan_tool": "sslscan",
+            "ip": entry.get("ip"),
+            "target": entry.get("target"),
+            "port": entry.get("port", 443),
+            "sni": entry.get("sni"),
+            "protocols": entry.get("protocols", {}),
+            "ciphers_count": ciphers_count,
+            "weak_protocols_count": sum(1 for k, v in entry.get("protocols", {}).items() 
+                                      if v == "enabled" and any(weak in k for weak in ["TLSv1.0", "TLSv1.1"])),
+            "certificate_subject": subject,
+            "certificate_issuer": cert.get("issuer"),
+            "certificate_altnames_count": len(cert.get("altnames", [])),
+            "summary": summary,
+            **cert  # Include full certificate data
+        }
+        
+        point = PointStruct(
+            id=entry_id,
+            vector=vector,
+            payload=payload
+        )
+        points.append(point)
+    
+    # Upload in batches
+    batch_size = 50
+    for i in range(0, len(points), batch_size):
+        batch = points[i:i + batch_size]
+        client.upsert(collection_name=collection_name, points=batch, wait=True)
+        print(f"✓ Uploaded batch {i//batch_size + 1} ({len(batch)} points)")
+    
+    # Verify upload
+    count = client.count(collection_name=collection_name)
+    print(f"\n🎉 SUCCESS!")
+    print(f"   Total points: {len(points)}")
+    print(f"   Collection: '{collection_name}'")
+    print(f"   Vector size: {vector_size}")
+    print(f"   Qdrant verified: {count.count}")
+    
+    # FIXED: Correct scroll() handling - returns (points_list, next_offset)
+    try:
+        sample_result = client.scroll(collection_name=collection_name, limit=2, with_payload=True)
+        sample_points, _ = sample_result  # Unpack tuple: (points, next_offset)
+        sample_ids = [p.id for p in sample_points]
+        print(f"✅ Sample IDs: {sample_ids}")
+    except Exception as e:
+        print(f"ℹ️ Sample retrieval skipped: {e}")
 
 def main():
     parser = argparse.ArgumentParser(
-        description="Upload WHOIS JSON records into a local Qdrant collection"
+        description="Upload sslscan JSON to Qdrant (1 entry = 1 point)"
     )
-    parser.add_argument("json_path", help="Path to JSON file with WHOIS records")
+    parser.add_argument("json_file", help="Path to sslscan JSON file")
     parser.add_argument(
-        "--collection",
-        required=True,
-        help="Qdrant collection name to create/populate",
-    )
-    parser.add_argument(
-        "--url",
-        default="http://localhost:6333",
-        help="Qdrant URL (default: http://localhost:6333)",
+        "collection", 
+        nargs='?', 
+        default=DEFAULT_COLLECTION_NAME,
+        help=f"Qdrant collection name (default: {DEFAULT_COLLECTION_NAME})"
     )
     parser.add_argument(
-        "--dim",
+        "--host", 
+        default=DEFAULT_HOST, 
+        help=f"Qdrant host (default: {DEFAULT_HOST})"
+    )
+    parser.add_argument(
+        "--port", 
+        type=int, 
+        default=DEFAULT_PORT, 
+        help=f"Qdrant port (default: {DEFAULT_PORT})"
+    )
+    parser.add_argument(
+        "--vector-size",
         type=int,
-        default=16,
-        help="Vector dimension to use (default: 16)",
+        default=DEFAULT_VECTOR_SIZE,
+        help=f"Vector dimension size (default: {DEFAULT_VECTOR_SIZE})"
     )
+    
     args = parser.parse_args()
-
-    records = load_whois_json(args.json_path)
-    print(f"Loaded {len(records)} records from {args.json_path}")
-
-    client = QdrantClient(url=args.url)
-
-    ensure_collection(client, args.collection, args.dim)
-    upload_whois_records(client, args.collection, records, args.dim)
-
+    
+    upload_sslscan_to_qdrant(
+        json_file=args.json_file,
+        collection_name=args.collection,
+        host=args.host,
+        port=args.port,
+        vector_size=args.vector_size
+    )
 
 if __name__ == "__main__":
     main()
