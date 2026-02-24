@@ -1,6 +1,6 @@
 
 <p align="center">
-<img src="https://github.com/1KevinFigueroa/vector4cyber/blob/main/ingest3rs/Pinecone/Pinecone_Systems_Inc_Logo.jpg" align="center" width="450" height="450">
+<img src="https://github.com/1KevinFigueroa/vector4cyber/blob/main/RTFM-Knowledge/img/appLogos/Pinecone_Systems_Inc_Logo.jpg" align="center" width="450" height="450">
   <img src="https://github.com/1KevinFigueroa/vector4cyber/blob/main/RTFM-Knowledge/img/Vector4Cyber.png" align="center" width="400" height="250">
 
 <p align="center">
