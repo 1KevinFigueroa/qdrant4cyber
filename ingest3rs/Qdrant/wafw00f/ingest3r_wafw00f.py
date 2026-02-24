@@ -1,18 +1,12 @@
+import argparse
 import json
 import os
 import random
 import sys
-from typing import List, Dict, Any
+from typing import List, Dict, Any, Optional
 
 from qdrant_client import QdrantClient
 from qdrant_client.http.models import Distance, VectorParams, PointStruct
-
-# ---------------- Configuration ---------------- #
-
-QDRANT_URL = "http://localhost:6333"   # Local Qdrant
-DEFAULT_COLLECTION_NAME = "JSONFILENAME"
-DEFAULT_VECTOR_SIZE = 384               # Fallback size if we can't infer
-
 
 # ---------------- Helper functions ---------------- #
 
@@ -47,23 +41,34 @@ def infer_vector_size_from_records(records: List[Dict[str, Any]]) -> int:
     """
     Infer vector size from JSON records.
     - If a record has a 'vector' field that is a list of numbers, use its length.
-    - Otherwise fall back to DEFAULT_VECTOR_SIZE.
+    - Otherwise return None (will use CLI arg or default).
     """
     for r in records:
         vec = r.get("vector")
         if isinstance(vec, list) and vec and all(isinstance(x, (int, float)) for x in vec):
             return len(vec)
+    return None
 
-    return DEFAULT_VECTOR_SIZE
+
+def save_upload_report(collection_name: str, points_count: int, output_json: Optional[str]) -> None:
+    """Save upload summary to JSON file."""
+    report = {
+        "collection_name": collection_name,
+        "points_uploaded": points_count,
+        "timestamp": os.path.basename(output_json) if output_json else "no_output",
+        "status": "success"
+    }
+    if output_json:
+        os.makedirs(os.path.dirname(output_json) or '.', exist_ok=True)
+        with open(output_json, 'w') as f:
+            json.dump(report, f, indent=2)
+        print(f"✓ Upload report saved to: {output_json}")
 
 
 # ---------------- Qdrant upload logic ---------------- #
 
 def create_collection_if_needed(client: QdrantClient, name: str, vector_size: int) -> None:
-    """
-    Create a new collection with given name and vector size.
-    If it already exists, it will be deleted and recreated fresh.
-    """
+    """Create a new collection with given name and vector size. Delete existing first."""
     if client.collection_exists(name):
         client.delete_collection(name)
 
@@ -78,80 +83,122 @@ def create_collection_if_needed(client: QdrantClient, name: str, vector_size: in
 
 
 def upload_json_to_qdrant(
-    json_path: str,
+    input_file: str,
     collection_name: str,
-    qdrant_url: str = QDRANT_URL,
+    host: str,
+    port: int,
+    vector_size_override: Optional[int],
+    output_json: Optional[str],
 ) -> None:
     """
-    Main function: read JSON file, infer vector size, create collection, upload points.
+    Main upload function with full CLI parameter support.
     """
-    records = load_json(json_path)
-    print(f"✓ Loaded {len(records)} records from {json_path}")
+    records = load_json(input_file)
+    print(f"✓ Loaded {len(records)} records from {input_file}")
 
-    vector_size = infer_vector_size_from_records(records)
-    print(f"✓ Using vector size: {vector_size}")
+    # Determine vector size: CLI override > inferred > error
+    inferred_size = infer_vector_size_from_records(records)
+    if vector_size_override is not None:
+        vector_size = vector_size_override
+        print(f"✓ Using vector size from CLI: {vector_size}")
+    elif inferred_size is not None:
+        vector_size = inferred_size
+        print(f"✓ Using inferred vector size: {vector_size}")
+    else:
+        raise ValueError("No vector size provided and none could be inferred from JSON data")
 
+    qdrant_url = f"http://{host}:{port}"
     client = QdrantClient(url=qdrant_url)
     print(f"✓ Connected to Qdrant at {qdrant_url}")
 
     create_collection_if_needed(client, collection_name, vector_size)
 
     points: List[PointStruct] = []
-
     for idx, record in enumerate(records, start=1):
         point_id = record.get("id", idx)
-
         record_vector = record.get("vector")
+        
         if isinstance(record_vector, list) and len(record_vector) == vector_size:
             vector = record_vector
         else:
             vector = generate_dummy_vector(vector_size)
 
-        payload = record
+        points.append(PointStruct(id=point_id, vector=vector, payload=record))
 
-        points.append(
-            PointStruct(
-                id=point_id,
-                vector=vector,
-                payload=payload,
-            )
-        )
+    op_info = client.upsert(collection_name=collection_name, points=points, wait=True)
+    print(f"✓ Upsert completed: {op_info.status}")
+    print(f"✓ Uploaded {len(points)} points to '{collection_name}'")
 
-    op_info = client.upsert(
-        collection_name=collection_name,
-        points=points,
-        wait=True,
-    )
-    print(f"✓ Upsert completed with status: {op_info.status}")
-    print(f"✓ Uploaded {len(points)} points into collection '{collection_name}'")
+    if output_json:
+        save_upload_report(collection_name, len(points), output_json)
 
     print("\nSample payloads:")
     for p in points[:3]:
-        print(f"  ID={p.id}  payload={p.payload}")
+        print(f"  ID={p.id}")
 
 
 # ---------------- CLI entrypoint ---------------- #
 
-if __name__ == "__main__":
-    # Expected:
-    #   python upload_json_to_qdrant.py <collection_name> <path/to/file.json>
+def main() -> None:
+    parser = argparse.ArgumentParser(
+        description="Upload JSON records to Qdrant vector database",
+        formatter_class=argparse.ArgumentDefaultsHelpFormatter
+    )
+    parser.add_argument(
+        "--output-json",
+        help="Save upload report to JSON file"
+    )
+    parser.add_argument(
+        "--host", 
+        default="localhost",
+        help="Qdrant host (default: localhost)"
+    )
+    parser.add_argument(
+        "--port",
+        type=int,
+        default=6333,
+        help="Qdrant port (default: 6333)"
+    )
+    parser.add_argument(
+        "--vector-size",
+        type=int,
+        help="Vector dimension size (overrides inference)"
+    )
+    parser.add_argument(
+        "input_file",
+        help="Input JSON file path"
+    )
+    parser.add_argument(
+        "collection",
+        nargs="?",
+        default="default_collection",
+        help="Qdrant collection name (default: default_collection)"
+    )
 
-    if len(sys.argv) != 3:
-        print("Error: missing arguments.")
-        print("Usage: python upload_json_to_qdrant.py <collection_name> <path/to/file.json>")
+    args = parser.parse_args()
+
+    if not os.path.exists(args.input_file):
+        print(f"Error: Input file '{args.input_file}' not found", file=sys.stderr)
         sys.exit(1)
 
-    collection_name = sys.argv[1]
-    json_file = sys.argv[2]
-
-    if not os.path.exists(json_file):
-        print(f"Error: JSON file '{json_file}' not found.")
-        print("Usage: python upload_json_to_qdrant.py <collection_name> <path/to/file.json>")
+    if args.vector_size and args.vector_size <= 0:
+        print("Error: --vector-size must be positive integer", file=sys.stderr)
         sys.exit(1)
 
     try:
-        upload_json_to_qdrant(json_file, collection_name=collection_name)
-        print("\nDone. You can now query Qdrant on collection:", collection_name)
+        upload_json_to_qdrant(
+            args.input_file,
+            args.collection,
+            args.host,
+            args.port,
+            args.vector_size,
+            args.output_json,
+        )
+        print(f"\n✓ Done! Collection '{args.collection}' ready for queries.")
     except Exception as e:
-        print(f"Error: {e}")
+        print(f"Error: {e}", file=sys.stderr)
         sys.exit(1)
+
+
+if __name__ == "__main__":
+    main()

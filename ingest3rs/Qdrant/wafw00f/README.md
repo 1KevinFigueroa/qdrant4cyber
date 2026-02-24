@@ -30,6 +30,8 @@ Converting Subfinder results from a plain text file to a structured JSON format 
 
 The problem with subfinder's output to a text file will be structured subdomains in a list. When the output in a JSON file 
 
+### Usage:
+ingest3r_wafw00f.py [-h] [--output-json OUTPUT_JSON] [--host HOST] [--port PORT] [--vector-size VECTOR_SIZE] input_file [collection]
 
 ### Wafwoof JSON file structure output example ❌
 
