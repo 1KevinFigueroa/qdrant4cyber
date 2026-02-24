@@ -50,6 +50,10 @@ The following is instructions on how to install ChromaDB in a local docker conta
 	- Sample exepcted results: 
 		Heartbeat: 1771827370416586781
 		Version: 1.0.0
+4. browse to the <a href="https://github.com/1KevinFigueroa/vector4cyber/tree/main/ingest3rs/ChomaDB/nmap-import">nmap-import</a>  folder
+	- Read the Readme.md to learn how to use
+5. browse to the <a href="https://github.com/1KevinFigueroa/vector4cyber/tree/main/ingest3rs/ChomaDB/nmap-query">nmap-query</a> folder 
+	- Read the Readme.md to learn how to use
 
 ## Security
 Remeber this is just for testing and not to be run in production, there are no security controls 
