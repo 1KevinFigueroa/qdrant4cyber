@@ -33,7 +33,7 @@ The problem with subfinder's output to a text file will be structured subdomains
 
 example.com
 
-### Subfinder JSON file structure output example ❌
+### Sublst3r JSON file structure output example ❌
 {"host":"aleksandr-kulishov.yandex.ru","input":"yandex.ru","source":"reconeer"}
 
 ### A JSON structure option to vectorized ✅
@@ -47,13 +47,13 @@ From a high-level architecture perspective, the shift from flat-file ingestion t
 
 In the world of vector databases—specifically Qdrant, Milvus, and Weaviate, context is the currency of accuracy. Here is the breakdown of why parsers is the "missing link" for these systems.
 
-- Reads a text file containing subdomains (e.g., from `subfinder -silent -o subs.txt`)
+- Reads a text file containing subdomains
 - Cleans and normalizes each line
 - Assigns a unique, stable ID to every entry
 - Serializes the result as JSON for downstream automation
 
 Typical use cases:
 
-- Ingesting subdomains into a **vector database** (Qdrant, Milvus, Weaviate, more coming soon etc.) for semantic search and correlation made easier
+- Ingesting subdomains into a **vector database** and give the user the ability to select a vector size  (Qdrant, Milvus, Weaviate, more coming soon etc.) for semantic search and correlation made easier
 - Powering recon dashboards or graphs (e.g., host → vuln → service relationships)
 - Joining subdomains with WHOIS, DNS, HTTP fingerprinting, or vulnerability scan data
