@@ -11,6 +11,11 @@ This Python script imports nmap scan results from JSON files into a ChromaDB vec
 - ✅ Validates JSON file format
 - ✅ Provides clear error messages and usage instructions
 
+## Requirements
+
+- Python 3.7+
+- chromadb >= 0.4.0
+
 ## Installation
 
 1. Install Python dependencies:
@@ -200,11 +205,6 @@ Total documents in collection: 10
    collection = client.get_collection('nmaptest')
    results = collection.query(query_texts=['HTTP server'], n_results=5)
 ```
-
-## Requirements
-
-- Python 3.7+
-- chromadb >= 0.4.0
 
 ## License
 
