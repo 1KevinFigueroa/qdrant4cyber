@@ -25,16 +25,16 @@
 </table>
 
 
-# Converter DNSRecon results  → JSON Converter vectorized
+# Converter DNSmap CSV results  → JSON Converter vectorized
 
-Converting DNSRecon results from a plain text file to a structured JSON format makes a significant difference when the data is being vectorized. Properly structured JSON with unique IDs is extremely useful for aggregating and correlating complex data in a vectorized workflow. High-quality, fast, and accurate data is critical for red team pipelines, security dashboards, and vector databases.
+Converting DNSmap results from a plain text file to a structured JSON format makes a significant difference when the data is being vectorized. Properly structured JSON with unique IDs is extremely useful for aggregating and correlating complex data in a vectorized workflow. High-quality, fast, and accurate data is critical for red team pipelines, security dashboards, and vector databases.
 
 The problem with subfinder's output to a text file will be structured subdomains in a list. When the output in a JSON file.
 
 ### Usage:
 convert_dnsrecon.py [-h] input_csv output_json
 
-### DNSRecon CSV file structure output example ❌
+### DNSmap CSV file structure output example ❌
 MX, , ,,,
 MX, , ,,,
 A,  , ,,,
