@@ -1,7 +1,7 @@
 <table align="center">
   <tr>
     <td align="center" width="50%">
-      <a href="https://github.com/darkoperator/dnsrecon">
+      <a href=" ">
         <img src="https://img.shields.io/badge/Open%20Source-10000000?style=flat&logo=github&logoColor=black" alt="DNSRecon open-source tool" width="100">
       </a>
     </td>
@@ -15,7 +15,7 @@
   <tr>
     <td align="center" width="50%">
       <a href="">
-        <img src="https://github.com/1KevinFigueroa/vector4cyber/blob/main/RTFM-Knowledge/img/appLogos/dnsrecon.png" width="300" alt="Amass Logo">
+        <img src="https://github.com/1KevinFigueroa/vector4cyber/blob/main/RTFM-Knowledge/img/appLogos/dnsmao.png" width="300" alt="Amass Logo">
       </a>
     </td>
     <td align="center" width="50%">
