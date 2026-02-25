@@ -46,7 +46,7 @@ TXT, ,,,,'dropbox-domain-verification= '
 ### A JSON structure option to vectorized ✅
 JSON file structure example:
   "scan_info": {
-    "input_file": "23andme_dnsrecon.csv",
+    "input_file": "dnsrecon.csv",
     "total_records": 39,
     "headers": [
       "Type",
@@ -62,7 +62,7 @@ JSON file structure example:
       "id": 1,
       "type": "SOA",
       "name": "alina.ns.cloudflare.com",
-      "address": "172.64.32.61",
+      "address": " ",
       "target": "",
       "port": "",
       "string": ""
