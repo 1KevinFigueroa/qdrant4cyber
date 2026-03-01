@@ -1,7 +1,7 @@
 <table align="center">
   <tr>
     <td align="center" width="50%">
-      <a href="https://owasp.org/projects/">
+      <a href=" ">
         <img src="https://img.shields.io/badge/OWASP-Flagship-00589d?logo=owasp&logoColor=white" alt="OWASP Flagship" width="100">
       </a>
     </td>
@@ -14,7 +14,7 @@
   <tr>
     <td align="center" width="50%">
       <a href="">
-        <img src="https://github.com/1KevinFigueroa/vector4cyber/blob/main/RTFM-Knowledge/img/appLogos/Amass.png" width="300" alt="cewl Logo">
+        <img src="https://github.com/1KevinFigueroa/vector4cyber/blob/main/RTFM-Knowledge/img/appLogos/cewl.svg" width="300" alt="cewl Logo">
       </a>
     </td>
     <td align="center" width="50%">
