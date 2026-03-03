@@ -1,7 +1,7 @@
 <table align="center">
   <tr>
     <td align="center" width="50%">
-      <a href="https://owasp.org/projects/">
+      <a href="https://owasp.org/www-project-amass/">
         <img src="https://img.shields.io/badge/OWASP-Flagship-00589d?logo=owasp&logoColor=white" alt="OWASP Flagship" width="100">
       </a>
     </td>
