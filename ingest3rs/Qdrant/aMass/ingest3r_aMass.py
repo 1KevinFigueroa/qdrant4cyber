@@ -4,7 +4,9 @@ import argparse
 from typing import List
 from qdrant_client import QdrantClient, models
 
-
+'''
+Notes: Amass ingest3r should only be used for Amass results 
+'''
 QDRANT_URL = "http://localhost:6333"
 
 
