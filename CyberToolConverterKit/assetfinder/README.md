@@ -1,8 +1,8 @@
 <table align="center">
   <tr>
     <td align="center" width="50%">
-      <a href="https://owasp.org/projects/">
-        <img src="https://img.shields.io/badge/OWASP-Flagship-00589d?logo=owasp&logoColor=white" alt="Assetfinder" width="100">
+      <a href="https://github.com/tomnomnom/assetfinder">
+        <img src="https://img.shields.io/badge/Open%20Source-10000000?style=flat&logo=github&logoColor=black" alt="Assetfinder" width="100">
       </a>
     </td>
     <td align="center" width="50%">
