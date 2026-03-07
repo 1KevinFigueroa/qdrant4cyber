@@ -1,8 +1,8 @@
 <table align="center">
   <tr>
     <td align="center" width="50%">
-      <a href=" ">
-        <img src="https://img.shields.io/badge/OWASP-Flagship-00589d?logo=owasp&logoColor=white" alt="OWASP Flagship" width="100">
+      <a href="https://github.com/digininja/CeWL">
+        <img src="https://img.shields.io/badge/Open%20Source-10000000?style=flat&logo=github&logoColor=black" alt="CeWl" width="100">
       </a>
     </td>
     <td align="center" width="50%">
@@ -25,9 +25,12 @@
 
 # Convert CeWl results → JSON file vectorized
 
-Converting Amass results from a plain text file to a structured JSON format makes a significant difference when the data is being vectorized. Properly structured JSON with unique IDs is extremely useful for aggregating and correlating complex data in a vectorized workflow. High-quality, fast, and accurate data is critical for red team pipelines, security dashboards, and vector databases.
+Converting CeWl results from a plain text file to a structured JSON format makes a significant difference when the data is being vectorized. Properly structured JSON with unique IDs is extremely useful for aggregating and correlating complex data in a vectorized workflow. High-quality, fast, and accurate data is critical for red team pipelines, security dashboards, and vector databases.
 
-The problem with subfinder's output to a text file will be structured subdomains in a list. When the output in a JSON file 
+The problem with subfinder's output to a text file will be structured subdomains in a list. When the output in a JSON file
+
+### Usage
+convert_cewl.py [-h] input_file output_file
 
 ### CeWl TEXT file structure output example ❌
 
@@ -51,7 +54,7 @@ In the world of vector databases—specifically Qdrant, Milvus, and Weaviate, co
 
 Typical use cases:
 
-- Ingesting CeWl wordlist into a **vector database** (Qdrant, Milvus, Weaviate, more coming soon etc.) for semantic search and correlation made easier
+- Ingesting CeWl wordlist into a **vector database** (Qdrant, ChromaDB, Pinecon, Milvus, Weaviate) for semantic search and correlation made easier
 - Powering recon dashboards or graphs (e.g., host → vuln → service relationships)
 - Joining subdomains with WHOIS, DNS, HTTP fingerprinting, or vulnerability scan data
 
