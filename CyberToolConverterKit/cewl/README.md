@@ -2,7 +2,7 @@
   <tr>
     <td align="center" width="50%">
       <a href="https://github.com/digininja/CeWL">
-        <img src="https://img.shields.io/badge/Open%20Source-10000000?style=flat&logo=github&logoColor=black" alt="CeWl" width="100">
+        <img src="https://img.shields.io/badge/Open%20Source-10000000?style=flat&logo=github&logoColor=black" target="_blank" rel="noopener noreferrer" alt="CeWl" width="100">
       </a>
     </td>
     <td align="center" width="50%">
