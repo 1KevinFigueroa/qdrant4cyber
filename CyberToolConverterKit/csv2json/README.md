@@ -28,10 +28,12 @@
 
 Converting structed CSV file result file and a structured JSON format makes a significant difference when the data is being vectorized. Properly structured JSON with unique IDs is extremely useful for aggregating and correlating complex data in a vectorized workflow. High-quality, fast, and accurate data is critical for red team pipelines, security dashboards, and vector databases.
 
-The problem with subfinder's output to a text file will be structured subdomains in a list. When the output in a JSON file 
+The problem with subfinder's output to a text file will be structured subdomains in a list. When the output in a JSON file
+
+### Usage:
+convert_cewl.py [-h] input_file output_file
 
 ### CSV file structure output example ❌
-
 example.com, IP address, port
 
 ### A JSON structure option to vectorized ✅
@@ -52,6 +54,6 @@ In the world of vector databases—specifically Qdrant, Milvus, and Weaviate, co
 
 Typical use cases:
 
-- Ingesting subdomains into a **vector database** (Qdrant, Milvus, Weaviate, more coming soon etc.) for semantic search and correlation made easier
+- Ingesting into a **vector database** (Qdrant, Milvus, Weaviate, more coming soon etc.) for semantic search and correlation made easier
 - Powering recon dashboards or graphs (e.g., host → vuln → service relationships)
 - Joining subdomains with WHOIS, DNS, HTTP fingerprinting, or vulnerability scan data
