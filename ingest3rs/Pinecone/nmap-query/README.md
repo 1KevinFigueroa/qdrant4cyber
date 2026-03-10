@@ -324,4 +324,3 @@ Verify the container is running (`docker ps`) and that the port mapping matches 
 ## License
 
 This project is provided as-is for educational and internal use.
-
