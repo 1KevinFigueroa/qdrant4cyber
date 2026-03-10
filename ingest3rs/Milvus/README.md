@@ -18,11 +18,11 @@
 </p>
 </p>
 
-<h2 style="text-align: center;">PROJECT CONTEXT-CLUES - with Pinecone</h2>
+<h2 style="text-align: center;">PROJECT CONTEXT-CLUES - with Milvus</h2>
 
 Setup Instructions
-Pinecone Docker Installation
-The following is instructions on how to install Pinecone in a local docker container setup to utilize the ingest3rs
+Milvus Docker Installation
+The following is instructions on how to install Milvus in a local docker container setup to utilize the ingest3rs
 
 Requirements
 - ✅ 🧠
