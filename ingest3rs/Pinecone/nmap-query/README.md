@@ -1,7 +1,3 @@
-Here is a complete **README.md** describing the purpose, requirements, architecture, code walkthrough, and usage examples for your script.
-
----
-
 # Semantic Search for Nmap Scan Data with Pinecone
 
 This project provides a **natural-language semantic search interface for Nmap scan results** stored in a **local Pinecone vector database**.
