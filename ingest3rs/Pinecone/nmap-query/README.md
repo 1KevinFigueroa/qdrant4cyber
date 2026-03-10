@@ -516,6 +516,3 @@ Possible enhancements:
 * automatic vulnerability tagging
 * graph visualization of hosts
 
----
-
-If you'd like, I can also generate an **architecture diagram for the README** or a **much stronger GitHub-style README (with badges, screenshots, and diagrams)**.
