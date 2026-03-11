@@ -45,7 +45,8 @@ The following is instructions on how to install ChromaDB in a local docker conta
 	- This will return the heartbeat 
 	- Sample expected result:
 		{"nanosecond heartbeat":1771827785706459389}
-3. python connect.py
+3. browse to the <a href="https://github.com/1KevinFigueroa/vector4cyber/tree/main/ingest3rs/ChomaDB/connect">connect</a>  folder
+	- python connect.py
 	- This is a test script that if your setup is correct will return a heartbeat and the version of ChromaDB 
 	- Sample exepcted results: 
 		Heartbeat: 1771827370416586781
