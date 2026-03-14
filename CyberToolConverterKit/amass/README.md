@@ -33,10 +33,9 @@
 
 ## 🎯 Why This Matters
 Converting Amass results from a plain text file to a structured **JSON format** makes a significant difference when the data is being vectorized. Properly structured JSON with unique IDs is extremely useful for aggregating and correlating complex data in a vectorized workflow. High-quality, fast, and accurate data is critical for red team pipelines, security dashboards, and vector databases.
+> **High-quality, structured data** is the foundation of **Red Team workflows**, **security dashboards**, and **AI-driven threat analysis**.
 
 **Raw Amass text output** → **Structured JSON** → **Vectorized Intelligence**
-
-> **High-quality, structured data** is the foundation of **Red Team workflows**, **security dashboards**, and **AI-driven threat analysis**.
 
 ---
 
@@ -48,6 +47,17 @@ Converting Amass results from a plain text file to a structured **JSON format** 
 | ❌ **Native JSON** | `{"host": " ", "input": " ", "source": "reconeer"}` | ❌ Incomplete fields<br>❌ Missing IDs |
 | ✅ **Vectorized JSON** | `{"id": 1, "host": "example.com", "input": "example.com", "source": "reconeer"}` | ✅ Full context<br>✅ Traceability<br>✅ Vectorization-ready |
 
+---
+
+## 📊 Vector Databases Supported
+
+| **VectorDB** | **Supported** | **Status** |
+|--------------|---------------|------------|
+| ✅ **Qdrant** |  ✅ | ✅ In Production |
+| ✅ **ChromaDB** |  ✅ | ⚡ In progress |
+| ✅ **PineCone** |  ✅ | ⚡ In progress |
+| ✅ **Weaviate** |  ✅ | ⚡ In progress |
+| ✅ **Milvus** |  ✅ | ⚡ In progress |
 ---
 
 ## 💡 The Solution
