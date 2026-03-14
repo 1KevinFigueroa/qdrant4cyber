@@ -60,6 +60,7 @@ Converting Assetfinder results from a plain text file to a structured **JSON for
 ---
 
 ## 💡 The Solution
+> **Usage: convert_assetfinder.py [-h] [-o OUTPUT] input**
 
 ```bash
-convert_AmassTXT2JSON.py input_file.txt output_file.json
+convert_assetfinder.py input_file.txt output_file.json
