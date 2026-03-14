@@ -64,6 +64,7 @@ From a high-level architecture perspective, the shift from flat-file ingestion t
 ---
 
 ## 💡 The Solution
+> **usage: convertAmassTXT2JSON.py [-h] input_file output_file**
 
 ```bash
 convert_AmassTXT2JSON.py input_file.txt output_file.json
