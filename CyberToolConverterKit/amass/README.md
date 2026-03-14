@@ -32,10 +32,9 @@
 ---
 
 ## 🎯 Why This Matters
+Converting Amass results from a plain text file to a structured **JSON format** makes a significant difference when the data is being vectorized. Properly structured JSON with unique IDs is extremely useful for aggregating and correlating complex data in a vectorized workflow. High-quality, fast, and accurate data is critical for red team pipelines, security dashboards, and vector databases.
 
 **Raw Amass text output** → **Structured JSON** → **Vectorized Intelligence**
-
-Converting Amass results into **JSON format** with **unique IDs** unlocks powerful capabilities for **vector databases** and **automation pipelines**.
 
 > **High-quality, structured data** is the foundation of **Red Team workflows**, **security dashboards**, and **AI-driven threat analysis**.
 
