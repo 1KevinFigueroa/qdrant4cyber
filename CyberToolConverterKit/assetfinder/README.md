@@ -44,7 +44,7 @@ Converting Assetfinder results from a plain text file to a structured **JSON for
 | **Format** | **Example** | **Issues** |
 |------------|-------------|------------|
 | ❌ **Text File** | `example.com` | ❌ No context<br>❌ No source tracking<br>❌ No unique IDs |
-| ✅ **Vectorized JSON** | `{"id": 1, "host": "example.com", "input": "example.com", "source": "reconeer"}` | ✅ Full context<br>✅ Traceability<br>✅ Vectorization-ready |
+| ✅ **Vectorized JSON** | `{"id": 1, "host": "example.com"}` | ✅ Full context<br>✅ Traceability<br>✅ Vectorization-ready |
 
 ---
 
