@@ -1,7 +1,7 @@
 <table align="center">
   <tr>
     <td align="center" width="50%">
-      <a href="https://owasp.org/projects/">
+      <a href="https://github.com/owasp-amass/amass">
         <img src="https://img.shields.io/badge/OWASP-Flagship-00589d?logo=owasp&logoColor=white" alt="OWASP Flagship" width="100">
       </a>
     </td>
@@ -31,8 +31,11 @@
 
 ---
 
-## 🎯 Why This Matters
-Converting Amass results from a plain text file to a structured **JSON format** makes a significant difference when the data is being vectorized. Properly structured JSON with unique IDs is extremely useful for aggregating and correlating complex data in a vectorized workflow. High-quality, fast, and accurate data is critical for red team pipelines, security dashboards, and vector databases.
+## 🎯 Overview and Why This Matters
+In the world of vector databases—specifically, context is the currency of accuracy. Here is the breakdown of why parsers is the "missing link" for these systems.
+
+From a high-level architecture perspective, the shift from flat-file ingestion to structured JSON isn't just a formatting preference; it’s the difference between a "data swamp" and a high-fidelity Cyber Threat Intelligence (CTI) pipeline. Converting Amass results from a plain text file to a structured **JSON format** makes a significant difference when the data is being vectorized. Properly structured JSON with unique IDs is extremely useful for aggregating and correlating complex data in a vectorized workflow. High-quality, fast, and accurate data is critical for red team pipelines, security dashboards, and vector databases.
+
 > **High-quality, structured data** is the foundation of **Red Team workflows**, **security dashboards**, and **AI-driven threat analysis**.
 
 **Raw Amass text output** → **Structured JSON** → **Vectorized Intelligence**
