@@ -54,7 +54,7 @@ From a high-level architecture perspective, the shift from flat-file ingestion t
 
 | **VectorDB** | **Supported** | **Status** |
 |--------------|---------------|------------|
-| ✅ **Qdrant** |  ✅ | ✅ In Production |
+| ✅ **Qdrant** |  ✅ | ✅ Completed |
 | ✅ **ChromaDB** |  ✅ | ⚡ In progress |
 | ✅ **PineCone** |  ✅ | ⚡ In progress |
 | ✅ **Weaviate** |  ✅ | ⚡ In progress |
