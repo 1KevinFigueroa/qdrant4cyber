@@ -56,7 +56,7 @@ From a high-level architecture perspective, the shift from flat-file ingestion t
 
 | **VectorDB** | **Supported** | **Status** |
 |--------------|---------------|------------|
-| ✅ **Qdrant** |  ✅ | ✅ In Production |
+| ✅ **Qdrant** |  ✅ | <a href="https://github.com/1KevinFigueroa/vector4cyber/tree/main/ingest3rs/Qdrant/aMass"> ✅ </a> Completed  |
 | ✅ **ChromaDB** |  ✅ | ⚡ In progress |
 | ✅ **PineCone** |  ✅ | ⚡ In progress |
 | ✅ **Weaviate** |  ✅ | ⚡ In progress |
