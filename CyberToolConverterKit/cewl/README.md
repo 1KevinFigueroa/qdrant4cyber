@@ -23,39 +23,46 @@
   </tr>
 </table>
 
-# Convert CeWl results → JSON file vectorized
+# 🔄 Convert Assetfinder Results → JSON (Vectorized)
 
-Converting CeWl results from a plain text file to a structured JSON format makes a significant difference when the data is being vectorized. Properly structured JSON with unique IDs is extremely useful for aggregating and correlating complex data in a vectorized workflow. High-quality, fast, and accurate data is critical for red team pipelines, security dashboards, and vector databases.
+[![GitHub Repo](https://img.shields.io/badge/GitHub-Repo-blue?logo=github)](https://github.com/1KevinFigueroa/vector4cyber/tree/main/CyberToolConverterKit/cewl)
+[![Qdrant](https://img.shields.io/badge/Qdrant-Compatible-brightgreen?logo=qdrant)](https://qdrant.tech/)
+[![Python](https://img.shields.io/badge/Python-3.8%2B-blue?logo=python)](https://python.org)
 
-The problem with subfinder's output to a text file will be structured subdomains in a list. When the output in a JSON file
+---
 
-### Usage
-convert_cewl.py [-h] input_file output_file
+## 🎯 Why This Matters
+In the world of vector databases—specifically, context is the currency of accuracy. Here is the breakdown of why parsers is the "missing link" for these systems.
 
-### CeWl TEXT file structure output example ❌
+From a high-level architecture perspective, the shift from flat-file ingestion to structured JSON isn't just a formatting preference; it’s the difference between a "data swamp" and a high-fidelity Cyber Threat Intelligence (CTI) pipeline. Converting Assetfinder results from a plain text file to a structured **JSON format** makes a significant difference when the data is being vectorized. Properly structured JSON with unique IDs is extremely useful for aggregating and correlating complex data in a vectorized workflow. High-quality, fast, and accurate data is critical for red team pipelines, security dashboards, and vector databases.
+> **High-quality, structured data** is the foundation of **Red Team workflows**, **security dashboards**, and **AI-driven threat analysis**.
 
-example.com
+**Raw CeWl text output** → **Structured JSON** → **Vectorized Intelligence**
 
-### A JSON structure option to vectorized ✅
-JSON file structure example:
-{"id": 1, "host": "example.com", "input": "example.com", "source": "subfinder"}
+---
 
-With a plain text file, two important pieces of information are missing: the original input and the source from which the data was obtained. From a cybersecurity perspective, these small but crucial data points are essential for traceability, context, and confident decision-making during analysis.
+## 🚨 The Problem
 
-## Overview
-From a high-level architecture perspective, the shift from flat-file ingestion to structured JSON isn't just a formatting preference; it’s the difference between a "data swamp" and a high-fidelity Cyber Threat Intelligence (CTI) pipeline.
+| **Format** | **Example** | **Issues** |
+|------------|-------------|------------|
+| ❌ **Text File** | `example.com` | ❌ No context<br>❌ No source tracking<br>❌ No unique IDs |
+| ✅ **Vectorized JSON** | `{"id": 1, "host": "example.com"}` | ✅ Full context<br>✅ Traceability<br>✅ Vectorization-ready |
 
-In the world of vector databases—specifically Qdrant, Milvus, and Weaviate, context is the currency of accuracy. Here is the breakdown of why parsers is the "missing link" for these systems.
+---
 
-- Reads a text file containing subdomains
-- Cleans and normalizes each line
-- Assigns a unique, stable ID to every entry
-- Serializes the result as JSON for downstream automation
+## 📊 Vector Databases Supported
 
-Typical use cases:
+| **VectorDB** | **Supported** | **Status** |
+|--------------|---------------|------------|
+| ✅ **Qdrant** |  ✅ | ✅ In Production |
+| ✅ **ChromaDB** |  ✅ | ⚡ In progress |
+| ✅ **PineCone** |  ✅ | ⚡ In progress |
+| ✅ **Weaviate** |  ✅ | ⚡ In progress |
+| ✅ **Milvus** |  ✅ | ⚡ In progress |
+---
 
-- Ingesting CeWl wordlist into a **vector database** (Qdrant, ChromaDB, Pinecon, Milvus, Weaviate) for semantic search and correlation made easier
-- Powering recon dashboards or graphs (e.g., host → vuln → service relationships)
-- Joining subdomains with WHOIS, DNS, HTTP fingerprinting, or vulnerability scan data
+## 💡 The Solution
+> **Usage: convert_cewl.py [-h] [-o output_file] [input_file]**
 
-more comming soon....
+```bash
+convert_cewl.py input_file.txt output_file.json
