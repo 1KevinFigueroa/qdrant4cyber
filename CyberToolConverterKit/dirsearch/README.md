@@ -48,13 +48,7 @@ From a high-level architecture perspective, the shift from flat-file ingestion t
 | **Format** | **Example** | **Issues** |
 |------------|-------------|------------|
 | ❌ **Text File** | `example.com` | ❌ No context<br>❌ No source tracking<br>❌ No unique IDs |
-| ✅ **Vectorized JSON** | {
-    "id": 1,
-    "status": 404,
-    "size": "9B",
-    "url": " ",
-    "redirect_to": null
-  } | ✅ Full context<br>✅ Traceability<br>✅ Vectorization-ready |
+| ✅ **Vectorized JSON** | {"id": 1, "status": 404, "size": "9B", "url": " ", "redirect_to": null} | ✅ Full context<br>✅ Traceability<br>✅ Vectorization-ready |
 
 ---
 
