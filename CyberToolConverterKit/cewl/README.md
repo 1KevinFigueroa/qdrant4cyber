@@ -54,7 +54,7 @@ From a high-level architecture perspective, the shift from flat-file ingestion t
 
 | **VectorDB** | **Supported** | **Status** |
 |--------------|---------------|------------|
-| ✅ **Qdrant** |  ✅ | <a href="https://github.com/digininja/CeWL" target="_blank" rel="noopener noreferrer">✅ Completed</a> |
+| ✅ **Qdrant** |  ✅ | <a href="https://github.com/1KevinFigueroa/vector4cyber/tree/main/ingest3rs/Qdrant/cewl" target="_blank" rel="noopener noreferrer">✅ Completed</a> |
 | ✅ **ChromaDB** |  ✅ | ⚡ In progress |
 | ✅ **PineCone** |  ✅ | ⚡ In progress |
 | ✅ **Weaviate** |  ✅ | ⚡ In progress |
