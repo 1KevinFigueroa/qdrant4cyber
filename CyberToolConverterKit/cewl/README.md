@@ -23,7 +23,7 @@
   </tr>
 </table>
 
-# 🔄 Convert Assetfinder Results → JSON (Vectorized)
+# 🔄 Convert CeWl Results → JSON (Vectorized)
 
 [![GitHub Repo](https://img.shields.io/badge/GitHub-Repo-blue?logo=github)](https://github.com/1KevinFigueroa/vector4cyber/tree/main/CyberToolConverterKit/cewl)
 [![Qdrant](https://img.shields.io/badge/Qdrant-Compatible-brightgreen?logo=qdrant)](https://qdrant.tech/)
@@ -54,7 +54,7 @@ From a high-level architecture perspective, the shift from flat-file ingestion t
 
 | **VectorDB** | **Supported** | **Status** |
 |--------------|---------------|------------|
-| ✅ **Qdrant** |  ✅ | ✅ In Production |
+| ✅ **Qdrant** |  ✅ | <a href="https://github.com/digininja/CeWL" target="_blank" rel="noopener noreferrer">✅ Completed</a> |
 | ✅ **ChromaDB** |  ✅ | ⚡ In progress |
 | ✅ **PineCone** |  ✅ | ⚡ In progress |
 | ✅ **Weaviate** |  ✅ | ⚡ In progress |
