@@ -23,7 +23,7 @@
   </tr>
 </table>
 
-# Ingest3r → CeWl results → JSON file vectorized
+# Ingest3r → CeWl results → JSON file vectorized → Qdrant
 
 Converting CeWl results from a plain text file to a structured JSON format makes a significant difference when the data is being vectorized. Properly structured JSON with unique IDs is extremely useful for aggregating and correlating complex data in a vectorized workflow. High-quality, fast, and accurate data is critical for red team pipelines, security dashboards, and vector databases.
 
