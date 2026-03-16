@@ -24,7 +24,7 @@
   </tr>
 </table>
 
-# Convert CSV file  → JSON file vectorized
+# Ingest3r CSV file  → JSON file vectorized → Qdrant
 
 Converting structed CSV file result file and a structured JSON format makes a significant difference when the data is being vectorized. Properly structured JSON with unique IDs is extremely useful for aggregating and correlating complex data in a vectorized workflow. High-quality, fast, and accurate data is critical for red team pipelines, security dashboards, and vector databases.
 
