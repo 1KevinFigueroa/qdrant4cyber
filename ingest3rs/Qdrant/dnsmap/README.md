@@ -25,7 +25,7 @@
 </table>
 
 
-# Ingest3r → DNSmap CSV results → JSON Converter vectorized →  Qdrant
+## Ingest3r → DNSmap CSV results → JSON Converter vectorized →  Qdrant
 
 ingesting DNSmap results from a plain text file to a structured JSON format makes a significant difference when the data is being vectorized. Properly structured JSON with unique IDs is extremely useful for aggregating and correlating complex data in a vectorized workflow. High-quality, fast, and accurate data is critical for red team pipelines, security dashboards, and vector databases.
 
