@@ -23,9 +23,9 @@
   </tr>
 </table>
 
-# Convert Subfinder  → JSON file vectorized
+## Ingest3r → Subfinder results → JSON file vectoized → Qdrant
 
-Converting Subfinder results from a plain text file to a structured JSON format makes a significant difference when the data is being vectorized. Properly structured JSON with unique IDs is extremely useful for aggregating and correlating complex data in a vectorized workflow. High-quality, fast, and accurate data is critical for red team pipelines, security dashboards, and vector databases.
+Ingest3r Subfinder results from a plain text file to a structured JSON format makes a significant difference when the data is being vectorized. Properly structured JSON with unique IDs is extremely useful for aggregating and correlating complex data in a vectorized workflow. High-quality, fast, and accurate data is critical for red team pipelines, security dashboards, and vector databases.
 
 The problem with subfinder's output to a text file will be structured subdomains in a list. When the output in a JSON file
 
