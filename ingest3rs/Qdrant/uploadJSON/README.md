@@ -23,9 +23,9 @@
   </tr>
 </table>
 
-# Converter  Plain Text → JSON file vectorized
+## Ingest3r → Plain Text → JSON file vectorized → Qdrant
 
-Convert a plain text file into structured JSON with IDs for use in pipelines, dashboards, or vector databases.
+Ingesting a plain text file into structured JSON with IDs for use in pipelines, dashboards, or vector databases.
 
 ---
 
