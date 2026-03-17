@@ -24,14 +24,14 @@
   </tr>
 </table>
 
-# Converter Nuclei Text file  → JSON file vectorized
+## Ingest3r → Nuclei Text file  → JSON file vectorized → Qdrant
 
-Converting Subfinder results from a plain text file to a structured JSON format makes a significant difference when the data is being vectorized. Properly structured JSON with unique IDs is extremely useful for aggregating and correlating complex data in a vectorized workflow. High-quality, fast, and accurate data is critical for red team pipelines, security dashboards, and vector databases.
+Ingesting Nuclei results from a plain text file to a structured JSON format makes a significant difference when the data is being vectorized. Properly structured JSON with unique IDs is extremely useful for aggregating and correlating complex data in a vectorized workflow. High-quality, fast, and accurate data is critical for red team pipelines, security dashboards, and vector databases.
 
 The problem with subfinder's output to a text file will be structured subdomains in a list. When the output in a JSON file
 
 ### Usage:
-convert_nuclei2json.py [--output-json OUTPUT_JSON] [--host HOST] [--port PORT] [--vector-size VECTOR_SIZE input_file [collection]
+convert_nuclei2json.py [--output-json OUTPUT_JSON] [--host HOST] [--port PORT] [--vector-size VECTOR_SIZE]input_file [collection]
 
 ### Nuclei TEXT file structure output example ❌
 
