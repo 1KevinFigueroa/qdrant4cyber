@@ -23,9 +23,9 @@
   </tr>
 </table>
 
-# Converter  XML → JSON file vectorized uploader
+## Ingest3r →  XML → JSON file vectorized uploader →  Qdrant
 
-Convert a plain text file into structured JSON with IDs for use in pipelines, dashboards, or vector databases.
+Ingesting an XML file into structured JSON with IDs for use in pipelines, dashboards, or vector databases.
 
 ### Usage: 
 ingest3r_uploadXML.py [-h] [--host HOST] [--port PORT] [--vector-size VECTOR_SIZE] xml_file [collection]
