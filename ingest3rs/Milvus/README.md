@@ -81,9 +81,9 @@ networks:
 ```
 2. Execute the command "docker compose up -d"
 3. Execute the command "docker ps" and you should see
-milvus-standalone
-milvus-etcd
-milvus-minio
+* milvus-standalone
+* milvus-etcd
+* milvus-minio
 4. browse to the <a href="https://github.com/1KevinFigueroa/vector4cyber/tree/main/ingest3rs/Milvus/connect">connect</a> folder
     - Connect.py ensures your Milvus db can be reached, Read the Readme.md to learn how to use
 5. browse to the <a href="https://github.com/1KevinFigueroa/vector4cyber/tree/main/ingest3rs/Milvus/nmap-import">nmap-import</a>  folder
