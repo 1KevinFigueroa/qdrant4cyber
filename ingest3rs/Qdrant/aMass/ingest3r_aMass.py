@@ -5,7 +5,7 @@ from typing import List
 from qdrant_client import QdrantClient, models
 
 '''
-Notes: Amass ingest3r should only be used for Amass results 
+Notes: Amass ingest3r should only be used for Amass results in a vectorization process.
 '''
 QDRANT_URL = "http://localhost:6333"
 
