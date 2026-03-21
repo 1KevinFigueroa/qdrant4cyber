@@ -1,5 +1,5 @@
 <p align="center">
-<img src="https://github.com/1KevinFigueroa/vector4cyber/blob/main/RTFM-Knowledge/img/appLogos/weaviate-logo" align="center" width="450" height="450">
+<img src="https://github.com/1KevinFigueroa/vector4cyber/blob/main/RTFM-Knowledge/img/appLogos/weaviate-logo.jpg" align="center" width="450" height="450">
   <img src="https://github.com/1KevinFigueroa/vector4cyber/blob/main/RTFM-Knowledge/img/Vector4Cyber.png" align="center" width="400" height="250">
 
 <p align="center">
