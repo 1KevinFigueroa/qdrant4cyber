@@ -32,5 +32,54 @@ Requirements
 - ❌ Production
 
 ## Installation
+1. Create the following 'docker-compose.yml' file
+```docker-compose.yml
+services:
+  weaviate:
+    image: semitechnologies/weaviate:latest
+    container_name: weaviate
+    restart: unless-stopped
 
-Coming Soon 1
+    ports:
+      - "8080:8080"      # REST / GraphQL API
+      - "50051:50051"    # gRPC API (NEW + recommended)
+
+    environment:
+      # General
+      QUERY_DEFAULTS_LIMIT: 20
+      AUTHENTICATION_ANONYMOUS_ACCESS_ENABLED: "true"
+      PERSISTENCE_DATA_PATH: "/var/lib/weaviate"
+      CLUSTER_HOSTNAME: "node1"
+
+      # Modules
+      DEFAULT_VECTORIZER_MODULE: text2vec-transformers
+      ENABLE_MODULES: text2vec-transformers
+      TRANSFORMERS_INFERENCE_API: http://t2v-transformers:8080
+
+    volumes:
+      - weaviate_data:/var/lib/weaviate
+
+    depends_on:
+      - t2v-transformers
+
+  t2v-transformers:
+    image: semitechnologies/transformers-inference:sentence-transformers-all-MiniLM-L6-v2
+    container_name: t2v-transformers
+    restart: unless-stopped
+
+    environment:
+      ENABLE_CUDA: "0"   # Set to "1" if using NVIDIA GPU
+
+    ports:
+      - "8081:8080"      # Optional: expose MiniLM service externally
+
+volumes:
+  weaviate_data:
+```
+2. Execute the command "docker compose up -d"
+3. browse to the <a href="https://github.com/1KevinFigueroa/vector4cyber/tree/main/ingest3rs/Weaviate/test-connect">connect</a> folder
+    - test-connect.py ensures your Weaviate db can be reached, Read the Readme.md to learn how to use
+4. browse to the <a href="https://github.com/1KevinFigueroa/vector4cyber/tree/main/ingest3rs/Weaviate/nmap-import">nmap-import</a>  folder
+    - Imports a sample nmap json into Weaviate, Read the Readme.md to learn how to use
+5. browse to the <a href="https://github.com/1KevinFigueroa/vector4cyber/tree/main/ingest3rs/Weaviate/nmap-query">nmap-query</a> folder 
+    - Query the Weaviate vector db for the nmap results, Read the Readme.md to learn how to use
