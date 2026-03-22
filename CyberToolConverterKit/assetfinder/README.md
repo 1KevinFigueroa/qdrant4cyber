@@ -39,7 +39,7 @@ From a high-level architecture perspective, the shift from flat-file ingestion t
 
 **Raw Assetfinder text output** → **Structured JSON** → **Vectorized Intelligence**
 
-## Architecture1
+## Architecture
 
 ```
 ┌──────────────┐     ┌────────────────────┐     ┌──────────────────┐
