@@ -3,3 +3,6 @@
 ################################################################################
 
 /.vs
+/ingest3rs/Weaviate/blah
+/ingest3rs/Weaviate/fake_nmap_results.json
+/ingest3rs/Weaviate/nmap-import/fake_nmap_results.json
