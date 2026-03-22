@@ -39,6 +39,28 @@ From a high-level architecture perspective, the shift from flat-file ingestion t
 
 **Raw Assetfinder text output** → **Structured JSON** → **Vectorized Intelligence**
 
+## Architecture
+
+```
+┌──────────────┐     ┌────────────────────┐     ┌──────────────────┐
+│              │     │   Ingest Scripts   │     │                  │
+│      JSON    │────▶│  (embed + upsert)  │────▶│  (Docker :8000)  │
+│  log file    │     │                    │     │                  │
+└──────────────┘     └────────────────────┘     └────────┬─────────┘
+                                                         │
+                     ┌────────────────────┐              │  similarity
+                     │  Query Scripts     │◀─────────────┘  search
+                     │  (interactive)     │
+                     └────────┬───────────┘
+                              │ (optional)
+                              ▼
+                     ┌────────────────────┐
+                     │                    │
+                     │                    │
+                     │  LLM analysis      │
+                     └────────────────────┘
+```
+
 ---
 
 ## 🚨 The Problem
