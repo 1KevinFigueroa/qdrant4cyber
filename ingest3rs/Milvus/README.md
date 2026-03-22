@@ -31,4 +31,74 @@ Requirements
 - ✅ For testing / lab
 - ❌ Production
 
-Coming Soon....
+## Installation
+
+1. Create the following 'docker-compose.yml' file
+```docker-compose.yml
+services:
+  etcd:
+    container_name: milvus-etcd
+    image: quay.io/coreos/etcd:v3.5.5
+    environment:
+      - ETCD_AUTO_COMPACTION_MODE=revision
+      - ETCD_AUTO_COMPACTION_RETENTION=1000
+      - ETCD_QUOTA_BACKEND_BYTES=4294967296
+    command: etcd -advertise-client-urls=http://etcd:2379 -listen-client-urls=http://0.0.0.0:2379 --data-dir /etcd
+    volumes:
+      - ./volumes/etcd:/etcd
+
+  minio:
+    container_name: milvus-minio
+    image: minio/minio:RELEASE.2023-03-20T20-16-18Z
+    environment:
+      MINIO_ROOT_USER: minioadmin
+      MINIO_ROOT_PASSWORD: minioadmin
+    command: minio server /minio_data
+    ports:
+      - "9001:9000"
+    volumes:
+      - ./volumes/minio:/minio_data
+
+  milvus:
+    container_name: milvus-standalone
+    image: milvusdb/milvus:v2.3.3
+    command: ["milvus", "run", "standalone"]
+    environment:
+      ETCD_ENDPOINTS: etcd:2379
+      MINIO_ADDRESS: minio:9000
+    ports:
+      - "19530:19530"
+      - "9091:9091"
+    depends_on:
+      - etcd
+      - minio
+    volumes:
+      - ./volumes/milvus:/var/lib/milvus
+
+networks:
+  default:
+    name: milvus-network
+```
+2. Execute the command "docker compose up -d"
+3. Execute the command "docker ps" and you should see
+* milvus-standalone
+* milvus-etcd
+* milvus-minio
+4. browse to the <a href="https://github.com/1KevinFigueroa/vector4cyber/tree/main/ingest3rs/Milvus/connect">connect</a> folder
+    - Connect.py ensures your Milvus db can be reached, Read the Readme.md to learn how to use
+5. browse to the <a href="https://github.com/1KevinFigueroa/vector4cyber/tree/main/ingest3rs/Milvus/nmap-import">nmap-import</a>  folder
+    - Imports a sample nmap json into Milvus, Read the Readme.md to learn how to use
+6. browse to the <a href="https://github.com/1KevinFigueroa/vector4cyber/tree/main/ingest3rs/Milvus/nmap-query">nmap-query</a> folder 
+    - Query the Milvus vector db for the nmap results, Read the Readme.md to learn how to use
+
+## Security
+Remeber this is just for testing and not to be run in production, there are no security controls 
+
+- ❌ Production 
+## What to expect e.g. Nmap Queries
+<p align="center">
+<img src="https://github.com/1KevinFigueroa/vector4cyber/blob/main/RTFM-Knowledge/img/milvus-nmap1.jpg" align="center" width="350" height="750">
+<img src="https://github.com/1KevinFigueroa/vector4cyber/blob/main/RTFM-Knowledge/img/milvus-nmap2.jpg" align="center" width="350" height="750">
+<img src="https://github.com/1KevinFigueroa/vector4cyber/blob/main/RTFM-Knowledge/img/milvus-nmap3.jpg" align="center" width="350" height="750">
+</p>
+
