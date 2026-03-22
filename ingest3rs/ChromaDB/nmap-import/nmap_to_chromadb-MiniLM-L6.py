@@ -1,7 +1,7 @@
 """
 Nmap to ChromaDB Importer
 --------------------------
-This script imports nmap scan results from a JSON file into a ChromaDB collection.
+This script imports nmap scan results from a JSON file into a ChromaDB collection. a
 
 Usage:
     python nmap_to_chromadb-MiniLM-L6.py <json_file_path>
