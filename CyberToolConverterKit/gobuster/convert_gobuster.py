@@ -2,10 +2,6 @@
 """
 Gobuster text output → JSON converter
 
-Parses gobuster output like:
- /_archive              (Status: 302)   [Size: 43]  [--> https://ya.ru/archive]  
- /adv                  (Status: 200)   [Size: 613789]
-
 Usage: python gobuster_to_json.py gobuster_output.txt --vector-size 384 output.json
 """
 
