@@ -1,0 +1,8 @@
+﻿################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
+
+/.vs
+/ingest3rs/Weaviate/nmap-import/fake_nmap_results.json
+/ingest3rs/Weaviate/nmap-import/__pycache__
+/ingest3rs/Weaviate/nmap-query/__pycache__
