@@ -12,6 +12,7 @@ Prerequisites:
 
 import argparse
 import sys
+import os
 import chromadb
 from chromadb.config import Settings
 
@@ -359,6 +360,9 @@ def main():
     print("\nConnecting to ChromaDB and loading 'nmaptest' collection...")
     
     try:
+        chromadb_host = os.getenv("CHROMADB_HOST", "localhost")
+        chromadb_port = int(os.getenv("CHROMADB_PORT", "9000"))
+
         # Initialize ChromaDB client
         #client = chromadb.Client(Settings(
         #    anonymized_telemetry=False,
@@ -367,8 +371,8 @@ def main():
         
         # Connect to the Docker ChromaDB server
         client = chromadb.HttpClient(
-            host="localhost",
-            port=8000,
+            host=chromadb_host,
+            port=chromadb_port,
             # Include token if authentication is enabled
             headers={"Authorization": "Bearer my-secret-token"}
         )

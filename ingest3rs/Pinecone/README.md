@@ -34,16 +34,43 @@ Requirements
 
 ## Installation
 
-1. docker pull ghcr.io/pinecone-io/pinecone-index:latest
-    - Downloads the latest image of Pinecone
-2. docker run -d --name nmap-index -e PORT=5081 -e INDEX_TYPE=serverless -e VECTOR_TYPE=dense -e DIMENSION=384 -e METRIC=cosine -p 5081:5081 --platform linux/amd64 ghcr.io/pinecone-io/pinecone-index:latest
-    - This will run the latest Pinecone docker image and start the container running on 5081 and the index will be named nmap-index
-3. browse to the <a href="https://github.com/1KevinFigueroa/vector4cyber/tree/main/ingest3rs/Pinecone/connect">connect</a> folder
-    - Connect.py ensures your pinecone db can be reached, Read the Readme.md to learn how to use
+1. Create the following 'docker-compose.yml' file
+```
+services:
+  pinecone-local:
+    image: ghcr.io/pinecone-io/pinecone-index:latest
+    container_name: pinecone-nmap-index
+    platform: linux/amd64
+    ports:
+       - "5080-5090:5080-5090"
+    environment:
+      PORT: 5081
+      INDEX_TYPE: serverless
+      VECTOR_TYPE: dense
+      DIMENSION: 384
+      METRIC: cosine
+    volumes:
+      - pinecone_data:/data
+    restart: unless-stopped
+
+volumes:
+  pinecone_data:
+    name: pinecone_data
+```
+2. Execute the command "docker compose up -d"  
+3. browse to the <a href="https://github.com/1KevinFigueroa/vector4cyber/tree/main/ingest3rs/Pinecone/test-connect">test-connect</a> folder
+    - test-connect.py ensures your pinecone db can be reached, Read the Readme.md to learn how to use
 4. browse to the <a href="https://github.com/1KevinFigueroa/vector4cyber/tree/main/ingest3rs/Pinecone/nmap-import">nmap-import</a>  folder
     - Imports a sample nmap json into pincone, Read the Readme.md to learn how to use
 5. browse to the <a href="https://github.com/1KevinFigueroa/vector4cyber/tree/main/ingest3rs/Pinecone/nmap-query">nmap-query</a> folder 
     - Query the pincone vector db for the nmap results, Read the Readme.md to learn how to use
+6. browse to the <a href="https://github.com/1KevinFigueroa/vector4cyber/tree/main/ingest3rs/Pinecone/nuclei-convert">nuclei-convert</a> folder
+    - Converts the output of nuclei scans into a json format that can be imported into Pinecone, Read the Readme.md to learn how to use
+7. browse to the <a href="https://github.com/1KevinFigueroa/vector4cyber/tree/main/ingest3rs/Pinecone/nuclei-import">nuclei-import</a>  folder
+	- Imports a sample nuclei json output into Pinecone, Read the Readme.md to learn how to use
+8. browse to the <a href="https://github.com/1KevinFigueroa/vector4cyber/tree/main/ingest3rs/Pinecone/nuclei-query">nuclei-query</a> folder 
+	- Query the Pinecone vector db for the nuclei results, Read the Readme.md to learn how to use
+
 
 ## Security
 Remeber this is just for testing and not to be run in production, there are no security controls 

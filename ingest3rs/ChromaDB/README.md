@@ -37,33 +37,49 @@ The following is instructions on how to install ChromaDB in a local docker conta
 
 ## Installation
 
-1. docker run -p 8000:8000 chromadb/chroma
-	- This will download the latest Chromadb docker image and start the container running on 8000
-2. pip install chromadb
-	- Highly suggested to be installed in a virtual python environment 🔍 https://docs.python.org/3/library/venv.html
-3. Browse to http://localhost:8000/api/v2/heartbeat
-	- This will return the heartbeat 
-	- Sample expected result:
-		{"nanosecond heartbeat":1771827785706459389}
-3. browse to the <a href="https://github.com/1KevinFigueroa/vector4cyber/tree/main/ingest3rs/ChomaDB/connect">connect</a>  folder
-	- python connect.py
-	- This is a test script that if your setup is correct will return a heartbeat and the version of ChromaDB 
-	- Sample exepcted results: 
-		Heartbeat: 1771827370416586781
-		Version: 1.0.0
-4. browse to the <a href="https://github.com/1KevinFigueroa/vector4cyber/tree/main/ingest3rs/ChomaDB/nmap-import">nmap-import</a>  folder
-	- Read the Readme.md to learn how to use
-5. browse to the <a href="https://github.com/1KevinFigueroa/vector4cyber/tree/main/ingest3rs/ChomaDB/nmap-query">nmap-query</a> folder 
-	- Read the Readme.md to learn how to use
+1. Create the following 'docker-compose.yml' file
+```
+services:
+  chromadb:
+    image: chromadb/chroma:latest
+    container_name: chromadb
+    ports:
+      - "9000:8000"
+    volumes:
+      - chroma_data:/chroma/chroma
+    restart: unless-stopped
+
+volumes:
+  chroma_data:
+    name: chroma_data	
+```
+2. Execute the command "docker compose up -d"
+3. Execute the command "docker ps" and you should see
+* chromadb
+4. browse to the <a href="https://github.com/1KevinFigueroa/vector4cyber/tree/main/ingest3rs/ChromaDB/test-connect">test-connect</a> folder
+    - test-connect.py ensures your ChromaDB can be reached, Read the Readme.md to learn how to use
+5. browse to the <a href="https://github.com/1KevinFigueroa/vector4cyber/tree/main/ingest3rs/ChomaDB/nmap-import">nmap-import</a>  folder
+	- Imports a sample nmap json into ChromaDB, Read the Readme.md to learn how to use
+6. browse to the <a href="https://github.com/1KevinFigueroa/vector4cyber/tree/main/ingest3rs/ChomaDB/nmap-query">nmap-query</a> folder 
+	- Query the ChromaDB vector db for the nmap results, Read the Readme.md to learn how to use
+7. browse to the <a href="https://github.com/1KevinFigueroa/vector4cyber/tree/main/ingest3rs/ChromaDB/nuclei-convert">nuclei-convert</a> folder
+    - Converts the output of nuclei scans into a json format that can be imported into ChromaDB, Read the Readme.md to learn how to use
+5. browse to the <a href="https://github.com/1KevinFigueroa/vector4cyber/tree/main/ingest3rs/ChomaDB/nuclei-import">nuclei-import</a>  folder
+	- Imports a sample nuclei json output into ChromaDB, Read the Readme.md to learn how to use
+6. browse to the <a href="https://github.com/1KevinFigueroa/vector4cyber/tree/main/ingest3rs/ChomaDB/nuclei-query">nuclei-query</a> folder 
+	- Query the ChromaB vector db for the nuclei results, Read the Readme.md to learn how to use
 
 ## Security
 Remeber this is just for testing and not to be run in production, there are no security controls 
 
 - ❌ Production 
-## What to expect e.g. Nmap Queries
+## What to expect e.g. Nmap Queries and Nuclei Queries
 <p align="center">
 <img src="https://github.com/1KevinFigueroa/vector4cyber/blob/main/RTFM-Knowledge/img/ChromaNmap1.jpg" align="center" width="350" height="750">
 <img src="https://github.com/1KevinFigueroa/vector4cyber/blob/main/RTFM-Knowledge/img/ChromaNmap2.jpg" align="center" width="350" height="750">
 <img src="https://github.com/1KevinFigueroa/vector4cyber/blob/main/RTFM-Knowledge/img/ChromaNmap3.jpg" align="center" width="350" height="750">
+<img src="https://github.com/1KevinFigueroa/vector4cyber/blob/main/RTFM-Knowledge/img/ChromaNuclei1.jpg" align="center" width="350" height="750">
+<img src="https://github.com/1KevinFigueroa/vector4cyber/blob/main/RTFM-Knowledge/img/ChromaNuclei2.jpg" align="center" width="350" height="750">
+<img src="https://github.com/1KevinFigueroa/vector4cyber/blob/main/RTFM-Knowledge/img/ChromaNuclei3.jpg" align="center" width="350" height="750">
 </p>
 

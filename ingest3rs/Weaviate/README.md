@@ -83,3 +83,12 @@ volumes:
     - Imports a sample nmap json into Weaviate, Read the Readme.md to learn how to use
 5. browse to the <a href="https://github.com/1KevinFigueroa/vector4cyber/tree/main/ingest3rs/Weaviate/nmap-query">nmap-query</a> folder 
     - Query the Weaviate vector db for the nmap results, Read the Readme.md to learn how to use
+6. browse to the <a href="https://github.com/1KevinFigueroa/vector4cyber/tree/main/ingest3rs/Weaviate/nuclei-convert">nuclei-convert</a> folder
+    - Converts the output of nuclei scans into a json format that can be imported into ChromaDB, Read the Readme.md to learn how to use
+4. browse to the <a href="https://github.com/1KevinFigueroa/vector4cyber/tree/main/ingest3rs/Weaviate/nuclei-import">nuclei-import</a>  folder
+    - Imports a sample nuclei json into Weaviate, Read the Readme.md to learn how to use
+5. browse to the <a href="https://github.com/1KevinFigueroa/vector4cyber/tree/main/ingest3rs/Weaviate/nuclei-query">nuclei-query</a> folder 
+    - Query the Weaviate vector db for the nuclei results, Read the Readme.md to learn how to use
+
+<p align="center">
+</p>

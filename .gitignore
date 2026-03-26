@@ -1,6 +1,6 @@
 ﻿/.vs
 /ingest3rs/Weaviate/.venv
-/ingest3rs/Weaviate/nuclei-convert/fake-nuclei-results-weaviate.json
+/ingest3rs/Weaviate/nuclei-import/fake-nuclei-results-weaviate.json
 /ingest3rs/Weaviate/nmap-import/fake_nmap_results.json
 /ingest3rs/Weaviate/nmap-import/__pycache__
 /ingest3rs/Weaviate/nmap-query/__pycache__
@@ -19,5 +19,3 @@
 /ingest3rs/Milvus/nuclei-convert/fake-nuclei-results.txt
 /ingest3rs/Milvus/nuclei-convert/fake-nuclei-results_milvus.json
 /ingest3rs/Milvus/nuclei-import/fake-nuclei-results_milvus.json
-
-/ingest3rs/Weaviate/nuclei-import/fake-nuclei-results-weaviate.json

@@ -29,7 +29,7 @@ Before running this script, you need to have ChromaDB running in a Docker contai
 ### Basic Docker Run Command
 
 ```bash
-docker run -p 8000:8000 chromadb/chroma
+docker run -p 9000:8000 chromadb/chroma
 ```
 
 ## Code Explanation
@@ -47,7 +47,7 @@ Imports the ChromaDB client library, which provides the interface to interact wi
 ```python
 client = chromadb.HttpClient(
     host="localhost",
-    port=8000,
+    port=9000,
     headers={"Authorization": "Bearer my-secret-token"}
 )
 ```
@@ -55,7 +55,7 @@ client = chromadb.HttpClient(
 Creates an HTTP client instance with the following parameters:
 
 - **host**: The hostname where ChromaDB is running (default: "localhost")
-- **port**: The port number ChromaDB is listening on (default: 8000)
+- **port**: The port number ChromaDB is listening on (default: 9000)
 - **headers**: HTTP headers for authentication
   - The `Authorization` header uses Bearer token authentication
   - Token value: `my-secret-token` (should match your Docker configuration)
@@ -98,9 +98,9 @@ If you encounter errors, check the following:
    docker ps | grep chroma
    ```
 
-2. **Port Availability**: Ensure port 8000 is not blocked
+2. **Port Availability**: Ensure port 9000 is not blocked
    ```bash
-   netstat -an | grep 8000
+   netstat -an | grep 9000
    ```
 
 3. **Authentication Token**: Verify the token matches between script and Docker configuration
@@ -116,7 +116,7 @@ To connect to a ChromaDB instance on a different machine:
 ```python
 client = chromadb.HttpClient(
     host="192.168.1.100",  # Replace with actual IP
-    port=8000,
+    port=9000,
     headers={"Authorization": "Bearer my-secret-token"}
 )
 ```
@@ -128,7 +128,7 @@ If your ChromaDB instance doesn't require authentication:
 ```python
 client = chromadb.HttpClient(
     host="localhost",
-    port=8000
+    port=9000
 )
 ```
 

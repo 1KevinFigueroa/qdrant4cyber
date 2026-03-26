@@ -15,13 +15,19 @@ The script is primarily useful for:
 * Debugging **local development environments**
 * Confirming that the Pinecone API client is correctly configured
 
-The script connects to a Pinecone Local instance running at:
+The script first tries the Pinecone Local control endpoint:
+
+```
+http://localhost:5080
+```
+
+and falls back to:
 
 ```
 http://localhost:5081
 ```
 
-and performs a basic API call to list indexes. 
+before performing a basic API call to list indexes.
 
 ---
 
@@ -36,15 +42,14 @@ and performs a basic API call to list indexes.
 Install required dependencies using pip:
 
 ```bash
-pip install pinecone-client grpcio requests
+pip install "pinecone[grpc]"
 ```
 
 ### Libraries Used
 
-| Library       | Purpose                                        |
-| ------------- | ---------------------------------------------- |
-| pinecone.grpc | Provides the Pinecone gRPC client              |
-| requests      | HTTP library (imported but not currently used) |
+| Library       | Purpose                           |
+| ------------- | --------------------------------- |
+| pinecone.grpc | Provides the Pinecone gRPC client |
 
 ---
 
@@ -53,7 +58,7 @@ pip install pinecone-client grpcio requests
 ```
 project/
 │
-├── connect.py        # Script that checks Pinecone connectivity
+├── test-connect.py        # Script that checks Pinecone connectivity
 └── README.md         # Documentation
 ```
 
@@ -97,11 +102,9 @@ Because the script only performs a **single API call**, it functions primarily a
 
 ```python
 from pinecone.grpc import PineconeGRPC
-import requests
 ```
 
 * `PineconeGRPC` provides the gRPC client for interacting with Pinecone.
-* `requests` is imported but not currently used in the script.
 
 ---
 
@@ -110,7 +113,7 @@ import requests
 ```python
 pc = PineconeGRPC(
     api_key="pclocal",
-    host="http://localhost:5081"
+    host="http://localhost:5080"
 )
 ```
 
@@ -119,7 +122,7 @@ pc = PineconeGRPC(
 | Parameter | Description                                            |
 | --------- | ------------------------------------------------------ |
 | api_key   | Required by the client but not validated in local mode |
-| host      | Address of the Pinecone Local instance                 |
+| host      | Address of the Pinecone control endpoint (`list_indexes`) |
 
 The API key value `"pclocal"` is a placeholder used for local environments.
 
@@ -159,7 +162,7 @@ The `try/except` block ensures the script:
 Execute the script with:
 
 ```bash
-python connect.py
+python test-connect.py
 ```
 
 ---
@@ -201,13 +204,13 @@ If you are running Pinecone locally, ensure it is started before running the scr
 Example:
 
 ```bash
-docker run -p 5081:5081 pinecone/pinecone-local
+docker run -p 5080-5090:5080-5090 ghcr.io/pinecone-io/pinecone-local:latest
 ```
 
 Then run:
 
 ```bash
-python connect.py
+python test-connect.py
 ```
 
 ---

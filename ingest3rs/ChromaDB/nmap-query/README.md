@@ -15,7 +15,7 @@ The tool operates in two modes:
 
 - **Python 3.8+**
 - **ChromaDB** — `pip install chromadb`
-- **A running ChromaDB server** — the script connects to `localhost:8000` by default (e.g. via Docker).
+- **A running ChromaDB server** — the script connects to `localhost:9000` by default (e.g. via Docker).
 - **Imported Nmap data** — run `nmap_to_chromadb-MiniLM-L6` first to populate the `nmaptest` collection.
 
 ## Quick Start
@@ -158,7 +158,7 @@ The script connects to a ChromaDB HTTP server by default:
 ```python
 client = chromadb.HttpClient(
     host="localhost",
-    port=8000,
+    port=9000,
     headers={"Authorization": "Bearer my-secret-token"}
 )
 ```
@@ -176,7 +176,7 @@ To use an in-memory or persistent local client instead, uncomment the alternativ
 
 | Problem | Solution |
 |---------|----------|
-| `Connection refused` on port 8000 | Make sure the ChromaDB Docker container is running |
+| `Connection refused` on port 9000 | Make sure the ChromaDB Docker container is running |
 | `Collection 'nmaptest' not found` | Run `nmap_to_chromadb-MiniLM-L6` first to import data |
 | `ModuleNotFoundError: chromadb` | Install with `pip install chromadb` |
 | No results returned | Verify data was imported — run `:count` in interactive mode |

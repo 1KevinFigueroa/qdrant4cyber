@@ -13,6 +13,7 @@ Example:
 import sys
 import json
 import argparse
+import os
 from pathlib import Path
 import chromadb
 from chromadb.config import Settings
@@ -168,10 +169,13 @@ def create_document_text(host_info):
 def import_to_chromadb(data):
     """Import nmap data into ChromaDB collection."""
     try:
+        chromadb_host = os.getenv("CHROMADB_HOST", "localhost")
+        chromadb_port = int(os.getenv("CHROMADB_PORT", "9000"))
+
         # Connect to the Docker ChromaDB server
         client = chromadb.HttpClient(
-            host="localhost",
-            port=8000,
+            host=chromadb_host,
+            port=chromadb_port,
             # Include token if authentication is enabled
             headers={"Authorization": "Bearer my-secret-token"}
         )
