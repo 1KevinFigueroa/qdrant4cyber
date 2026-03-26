@@ -90,5 +90,8 @@ volumes:
 5. browse to the <a href="https://github.com/1KevinFigueroa/vector4cyber/tree/main/ingest3rs/Weaviate/nuclei-query">nuclei-query</a> folder 
     - Query the Weaviate vector db for the nuclei results, Read the Readme.md to learn how to use
 
+## Security
+Remeber this is just for testing and not to be run in production, there are no security controls 
+
 <p align="center">
 </p>
