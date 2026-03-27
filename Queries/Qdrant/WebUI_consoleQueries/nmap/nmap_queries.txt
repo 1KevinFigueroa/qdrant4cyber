@@ -1,0 +1,113 @@
+
+////////////////////////////////////
+////
+////
+////     Nmap Queries
+////
+////
+////////////////////////////////////
+POST collections/New_nmap/points/scroll
+{
+  "limit": 1
+}
+
+
+POST /collections/New_nmap/points/count
+{
+  "exact": true
+}
+
+POST /collections/New_nmap/points/scroll
+{
+  "filter": {
+    "must": [
+      { "key": "service", "match": { "value": "sslhttps" } },
+      { "key": "version", "match": { "value": "Netlify" } }
+    ]
+  },
+  "limit": 1000,
+  "with_payload": true
+}
+
+POST /collections/New_nmap/points/scroll
+{
+  "filter": {
+    "must": [
+      { "key": "host", "match": { "value": "qdrant.tech" } },
+      { "key": "state", "match": { "value": "open" } }
+    ]
+  },
+  "limit": 100,
+  "with_payload": true
+}
+
+//Filter by service / version
+POST /collections/New_nmap/points/scroll
+{
+  "filter": {
+    "must": [
+      { "key": "service", "match": { "value": "sslhttps" } },
+      { "key": "version", "match": { "value": "Netlify" } }
+    ]
+  },
+  "limit": 1000,
+  "with_payload": true
+}
+
+
+// Hunt for HTTP servers with interesting NSE http-enum paths
+POST /collections/New_nmap/points/scroll
+{
+  "filter": {
+    "must": [
+      { "key": "script", "match": { "value": "http-enum" } },
+      { "key": "host", "match": { "value": "qdrant.tech" } }
+    ]
+  },
+  "limit": 1000,
+  "with_payload": true
+}
+
+// Pivot on protocol/port ranges
+POST /collections/New_nmap/points/scroll
+{
+  "filter": {
+    "must": [
+      {
+        "key": "port",
+        "range": { "gte": 443, "lte": 8443 }
+      },
+      { "key": "service", "match": { "value": "sslhttps" } }
+    ]
+  },
+  "limit": 1000,
+  "with_payload": true
+}
+
+//Pull raw Nmap section for manual review
+POST /collections/New_nmap/points/scroll
+{
+  "filter": {
+    "must": [
+      { "key": "host", "match": { "value": "qdrant.tech" } },
+      { "key": "type", "match": { "value": "rawsection" } }
+    ]
+  },
+  "limit": 10,
+  "with_payload": true
+}
+
+// Time-based scan questions
+POST /collections/nmap_scans/points/scroll
+{
+  "filter": {
+    "must": [
+      {
+        "key": "scanstart_ts",
+        "range": { "gt": 1760891400 }
+      }
+    ]
+  },
+  "limit": 1000,
+  "with_payload": true
+}
