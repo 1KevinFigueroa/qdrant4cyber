@@ -38,7 +38,7 @@ Converting Nmap results from a plain text file to a structured JSON format makes
 
 The problem with amass' output text file is not parsed and structured in a way each subdomains within a list should be convertered for vectorization process. 
 
-- ✅ Imports amass scan data into User Selection of VectorDB collection named "<NAME>"
+- ✅ Imports amass scan data into User Selection of VectorDB collection named "[NAME]"
 - ✅ Extracts host information including IP addresses, hostnames, MAC addresses, vendors, OS detection
 - ✅ Stores open ports and services information
 - ✅ Creates searchable documents for each host
