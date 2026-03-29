@@ -66,7 +66,7 @@ ORT    STATE SERVICE   VERSION
 '''
 
 ### A JSON structure sample option to vectorized ✅
-'''
+'''bash
 JSON file structure example:
 {
 "total_records":
