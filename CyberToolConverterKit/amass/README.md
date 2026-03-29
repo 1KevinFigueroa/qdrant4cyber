@@ -106,3 +106,18 @@ From a high-level architecture perspective, the shift from flat-file ingestion t
 
 ```bash
 convert_AmassTXT2JSON.py input_file.txt output_file.json
+
+
+### What Happens
+
+1. The script validates that the JSON file exists and is readable
+2. Parses the nmap JSON data
+3. Extracts relevant information from each host:
+   - IP address
+   - Hostname (if available)
+   - MAC address and vendor (if available)
+   - Host status (up/down)
+   - Open ports and services
+   - Operating system detection (if available)
+4. Creates a ChromaDB collection named "nmaptest" (or uses existing one)
+5. Adds each host as a document with metadata
