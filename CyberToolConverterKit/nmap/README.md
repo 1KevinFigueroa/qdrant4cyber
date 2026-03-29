@@ -125,7 +125,6 @@ With a plain text file, two important pieces of information are missing: the ori
 | ✅ **Weaviate** |  ✅ | ⚡ In progress |
 | ✅ **Milvus** |  ✅ | ⚡ In progress |
 ---
----
 
 ## 💡 The Solution
 > **usage: convert_nmapTXT.py [-h] [--pretty] input_file [output_file]
