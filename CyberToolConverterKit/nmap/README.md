@@ -73,9 +73,6 @@ The problem with amass' output text file is not parsed and structured in a way e
 4. Creates unisque index point for named collection (or uses existing one)
 5. Adds each host as a document with metadata
 
-### Usage:
-
-
 ### Nmap TEXT file structure output example ❌
 '''
 ORT    STATE SERVICE   VERSION
@@ -131,10 +128,10 @@ With a plain text file, two important pieces of information are missing: the ori
 ---
 
 ## 💡 The Solution
-> **usage: convert_NmapTXT.py [-h] [--pretty] input_file [output_file]
+> **usage: convert_nmapTXT.py [-h] [--pretty] input_file [output_file]
 
 ```bash
-python convert3r_amassTXT.py input_file.txt output_file.json
+python convert3r_nmapTXT.py input_file.txt output_file.json
 ```
 ---
 
