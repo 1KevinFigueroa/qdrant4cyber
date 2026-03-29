@@ -24,14 +24,57 @@
   </tr>
 </table>
 
-# Converter Nmap TXT file  → JSON file vectorized
+# 🔄 Converter Nmap TXT file  → JSON file vectorized
+
+[![GitHub Repo](https://img.shields.io/badge/GitHub-Repo-blue?logo=github)](https://github.com/1KevinFigueroa/vector4cyber/tree/main/CyberToolConverterKit/amass)
+[![Qdrant](https://img.shields.io/badge/Qdrant-Compatible-brightgreen?logo=qdrant)](https://qdrant.tech/)
+[![Python](https://img.shields.io/badge/Python-3.8%2B-blue?logo=python)](https://python.org)
+
+---
+
+## 🎯 Brief:
 
 Converting Nmap results from a plain text file to a structured JSON format makes a significant difference when the data is being vectorized. Properly structured JSON with unique IDs is extremely useful for aggregating and correlating complex data in a vectorized workflow. High-quality, fast, and accurate data is critical for red team pipelines, security dashboards, and vector databases.
 
-The problem with subfinder's output to a text file will be structured subdomains in a list. When the output in a JSON file 
+The problem with amass' output text file is not parsed and structured in a way each subdomains within a list should be convertered for vectorization process. 
+
+- ✅ Imports amass scan data into User Selection of VectorDB collection named "<NAME>"
+- ✅ Extracts host information including IP addresses, hostnames, MAC addresses, vendors, OS detection
+- ✅ Stores open ports and services information
+- ✅ Creates searchable documents for each host
+- ✅ Validates JSON file format
+- ✅ Provides clear error messages and usage instructions
+
+> **High-quality, structured data** is the foundation of **Red Team workflows**, **security dashboards**, and **AI-driven threat analysis**.
+
+---
+
+## Prerequisites
+
+- Python 3.7+
+- json
+- xmltodict
+- sys
+- pathlib
+- argparse
+- re
+- os
+- sys
+- typing
+- uuid
+
+### What Happens
+
+**Raw Amass text output** → **Structured JSON** → **Vectorized Intelligence**
+
+1. The script validates that the JSON file exists and is readable
+2. Parses the text file data
+3. Extracts relevant information from each host:
+4. Creates unisque index point for named collection (or uses existing one)
+5. Adds each host as a document with metadata
 
 ### Usage:
-convert_NmapTXT.py [-h] [--pretty] input_file [output_file]
+
 
 ### Nmap TEXT file structure output example ❌
 '''
@@ -72,6 +115,28 @@ JSON file structure example:
 <img src="https://github.com/1KevinFigueroa/vector4cyber/blob/main/RTFM-Knowledge/img/nmap_vectorizedStructure.png" width="500" alt="Nmap Logo">
 
 With a plain text file, two important pieces of information are missing: the original input and the source from which the data was obtained. From a cybersecurity perspective, these small but crucial data points are essential for traceability, context, and confident decision-making during analysis.
+
+---
+
+## 📊 Vector Databases Supported
+
+| **VectorDB** | **Supported** | **Status** |
+|--------------|---------------|------------|
+| ✅ **Qdrant** |  ✅ | <a href="https://github.com/1KevinFigueroa/vector4cyber/tree/main/ingest3rs/Qdrant/aMass"> ✅ Completed </a>  |
+| ✅ **ChromaDB** |  ✅ | ⚡ In progress |
+| ✅ **PineCone** |  ✅ | ⚡ In progress |
+| ✅ **Weaviate** |  ✅ | ⚡ In progress |
+| ✅ **Milvus** |  ✅ | ⚡ In progress |
+---
+---
+
+## 💡 The Solution
+> **usage: convert_NmapTXT.py [-h] [--pretty] input_file [output_file]
+
+```bash
+python convert3r_amassTXT.py input_file.txt output_file.json
+```
+---
 
 ## Overview
 From a high-level architecture perspective, the shift from flat-file ingestion to structured JSON isn't just a formatting preference; it’s the difference between a "data swamp" and a high-fidelity Cyber Threat Intelligence (CTI) pipeline.
