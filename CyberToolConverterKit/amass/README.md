@@ -73,7 +73,6 @@ The problem with amass' output text file is not parsed and structured in a way e
 | **Format** | **Example** | **Issues** |
 |------------|-------------|------------|
 | ❌ **Text File** | `example.com` | ❌ No context<br>❌ No source tracking<br>❌ No unique IDs |
-| ❌ **Native JSON** | `{"host": " ", "input": " ", "source": "reconeer"}` | ❌ Incomplete fields<br>❌ Missing IDs |
 | ✅ **Vectorized JSON** | `{"id": 1, "host": "example.com", "input": "example.com", "source": "reconeer"}` | ✅ Full context<br>✅ Traceability<br>✅ Vectorization-ready |
 
 ---
