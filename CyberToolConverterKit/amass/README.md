@@ -118,10 +118,9 @@ In the world of vector databases—specifically, information context is the curr
                      │                    │
                      │  LLM analysis      │
                      └────────────────────┘
+```
 
 From a high-level architecture perspective, the shift from flat-file ingestion to structured JSON isn't just a formatting preference; it’s the difference between a "data swamp" and a high-fidelity Cyber Threat Intelligence.
-
-```
 
 - Reads a text file containing subdomains
 - Cleans and normalizes each line
