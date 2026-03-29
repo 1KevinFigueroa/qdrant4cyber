@@ -69,7 +69,7 @@ ORT    STATE SERVICE   VERSION
 
 JSON file structure example:
 
-<img src="https://github.com/1KevinFigueroa/vector4cyber/blob/main/RTFM-Knowledge/img/nmap_vectorizedStructure.png" width="150" alt="Nmap Logo">
+<img src="https://github.com/1KevinFigueroa/vector4cyber/blob/main/RTFM-Knowledge/img/nmap_vectorizedStructure.png" width="300" alt="Nmap Logo">
 
 With a plain text file, two important pieces of information are missing: the original input and the source from which the data was obtained. From a cybersecurity perspective, these small but crucial data points are essential for traceability, context, and confident decision-making during analysis.
 
