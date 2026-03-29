@@ -86,7 +86,7 @@ networks:
 * milvus-minio
 4. browse to the <a href="https://github.com/1KevinFigueroa/vector4cyber/tree/main/ingest3rs/Milvus/test-connect">test-connect</a> folder
     - Connect.py ensures your Milvus db can be reached, Read the Readme.md to learn how to use
-5. browse to the <a href="https://github.com/1KevinFigueroa/vector4cyber/tree/main/Queries/ChromaDB">queries</a>  folder
+5. browse to the <a href="https://github.com/1KevinFigueroa/vector4cyber/tree/main/Queries/Milvus">queries</a>  folder
 	- browse the queries folder for the tool you wish to run, Read the Readme.md to learn how to use
 
 ## Security

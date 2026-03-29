@@ -60,7 +60,7 @@ volumes:
 2. Execute the command "docker compose up -d"  
 3. browse to the <a href="https://github.com/1KevinFigueroa/vector4cyber/tree/main/ingest3rs/Pinecone/test-connect">test-connect</a> folder
     - test-connect.py ensures your pinecone db can be reached, Read the Readme.md to learn how to use
-4. browse to the <a href="https://github.com/1KevinFigueroa/vector4cyber/tree/main/Queries/ChromaDB">queries</a>  folder
+4. browse to the <a href="https://github.com/1KevinFigueroa/vector4cyber/tree/main/Queries/Pinecone">queries</a>  folder
 	- browse the queries folder for the tool you wish to run, Read the Readme.md to learn how to use
 
 ## Security
