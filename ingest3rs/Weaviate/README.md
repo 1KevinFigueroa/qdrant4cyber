@@ -79,16 +79,8 @@ volumes:
 2. Execute the command "docker compose up -d"
 3. browse to the <a href="https://github.com/1KevinFigueroa/vector4cyber/tree/main/ingest3rs/Weaviate/test-connect">connect</a> folder
     - test-connect.py ensures your Weaviate db can be reached, Read the Readme.md to learn how to use
-4. browse to the <a href="https://github.com/1KevinFigueroa/vector4cyber/tree/main/ingest3rs/Weaviate/nmap-import">nmap-import</a>  folder
-    - Imports a sample nmap json into Weaviate, Read the Readme.md to learn how to use
-5. browse to the <a href="https://github.com/1KevinFigueroa/vector4cyber/tree/main/ingest3rs/Weaviate/nmap-query">nmap-query</a> folder 
-    - Query the Weaviate vector db for the nmap results, Read the Readme.md to learn how to use
-6. browse to the <a href="https://github.com/1KevinFigueroa/vector4cyber/tree/main/ingest3rs/Weaviate/nuclei-convert">nuclei-convert</a> folder
-    - Converts the output of nuclei scans into a json format that can be imported into ChromaDB, Read the Readme.md to learn how to use
-4. browse to the <a href="https://github.com/1KevinFigueroa/vector4cyber/tree/main/ingest3rs/Weaviate/nuclei-import">nuclei-import</a>  folder
-    - Imports a sample nuclei json into Weaviate, Read the Readme.md to learn how to use
-5. browse to the <a href="https://github.com/1KevinFigueroa/vector4cyber/tree/main/ingest3rs/Weaviate/nuclei-query">nuclei-query</a> folder 
-    - Query the Weaviate vector db for the nuclei results, Read the Readme.md to learn how to use
+4. browse to the <a href="https://github.com/1KevinFigueroa/vector4cyber/tree/main/Queries/ChromaDB">queries</a>  folder
+	- browse the queries folder for the tool you wish to run, Read the Readme.md to learn how to use
 
 ## Security
 Remeber this is just for testing and not to be run in production, there are no security controls 

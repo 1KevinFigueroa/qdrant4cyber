@@ -58,16 +58,8 @@ volumes:
 * chromadb
 4. browse to the <a href="https://github.com/1KevinFigueroa/vector4cyber/tree/main/ingest3rs/ChromaDB/test-connect">test-connect</a> folder
     - test-connect.py ensures your ChromaDB can be reached, Read the Readme.md to learn how to use
-5. browse to the <a href="https://github.com/1KevinFigueroa/vector4cyber/tree/main/ingest3rs/ChomaDB/nmap-import">nmap-import</a>  folder
-	- Imports a sample nmap json into ChromaDB, Read the Readme.md to learn how to use
-6. browse to the <a href="https://github.com/1KevinFigueroa/vector4cyber/tree/main/ingest3rs/ChomaDB/nmap-query">nmap-query</a> folder 
-	- Query the ChromaDB vector db for the nmap results, Read the Readme.md to learn how to use
-7. browse to the <a href="https://github.com/1KevinFigueroa/vector4cyber/tree/main/ingest3rs/ChromaDB/nuclei-convert">nuclei-convert</a> folder
-    - Converts the output of nuclei scans into a json format that can be imported into ChromaDB, Read the Readme.md to learn how to use
-5. browse to the <a href="https://github.com/1KevinFigueroa/vector4cyber/tree/main/ingest3rs/ChomaDB/nuclei-import">nuclei-import</a>  folder
-	- Imports a sample nuclei json output into ChromaDB, Read the Readme.md to learn how to use
-6. browse to the <a href="https://github.com/1KevinFigueroa/vector4cyber/tree/main/ingest3rs/ChomaDB/nuclei-query">nuclei-query</a> folder 
-	- Query the ChromaB vector db for the nuclei results, Read the Readme.md to learn how to use
+5. browse to the <a href="https://github.com/1KevinFigueroa/vector4cyber/tree/main/Queries/ChromaDB">queries</a>  folder
+	- browse the queries folder for the tool you wish to run, Read the Readme.md to learn how to use
 
 ## Security
 Remeber this is just for testing and not to be run in production, there are no security controls 

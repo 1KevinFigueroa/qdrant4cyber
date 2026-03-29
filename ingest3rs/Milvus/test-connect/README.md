@@ -1,4 +1,4 @@
-# 🧪 Milvus Vector Database Demo (connect.py)
+# 🧪 Milvus Vector Database Demo (test-connect.py)
 
 ## 📌 Overview
 
@@ -197,7 +197,7 @@ for hits in results:
 ## 🚀 How to Run
 
 ```bash
-python connect.py
+python test-connect.py
 ```
 
 ---

@@ -4,7 +4,7 @@ This script establishes a connection to a ChromaDB server running in a Docker co
 
 ## Overview
 
-`connect.py` is a simple Python script that connects to a ChromaDB instance via HTTP and performs basic health checks to ensure the database is accessible and responding correctly.
+`test-connect.py` is a simple Python script that connects to a ChromaDB instance via HTTP and performs basic health checks to ensure the database is accessible and responding correctly.
 
 ## Requirements
 
@@ -77,7 +77,7 @@ Performs two health checks:
 ### Running the Script
 
 ```bash
-python connect.py
+python test-connect.py
 ```
 
 ### Expected Output
