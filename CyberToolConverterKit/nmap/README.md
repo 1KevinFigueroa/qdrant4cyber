@@ -15,7 +15,7 @@
   <tr>
     <td align="center" width="50%">
       <a href="">
-        <img src="https://github.com/1KevinFigueroa/vector4cyber/blob/main/RTFM-Knowledge/img/appLogos/nmap.png" width="150" alt="Amass Logo">
+        <img src="https://github.com/1KevinFigueroa/vector4cyber/blob/main/RTFM-Knowledge/img/appLogos/nmap.png" width="150" alt="Nmap Logo">
       </a>
     </td>
     <td align="center" width="50%">
@@ -67,92 +67,10 @@ ORT    STATE SERVICE   VERSION
 
 ### A JSON structure sample option to vectorized ✅
 
-'''bash
 JSON file structure example:
-{
-"total_records":
-1
-"combined_content":
-" --- Record 1 --- { "scan_info": { "nmap_ver…"
-"records":
-[
-0:
-{
-"id":
-0
-"content":
-"{ "scan_info": { "nmap_version": "7.94", …"
-"original_data":
-{
-"scan_info":
-{
-"nmap_version":
-"7.94"
-"start_time":
-"2026-01-15 22:51 EST"
-"end_time":
-""
-"total_hosts":
-0
-"hosts_up":
-0
-"scan_duration":
-""
-}
-"hosts":
-[
-0:
-{
-}
-]
-"progress_stats":
-[
-]
-"nse_scripts":
-[
-]
-"service_fingerprints":
-[
-0:
-{
-"type":
-"service_fingerprint"
-"content":
-"==============NEXT SERVICE FINGERPRINT (SUBMIT IND…"
-}
-1:
-{
-"type":
-"service_fingerprint"
-"content":
-"==============NEXT SERVICE FINGERPRINT (SUBMIT IND…"
-}
-]
-"raw_lines":
-[
-[
-0:
-{
-"line_num":
-1
-"content":
-"Starting Nmap 7.94SVN ( https://nmap.org ) at 2026…"
-}
-1:
-{
-"line_num":
-2
-"content":
-"Debugging Increased to 1."
-}
-2:
-{
-"line_num":
-3
-"content":
-"Stats: 0:02:32 elapsed; 0 hosts completed (1 up), …"
-}
-'''
+<a href="">
+        <img src="https://github.com/1KevinFigueroa/vector4cyber/blob/main/RTFM-Knowledge/img/appLogos/nmap_vectorizedStructure.png" width="150" alt="Nmap Logo">
+      </a>
 
 With a plain text file, two important pieces of information are missing: the original input and the source from which the data was obtained. From a cybersecurity perspective, these small but crucial data points are essential for traceability, context, and confident decision-making during analysis.
 
