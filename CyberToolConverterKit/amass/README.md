@@ -122,5 +122,19 @@ In the world of vector databases—specifically, context is the currency of accu
                      └────────────────────┘
 ```
 
----
+From a high-level architecture perspective, the shift from flat-file ingestion to structured JSON isn't just a formatting preference; it’s the difference between a "data swamp" and a high-fidelity Cyber Threat Intelligence (CTI) pipeline.
 
+In the world of vector databases—specifically Qdrant, Milvus, and Weaviate, context is the currency of accuracy. Here is the breakdown of why parsers is the "missing link" for these systems.
+
+- Reads a text file containing subdomains
+- Cleans and normalizes each line
+- Assigns a unique, stable ID to every entry
+- Serializes the result as JSON for downstream automation
+
+Typical use cases:
+
+- Ingesting into a **vector database** and user can select vector sizing (Qdrant, Milvus, Weaviate, more coming soon etc.) for semantic search and correlation made easier
+- Powering recon dashboards or graphs (e.g., host → vuln → service relationships)
+- Joining subdomains with WHOIS, DNS, HTTP fingerprinting, or vulnerability scan data
+
+---
