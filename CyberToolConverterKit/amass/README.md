@@ -36,7 +36,43 @@ In the world of vector databases—specifically, context is the currency of accu
 
 From a high-level architecture perspective, the shift from flat-file ingestion to structured JSON isn't just a formatting preference; it’s the difference between a "data swamp" and a high-fidelity Cyber Threat Intelligence (CTI) pipeline. Converting Amass results from a plain text file to a structured **JSON format** makes a significant difference when the data is being vectorized. Properly structured JSON with unique IDs is extremely useful for aggregating and correlating complex data in a vectorized workflow. High-quality, fast, and accurate data is critical for red team pipelines, security dashboards, and vector databases.
 
+- ✅ Imports amass scan data into User Selection of VectorDB collection named "<NAME>"
+- ✅ Extracts host information including IP addresses, hostnames, MAC addresses, vendors, OS detection
+- ✅ Stores open ports and services information
+- ✅ Creates searchable documents for each host
+- ✅ Validates JSON file format
+- ✅ Provides clear error messages and usage instructions
+
 > **High-quality, structured data** is the foundation of **Red Team workflows**, **security dashboards**, and **AI-driven threat analysis**.
+
+## Prerequisites
+
+- Python 3.7+
+
+
+## Architecture
+
+```
+┌──────────────┐     ┌────────────────────┐     ┌──────────────────┐
+│              │     │   Ingest Scripts   │     │                  │
+│      JSON    │────▶│  (embed + upsert)  │────▶│  (Docker :8000)  │
+│  log file    │     │                    │     │                  │
+└──────────────┘     └────────────────────┘     └────────┬─────────┘
+                                                         │
+                     ┌────────────────────┐              │  similarity
+                     │  Query Scripts     │◀─────────────┘  search
+                     │  (interactive)     │
+                     └────────┬───────────┘
+                              │ (optional)
+                              ▼
+                     ┌────────────────────┐
+                     │                    │
+                     │                    │
+                     │  LLM analysis      │
+                     └────────────────────┘
+```
+
+---
 
 **Raw Amass text output** → **Structured JSON** → **Vectorized Intelligence**
 
