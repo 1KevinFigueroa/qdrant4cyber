@@ -29,18 +29,6 @@ pip install chromadb
 python nmap_to_chromadb-MiniLM-L6.py <json_file_path>
 ```
 
-### Demo Mode
-
-Import the provided sample file:
-```bash
-python nmap_to_chromadb-MiniLM-L6.py LocalNmapTest.json
-```
-
-Import from a different location:
-```bash
-python nmap_to_chromadb-MiniLM-L6.py /path/to/nmap_scan.json
-```
-
 ### What Happens
 
 1. The script validates that the JSON file exists and is readable
@@ -55,27 +43,6 @@ python nmap_to_chromadb-MiniLM-L6.py /path/to/nmap_scan.json
 4. Creates a ChromaDB collection named "nmaptest" (or uses existing one)
 5. Adds each host as a document with metadata
 
-## Error Handling
-
-The script provides helpful error messages for common issues:
-
-### No file specified
-```
-❌ Error: No JSON file specified.
-```
-**Solution:** Provide the JSON file path as an argument
-
-### File not found
-```
-❌ Error: File 'filename.json' does not exist.
-```
-**Solution:** Check the file path and make sure the file exists
-
-### Invalid JSON format
-```
-❌ Error: Invalid JSON format in 'filename.json'
-```
-**Solution:** Verify the JSON file is properly formatted nmap output
 
 ## Querying the Data
 
@@ -199,6 +166,3 @@ Total documents in collection: 10
    results = collection.query(query_texts=['HTTP server'], n_results=5)
 ```
 
-## License
-
-This script is provided as-is for educational and security testing purposes.
