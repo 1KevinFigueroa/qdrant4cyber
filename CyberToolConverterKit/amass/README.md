@@ -48,6 +48,8 @@ From a high-level architecture perspective, the shift from flat-file ingestion t
 ## Prerequisites
 
 - Python 3.7+
+- argparse
+- json
 
 
 ## Architecture
