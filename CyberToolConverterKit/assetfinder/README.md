@@ -53,7 +53,7 @@ The problem with amass' output text file is not parsed and structured in a way e
 - json
 - typing
 
-### ✅ What Happens
+### 🚨 What Happens ✅ 
 
 **Raw Assetfinder text output** → **Structured JSON** → **Vectorized Intelligence**
 
