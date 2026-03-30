@@ -102,9 +102,9 @@ In the world of vector databases—specifically, information context is the curr
 
 ```
 ┌──────────────┐     ┌────────────────────┐     ┌──────────────────┐
-│  JSON        │     │   Ingest Scripts   │     │                  │
-│  convert3r   │────▶│  (embed + upsert)  │────▶│  (Docker :8000)  │
-│  tool        │     │                    │     │                  │
+│  JSON        │     │   Ingest Scripts   │     │  (Docker :6333)  │
+│  convert3r   │────▶│  (embed + upsert)  │────▶│  User Selection  │
+│  tool        │     │                    │     │  (Docker :8000)  │
 └──────────────┘     └────────────────────┘     └────────┬─────────┘
                                                          │
                      ┌────────────────────┐              │  similarity
