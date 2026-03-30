@@ -54,7 +54,7 @@ The problem with amass' output text file is not parsed and structured in a way e
 - argparse
 - json
 
-### What Happens###  ✅  What Happens 🧠
+###  ✅  What Happens 🧠
 
 **Raw Amass text output** → **Structured JSON** → **Vectorized Intelligence**
 
