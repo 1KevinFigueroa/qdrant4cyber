@@ -98,13 +98,14 @@ python convert3r_assetfinder.py input_file.txt output_file.json
 In the world of vector databases—specifically, information context is the currency of accuracy. Here is the breakdown of why parsers is the "missing link" for these systems. From a high-level architecture perspective, the shift from flat-file ingestion to structured JSON isn't just a formatting preference; it’s the difference between a "data swamp" and a high-fidelity Cyber Threat Intelligence (CTI) pipeline. Converting Amass results from a plain text file to a structured **JSON format** makes a significant difference when the data is being vectorized. Properly structured JSON with unique IDs is extremely useful for aggregating and correlating complex data in a vectorized workflow. High-quality, fast, and accurate data is critical for red team pipelines, security dashboards, and vector databases. 
 
 
+
 ## Architecture
 
 ```
 ┌──────────────┐     ┌────────────────────┐     ┌──────────────────┐
-│  JSON        │     │   Ingest Scripts   │     │                  │
-│  convert3r   │────▶│  (embed + upsert)  │────▶│  (Docker :8000)  │
-│  tool        │     │                    │     │                  │
+│  JSON        │     │   Ingest Scripts   │     │  (Docker :6333)  │
+│  convert3r   │────▶│  (embed + upsert)  │────▶│  User Selection  │
+│  tool        │     │                    │     │  (Docker :8000)  │
 └──────────────┘     └────────────────────┘     └────────┬─────────┘
                                                          │
                      ┌────────────────────┐              │  similarity
@@ -120,8 +121,6 @@ In the world of vector databases—specifically, information context is the curr
                      └────────────────────┘
 ```
 
----
-
 From a high-level architecture perspective, the shift from flat-file ingestion to structured JSON isn't just a formatting preference; it’s the difference between a "data swamp" and a high-fidelity Cyber Threat Intelligence.
 
 - Reads a text file containing subdomains
@@ -134,3 +133,5 @@ Typical use cases:
 - Ingesting into a **vector database** and user can select vector sizing (Qdrant, Milvus, Weaviate, more coming soon etc.) for semantic search and correlation made easier
 - Powering recon dashboards or graphs (e.g., host → vuln → service relationships)
 - Joining subdomains with WHOIS, DNS, HTTP fingerprinting, or vulnerability scan data
+
+---
