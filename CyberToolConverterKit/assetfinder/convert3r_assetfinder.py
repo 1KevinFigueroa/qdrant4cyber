@@ -1,117 +1,87 @@
 #!/usr/bin/env python3
-import json
 import argparse
+import json
 from pathlib import Path
 from typing import List, Dict, Any
 
 try:
+    import torch
     from sentence_transformers import SentenceTransformer
 except ImportError:
-    raise ImportError(
-        "❌ This script requires 'sentence-transformers'. Install it with:\n"
-        "   pip install sentence-transformers"
-    )
+    torch = None
+    SentenceTransformer = None
+
+DEFAULT_MODEL = "sentence-transformers/all-MiniLM-L6-v2"
 
 
 def parse_assetfinder_file(input_file: str) -> List[Dict[str, Any]]:
-    """
-    Parse assetfinder output file — one domain/subdomain per line.
-    Identical format to assetfinder text file output.
-    """
     entries = []
-    with open(input_file, 'r', encoding='utf-8', errors='ignore') as f:
+
+    with open(input_file, "r", encoding="utf-8", errors="ignore") as f:
         for line_num, line in enumerate(f, 1):
-            raw_line = line.rstrip('\n')
+            raw_line = line.rstrip("\n")
             domain = raw_line.strip()
-            # Skip empty lines and comments
-            if not domain or domain.startswith('#'):
+
+            if not domain or domain.startswith("#"):
                 continue
+
             entries.append({
                 "id": len(entries) + 1,
                 "line_number": line_num,
                 "domain": domain,
-                "raw_line": raw_line,
-                "text": f"domain {domain}",  # For embedding context (helps model)
+                "raw_line": raw_line
             })
-    return entries
-
-
-def generate_embeddings(entries: List[Dict[str, Any]], model_name: str = 'all-MiniLM-L6-v2') -> List[Dict[str, Any]]:
-    """
-    Generate SentenceTransformer embeddings for each entry's `text` field.
-    Updates entries in-place with `"embedding"` key (list of floats).
-    """
-    print(f"🔧 Loading embedding model: {model_name} ...", end=" ", flush=True)
-    try:
-        model = SentenceTransformer(model_name)
-        print("✅ loaded.")
-    except Exception as e:
-        raise RuntimeError(f"Failed to load {model_name}. Error: {e}")
-
-    texts = [entry["text"] for entry in entries]
-    if not texts:
-        return entries
-
-    # Generate embeddings (CPU-friendly by default; use .to('cuda') if GPU available)
-    print(f"⚡ Generating {len(texts)} embeddings...", flush=True)
-    try:
-        embeddings = model.encode(
-            texts,
-            batch_size=64,         # Adjust based on memory
-            show_progress_bar=True,  # Shows progress bar in terminal
-            convert_to_tensor=False,  # Returns numpy arrays (→ list of floats)
-            normalize_embeddings=True  # L2-normalized for cosine similarity
-        )
-    except Exception as e:
-        raise RuntimeError(f"Embedding generation failed: {e}")
-
-    # Attach embeddings back to entries
-    for i, embedding in enumerate(embeddings):
-        entries[i]["embedding"] = embedding.tolist()  # Convert numpy array → Python list
 
     return entries
+
+
+def build_embeddings(texts: List[str], model_name: str = DEFAULT_MODEL) -> List[List[float]]:
+    if torch is None or SentenceTransformer is None:
+        raise ImportError("Missing dependencies. Install with: pip install sentence-transformers torch")
+
+    device = "cuda" if torch.cuda.is_available() else "cpu"
+    model = SentenceTransformer(model_name, device=device)
+    embeddings = model.encode(
+        texts,
+        convert_to_numpy=True,
+        normalize_embeddings=True,
+        batch_size=32,
+        show_progress_bar=True,
+    )
+    return embeddings.tolist()
 
 
 def write_json(entries: List[Dict[str, Any]], output_file: str):
-    """Write parsed & embedded entries to JSON file."""
-    with open(output_file, 'w', encoding='utf-8') as f:
+    with open(output_file, "w", encoding="utf-8") as f:
         json.dump(entries, f, indent=2, ensure_ascii=False)
-    print(f"✅ Saved {len(entries)} domains (with embeddings) to {output_file}")
+    print(f"✅ Saved {len(entries)} assetfinder domains to {output_file}")
 
 
 def main():
     parser = argparse.ArgumentParser(
-        description="Parse assetfinder output → structured JSON with embeddings",
-        formatter_class=argparse.RawDescriptionHelpFormatter,
-        epilog="""
-Examples:
-  python embed_assetfinder.py domains.txt
-  python embed_assetfinder.py domains.txt -o yandex_embedded.json
-        """
+        prog="convert3r_assetfinderEmbed.py",
+        description="Parse assetfinder output into structured JSON with IDs and optional embeddings",
     )
-    parser.add_argument("input", help="Assetfinder output text file (one domain per line)")
-    parser.add_argument("-o", "--output", default="assetfinder_embedded.json",
-                        help="Output JSON file (default: assetfinder_embedded.json)")
+    parser.add_argument("input_file", help="Assetfinder output text file (one domain per line)")
+    parser.add_argument("-o", "--output-file", dest="output_file", help="Output JSON file")
+    parser.add_argument("--embed", action="store_true", help="Add sentence-transformer embeddings to each record")
+
     args = parser.parse_args()
 
-    # Input validation
-    input_path = Path(args.input)
-    if not input_path.exists():
-        raise FileNotFoundError(f"❌ Input file not found: {args.input}")
-
-    # Parse domains
-    entries = parse_assetfinder_file(args.input)
-    print(f"📊 Parsed {len(entries)} domains from {args.input}")
+    entries = parse_assetfinder_file(args.input_file)
 
     if not entries:
-        print("⚠️  No valid domains found.")
+        print("❌ No valid domains found")
         return
 
-    # Generate embeddings (in-place update of `entries`)
-    entries_with_embeddings = generate_embeddings(entries)
+    if args.embed:
+        texts = [entry["domain"] for entry in entries]
+        embeds = build_embeddings(texts)
+        for entry, emb in zip(entries, embeds):
+            entry["embed"] = emb
 
-    # Save to JSON
-    write_json(entries_with_embeddings, args.output)
+    output_file = args.output_file or str(Path(args.input_file).with_suffix(".json"))
+    write_json(entries, output_file)
 
 
 if __name__ == "__main__":
