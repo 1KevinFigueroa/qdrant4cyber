@@ -1,82 +1,147 @@
 #!/usr/bin/env python3
+"""
+convert3r_niktoEmbed.py - Nikto text output → JSON converter with embeddings
+
+Usage: convert3r_niktoEmbed.py [-h] [--embed] [-o OUTPUT_FILE] input_file
+"""
+
 import argparse
 import json
 import os
+import re
+from pathlib import Path
+from typing import List, Dict, Any, Optional
 
-def parse_args():
-    parser = argparse.ArgumentParser(description="Parse Nikto JSON and add sequential IDs")
-    parser.add_argument("input_file", help="Input Nikto JSON file")
-    parser.add_argument("output_file", help="Output JSON file with IDs")
-    return parser.parse_args()
+try:
+    import torch
+    from sentence_transformers import SentenceTransformer
+except ImportError:
+    torch = None
+    SentenceTransformer = None
 
-def parse_nikto_json(nikto_data):
-    """Parse Nikto JSON structure and extract vulnerabilities with IDs"""
-    parsed_findings = []
-    
-    # Nikto JSON typically has vulnerabilities as main array or under 'nikto'/'scans'
-    vulns = nikto_data.get('vulnerabilities', [])
-    if not vulns:
-        # Fallback: direct array or other common structures
-        if isinstance(nikto_data, list):
-            vulns = nikto_data
-        else:
-            vulns = nikto_data.get('scans', [nikto_data])[0].get('vulnerabilities', [])
-    
-    for i, vuln in enumerate(vulns, 1):
-        finding = {
-            "id": i,
-            "target": vuln.get("host", vuln.get("hostname", "unknown")),
-            "url": vuln.get("url", ""),
-            "method": vuln.get("method", ""),
-            "message": vuln.get("msg", vuln.get("message", "")),
-            "osvdb": vuln.get("osvdb", ""),
-            "id_nikto": vuln.get("id", ""),  # Original Nikto ID
-            "risk": vuln.get("risk", "medium"),
-            "severity": vuln.get("severity", "")
-        }
-        parsed_findings.append(finding)
-    
-    return parsed_findings
+DEFAULT_MODEL = "sentence-transformers/all-MiniLM-L6-v2"
+DEFAULT_VECTOR_SIZE = 384
+
+
+def parse_nikto_line(line: str) -> Dict[str, Any] | None:
+    line = line.strip()
+    if not line:
+        return None
+
+    # Primary pattern
+    pattern = r'^\+\s+(?P<method>[A-Z]+)\s+(?P<path>\S+)\s*:\s*(?P<desc>.+?)\s*(?:See:\s*(?P<url>https?://\S+))?'
+    match = re.match(pattern, line)
+    if not match:
+        # Fallback pattern
+        pattern2 = r'^\+\s+(?P<method>\S+)\s+(?P<path>\S+)?\s*:\s*(?P<desc>.+)'
+        match = re.match(pattern2, line)
+
+    if not match:
+        return None
+
+    d = match.groupdict()
+    path = d.get('path') or ''
+    method = d.get('method', 'GET')
+    desc = (d.get('desc') or '').strip()
+    url = (d.get('url') or '').strip()
+
+    return {
+        "method": method.upper(),
+        "path": path.strip('/'),
+        "description": desc,
+        "reference_url": url if url.startswith("http") else "",
+        "line_number": None,
+        "raw_line": line.strip()
+    }
+
+
+def nikto_txt_to_json(txt_file: str, output_file: str, embed: bool = False):
+    if not os.path.exists(txt_file):
+        raise FileNotFoundError(f"❌ Text file not found: {txt_file}")
+
+    entries = []
+    line_number = 1
+
+    print(f"📖 Reading nikto output: {txt_file}")
+
+    with open(txt_file, "r", encoding="utf-8") as f:
+        for line in f:
+            parsed = parse_nikto_line(line)
+            if parsed:
+                parsed["line_number"] = line_number
+                entries.append(parsed)
+            line_number += 1
+
+    # Add sequential IDs
+    for idx, entry in enumerate(entries, start=1):
+        entry["id"] = idx
+
+    print(f"✓ Parsed {len(entries)} valid nikto entries")
+
+    if embed:
+        print("Generating embeddings...")
+        texts = [entry["path"] for entry in entries]  # Embed path names (same as gobuster)
+        embeds = build_embeddings(texts)
+        for entry, emb in zip(entries, embeds):
+            entry["embed"] = emb
+        print("Embeddings added")
+
+    output_data = {
+        "vector_size": DEFAULT_VECTOR_SIZE,
+        "total_entries": len(entries),
+        "entries": entries
+    }
+
+    with open(output_file, "w", encoding="utf-8") as f:
+        json.dump(output_data, f, indent=2, ensure_ascii=False)
+
+    print(f"✅ Converted to JSON: {output_file}")
+
+    # Status breakdown (method counts instead of HTTP status)
+    method_counts = {}
+    for entry in entries:
+        method = entry["method"]
+        method_counts[method] = method_counts.get(method, 0) + 1
+
+    print("📊 Method breakdown:")
+    for method, count in sorted(method_counts.items()):
+        print(f"   {method}: {count}")
+
+
+def build_embeddings(texts: List[str], model_name: str = DEFAULT_MODEL):
+    if torch is None or SentenceTransformer is None:
+        raise ImportError("Missing dependencies. Install with: pip install sentence-transformers torch")
+
+    device = "cuda" if torch.cuda.is_available() else "cpu"
+    model = SentenceTransformer(model_name, device=device)
+    embeddings = model.encode(
+        texts,
+        convert_to_numpy=True,
+        normalize_embeddings=True,
+        batch_size=32,
+        show_progress_bar=True,
+    )
+    return embeddings.tolist()
+
 
 def main():
-    args = parse_args()
-    
-    # Check if input file exists
-    if not os.path.exists(args.input_file):
-        print(f"❌ Error: Input file '{args.input_file}' not found!")
-        return
-    
-    # Read Nikto JSON
+    parser = argparse.ArgumentParser(
+        prog="convert3r_niktoEmbed.py",
+        description="Convert nikto text output to structured JSON with optional embeddings"
+    )
+    parser.add_argument("input_file", help="Path to nikto text output file")
+    parser.add_argument("-o", "--output-file", dest="output_file", help="Output JSON file")
+    parser.add_argument("--embed", action="store_true", help="Add sentence-transformer embeddings to each record")
+
+    args = parser.parse_args()
+
     try:
-        with open(args.input_file, 'r') as f:
-            nikto_data = json.load(f)
-    except json.JSONDecodeError as e:
-        print(f"❌ Error: Invalid JSON in '{args.input_file}': {e}")
-        return
-    
-    # Parse and add IDs
-    findings = parse_nikto_json(nikto_data)
-    
-    # Create output structure
-    output = {
-        "scan_info": {
-            "target": nikto_data.get("host", "unknown"),
-            "scanner": "Nikto",
-            "total_findings": len(findings),
-            "timestamp": nikto_data.get("scan_date", ""),
-            "input_file": args.input_file
-        },
-        "findings": findings
-    }
-    
-    # Write to output file
-    try:
-        with open(args.output_file, 'w') as f:
-            json.dump(output, f, indent=2)
-        print(f"✅ Parsed {len(findings)} findings from {args.input_file}")
-        print(f"📄 Saved to {args.output_file}")
+        output_file = args.output_file or str(Path(args.input_file).with_suffix(".json"))
+        nikto_txt_to_json(args.input_file, output_file, embed=args.embed)
     except Exception as e:
-        print(f"❌ Error writing to '{args.output_file}': {e}")
+        print(f"❌ Error: {e}", file=sys.stderr)
+        sys.exit(1)
+
 
 if __name__ == "__main__":
     main()
