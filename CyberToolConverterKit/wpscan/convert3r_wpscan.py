@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 """
-convert3r_wpscan.py - Read WPScan JSON and add ID as FIRST field in each record,
-with optional sentence embeddings.
+convert3r_wpscan.py - Read WPScan JSON and add ID with optional sentence embeddings.
 
 Usage:
   python convert3r_wpscan.py [-h] [--embed] [-o OUTPUT_FILE] input_file
