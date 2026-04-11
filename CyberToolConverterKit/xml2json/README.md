@@ -28,6 +28,13 @@
 Convert a XML file into structured JSON with IDs for use in pipelines, dashboards, or vector databases.
 
 ---
+## Prerequisites
+
+- argparse
+- json
+- os
+- sys
+- xmltodict
 
 ## Overview
 
