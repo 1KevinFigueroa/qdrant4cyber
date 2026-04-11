@@ -30,6 +30,14 @@ Converting wafwoof results from a plain text file to a structured JSON format ma
 
 The problem with subfinder's output to a text file will be structured subdomains in a list. When the output in a JSON file 
 
+## Prerequisites
+
+- argparse
+- json
+- os
+- sys
+- pathlib import Path
+- typing 
 
 ### Wafwoof JSON file structure output example ❌
 
