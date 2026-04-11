@@ -29,6 +29,15 @@ Converting Python WHOIS results from a plain text file to a structured JSON form
 
 The problem with Python WHOIS output to a text file will be structured subdomains in a list. When the output in a JSON file
 
+## Prerequisites
+
+- Python 3.7+
+- argparse
+- json
+- sys
+-pathlib
+- typing
+
 ### Python WHOIS TEXT file structure output example ❌
 
 example.com
@@ -68,7 +77,7 @@ JSON file structure example:
         "country": null
       }
     },
-    "raw_whois": "% TCI Whois Service. Terms of use:\n% <https://tcinet.ru/documents/whois_ru_rf.pdf> (in Russian)\n% <https://tcinet.ru/documents/whois_su.pdf> (in Russian)\n\ndomain:                 REGISTERED, DELEGATED, VERIFIED\norg:   \ntaxpayer-id:   7736207543\nregistrar:     RU-CENTER-RU\nadmin-contact: <https://www.nic.ru/whois\ncreated>:       1997-09-23T09:45:07Z\npaid-till:     2026-09-30T21:00:00Z\nfree-date:     2026-11-01\nsource:        TCI\n\nLast updated on 2026-01-25T03:43:01Z\n\n"
+    "raw_whois": "% TCI Whois Service. Terms of use:\n% <hxxps://tcinet.ru/documents/whois_ru_rf.pdf> (in Russian)\n% <hxxps://tcinet.ru/documents/whois_su.pdf> (in Russian)\n\ndomain:                 REGISTERED, DELEGATED, VERIFIED\norg:   \ntaxpayer-id:   7736207543\nregistrar:     RU-CENTER-RU\nadmin-contact: <hxxps://www.nic.ru/whois\ncreated>:       1997-09-23T09:45:07Z\npaid-till:     2026-09-30T21:00:00Z\nfree-date:     2026-11-01\nsource:        TCI\n\nLast updated on 2026-01-25T03:43:01Z\n\n"
   }
 
 With a plain text file, two important pieces of information are missing: the original input and the source from which the data was obtained. From a cybersecurity perspective, these small but crucial data points are essential for traceability, context, and confident decision-making during analysis.
