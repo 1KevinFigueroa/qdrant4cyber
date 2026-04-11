@@ -36,7 +36,7 @@ The problem with subfinder's output to a text file will be structured subdomains
 - json
 - os
 - sys
-- pathlib import Path
+- pathlib
 - typing 
 
 ### Wafwoof JSON file structure output example ❌
