@@ -40,7 +40,9 @@ The problem with subfinder's output to a text file will be structured subdomains
 - os
 - re
 
-### Usage:
+
+## Usage:
+
 convert_dnsrecon.py [-h] input_csv output_json
 
 ### DNSRecon CSV file structure output example ❌
