@@ -31,6 +31,15 @@ Converting DNSRecon results from a plain text file to a structured JSON format m
 
 The problem with subfinder's output to a text file will be structured subdomains in a list. When the output in a JSON file.
 
+## Prerequisites
+
+- Python 3.7+
+- argparse
+- csv
+- json
+- os
+- re
+
 ### Usage:
 convert_dnsrecon.py [-h] input_csv output_json
 
