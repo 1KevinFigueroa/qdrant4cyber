@@ -35,7 +35,7 @@ The problem with Python WHOIS output to a text file will be structured subdomain
 - argparse
 - json
 - sys
--pathlib
+- pathlib
 - typing
 
 ### Python WHOIS TEXT file structure output example ❌
