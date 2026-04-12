@@ -14,7 +14,7 @@
   <tr>
     <td align="center" width="50%">
       <a href="">
-        <img src="https://github.com/1KevinFigueroa/vector4cyber/blob/main/RTFM-Knowledge/img/appLogos/whois.png" width="150" alt="Python WHOIS ">
+        <img src="https://github.com/1KevinFigueroa/vector4cyber/blob/main/RTFM-Knowledge/img/appLogos/wpscan.png" width="150" alt="Python WHOIS ">
       </a>
     </td>
     <td align="center" width="50%">
