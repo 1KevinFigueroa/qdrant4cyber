@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
 """
-convert3r_subfinder.py - Enrich line-delimited JSON with embeddings and sequential IDs
 
 Usage:
   python convert3r_subfinder.py [-h] [--embed] [-o OUTPUT_FILE] input_file
