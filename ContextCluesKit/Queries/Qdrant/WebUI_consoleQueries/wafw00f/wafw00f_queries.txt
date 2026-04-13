@@ -1,0 +1,92 @@
+
+////////////////////////////////////
+////
+////
+////     wafw00f  Queries
+////
+////
+////////////////////////////////////
+
+POST collections/New_wafw00f/points/scroll
+{
+  "limit": 1
+}
+
+// All sites protected by Cloudflare
+POST /collections/New_wafw00f/points/scroll
+{
+  "filter": {
+    "must": [
+      { "key": "firewall", "match": { "value": "Cloudflare" } }
+    ]
+  },
+  "limit": 10000,
+  "with_payload": true
+}
+
+//Find unprotected targets (bypass opportunities)
+POST /collections/New_wafw00f/points/scroll
+{
+  "filter": {
+    "must": [
+      { "key": "detected", "match": { "value": false } }
+    ]
+  },
+  "limit": 10000,
+  "with_payload": true
+}
+
+// Group by WAF Vendors Cloudfare, Akamai, Amazon, Google, Azure, Imperva
+POST /collections/New_wafw00f/points/scroll
+{
+  "filter": {
+    "must": [
+      { "key": "manufacturer", "match": { "value": "Amazon" } }
+    ]
+  },
+  "limit": 10000,
+  "with_payload": true
+}
+
+//Protected vs unprotected ratio by domain scope
+POST /collections/New_wafw00f/points/scroll
+{
+  "filter": {
+    "must": [
+      { "key": "url", "match": { "value": "https://23andme.com" } }
+    ]
+  },
+  "limit": 1000,
+  "with_payload": true
+}
+
+// Specific WAF product versions (if you capture them)
+POST /collections/New_wafw00f/points/scroll
+{
+  "filter": {
+    "must": [
+      { "key": "firewall", "match": { "value": "Cloudflare" } }
+    ]
+  },
+  "limit": 1000,
+  "with_payload": true
+}
+
+// WAF evasion research targets
+ POST /collections/New_wafw00f/points/scroll
+{
+  "filter": {
+    "must": [
+      { "key": "detected", "match": { "value": true } }
+    ]
+  },
+  "limit": 10000,
+  "with_payload": true
+}
+
+
+//Which high-value targets lack WAF protection?
+//What WAF distribution exists across my scan corpus?
+//Which Cloudflare-protected targets can I correlate with sslscan/Nmap findings?
+//Are there patterns between WAF type and TLS config?
+// Which manufacturers dominate (Cloudflare vs AWS vs others)?

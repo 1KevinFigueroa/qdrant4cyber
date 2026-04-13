@@ -1,0 +1,162 @@
+
+////////////////////////////////////
+////
+////
+////     Nuclei Queries
+////
+////
+////////////////////////////////////
+
+POST collections/New_nulcei-yandex/points/scroll
+{
+  "limit": 42
+}
+
+
+POST /collections/New_nuclei/points/count
+{
+  "exact": true
+}
+
+POST /collections/New_nulcei-yandex/points/count
+{
+  "exact": true
+}
+
+
+// All Findings for specific host
+POST /collections/New_nulcei-yandex/points/scroll
+{
+  "filter": {
+    "must": [
+      { "key": "host", "match": { "value": "yandex.ru" } }
+    ]
+  },
+  "limit": 1000,
+  "with_payload": true
+}
+
+// Cookie security misconfigurations
+POST /collections/New_nulcei-yandex/points/scroll
+{
+  "filter": {
+    "must": [
+      { "key": "template-id", "match": { "value": "cookies-without-httponly" } }
+    ]
+  },
+  "limit": 1000,
+  "with_payload": true
+}
+
+POST /collections/New_nulcei-yandex/points/scroll
+{
+  "filter": {
+    "must": [
+      { "key": "template-id", "match": { "value": "tls-version" } }
+    ]
+  },
+  "limit": 1000,
+  "with_payload": true
+}
+
+// Filter by severity (Critical, High, Medium, Low, Info)
+POST /collections/New_nulcei-yandex/points/scroll
+{
+  "filter": {
+    "must": [
+      {
+        "key": "info.severity",
+        "match": { 
+          "any": ["medium", "high", "info"] 
+        }
+      }
+    ]
+  },
+  "limit": 1000,
+  "with_payload": true
+}
+
+// Extracted results (interesting data)
+// Intent: "All hosts exposing cookie names in responses."
+POST /collections/New_nulcei-yandex/points/scroll
+{
+  "filter": {
+    "must": [
+      { "key": "extracted-results", "match": { "any": ["yandex.ru"] } }
+    ]
+  },
+  "limit": 1000,
+  "with_payload": true
+}
+
+// Pivot by IP address
+POST /collections/New_nulcei-yandex/points/scroll
+{
+  "filter": {
+    "must": [
+      { "key": "ip", "match": { "value": "5.255.255.77" } }
+    ]
+  },
+  "limit": 1000,
+  "with_payload": true
+}
+
+POST /collections/New_nulcei-yandex/points/scroll
+{
+  "filter": {
+    "must": [
+      { "key": "extracted-results", "match": { "any": ["yandexuid", "session", "auth"] } }
+    ]
+  },
+  "limit": 1000,
+  "with_payload": true
+}
+
+// Template type filtering
+// Intent: "Only JavaScript-based detection templates."
+POST /collections/New_nulcei-yandex/points/scroll
+{
+  "filter": {
+    "must": [
+      { "key": "type", "match": { "value": "javascript" } }
+    ]
+  },
+  "limit": 1000,
+  "with_payload": true
+}
+
+// Misconfiguration findings only
+POST /collections/New_nulcei-yandex/points/scroll
+{
+  "filter": {
+    "must": [
+      { "key": "info.tags", "match": { "any": ["misconfig"] } }
+    ]
+  },
+  "limit": 10000,
+  "with_payload": true
+}
+
+// Specific template hunting for nuclei vectorized output
+POST /collections/New_nulcei-yandex/points/scroll
+{
+  "filter": {
+    "must": [
+      { "key": "template-id", "match": { 
+        "any": [
+          "cookies-without-httponly",
+          "cookies-without-secure",
+          "cookie-flags"
+        ] 
+      } }
+    ]
+  },
+  "limit": 1000,
+  "with_payload": true
+}
+
+// Which hosts expose session cookies without HttpOnly/Secure?
+// What misconfigurations exist across my scan corpus?
+// Which IPs host multiple vulnerable endpoints?
+// What template patterns exist (misconfig vs vuln vs exposure)?
+// Which high-severity findings need immediate triage?

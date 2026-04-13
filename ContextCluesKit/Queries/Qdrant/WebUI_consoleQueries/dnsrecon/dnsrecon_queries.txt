@@ -1,0 +1,162 @@
+
+////////////////////////////////////
+////
+////
+////     DNSRecon Queries
+////
+////
+////////////////////////////////////
+
+
+POST collections/New_DNSRecon/points/scroll
+{
+  "limit": 40
+}
+
+POST /collections/New_DNSRecon/points/count
+{
+  "exact": true
+}
+
+// List points in a collection, using filter
+POST collections/New_DNSRecon/points/scroll
+{
+  "filter": {
+    "must": [
+      {
+        "key": "port",
+        "match": {
+          "except": ["80", "443"]
+        }
+      }
+    ]
+  },
+  "limit": 283,
+  "with_payload": true,
+  "with_vector": false
+}
+
+// All records for a given nameserver or host
+POST /collections/New_DNSRecon/points/scroll
+{
+  "filter": {
+    "must": [
+      { "key": "host", "match": { "value": "alina.ns.cloudflare.com" } }
+    ]
+  },
+  "limit": 1000,
+  "with_payload": true
+}
+
+// Filter by record type (SOA, NS, A, MX, etc.)
+POST /collections/New_DNSRecon/points/scroll
+{
+  "filter": {
+    "must": [
+      { "key": "record_type", 
+        "match": { 
+          "value": "SOA" 
+        } 
+      }
+    ]
+  },
+  "limit": 1000,
+  "with_payload": true
+}
+
+// Pivot on IP address or query for a specific IP
+POST /collections/New_DNSRecon/points/scroll
+{
+  "filter": {
+    "must": [
+      { "key": "address", 
+        "match": { 
+          "value": "104.16.183.73" 
+        } 
+      }
+    ]
+  },
+  "limit": 1000,
+  "with_payload": true
+}
+
+// Restrict to a specific source and / or tool - Source comes from DNSrecon
+POST /collections/New_DNSRecon/points/scroll
+{
+  "filter": {
+    "must": [
+      { "key": "source", "match": { "value": "dnsrecon" } }
+    ]
+  },
+  "limit": 10000,
+  "with_payload": true
+}
+
+// Enumerate potential zone apexes / authoritative starts
+// Find all MX records for Google‑hosted zones 
+POST /collections/New_DNSRecon/points/scroll
+{
+  "filter": {
+    "must": [
+      { "key": "record_type", "match": { "value": "MX" } },
+      { "key": "name", "match": { "value": "alt1.aspmx.l.google.com" } }
+    ]
+  },
+  "limit": 1000,
+  "with_payload": true
+}
+
+POST /collections/New_DNSRecon/points/scroll
+{
+  "filter": {
+    "must": [
+      { "key": "record_type", "match": { "value": "SOA" } },
+      { "key": "name", "match": { "value": "alina.ns.cloudflare.com" } }
+    ]
+  },
+  "limit": 1000,
+  "with_payload": true
+}
+
+// 23andme.com DNS A records for 23andme-hosted
+POST /collections/New_DNSRecon/points/scroll
+{
+  "filter": {
+    "must": [
+      { "key": "record_type", "match": { "value": "A" } },
+      { "key": "name", "match": { "value": "23andme.com" } }
+    ]
+  },
+  "limit": 1000,
+  "with_payload": true
+}
+
+// Slice by index / scan order
+POST /collections/New_DNSRecon/points/scroll
+{
+  "filter": {
+    "must": [
+      {
+        "key": "index",
+        "range": {
+          "gte": 10,
+          "lte": 35
+        }
+      }
+    ]
+  },
+  "limit": 50,
+  "with_payload": true
+}
+
+// Retrieve the full original record blob
+POST /collections/New_DNSRecon/points/scroll
+{
+  "filter": {
+    "must": [
+      { "key": "id", "match": { "value": 39 } }
+    ]
+  },
+  "limit": 1,
+  "with_payload": true
+}
