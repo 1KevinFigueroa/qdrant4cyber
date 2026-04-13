@@ -1,0 +1,174 @@
+
+////////////////////////////////////
+////
+////
+////     DNSmap  Queries
+////
+////
+////////////////////////////////////
+
+POST collections/New_DNSmap/points/scroll
+{
+  "limit": 36
+}
+
+POST /collections/New_DNSmap/points/count
+{
+  "exact": true
+}
+
+// List points in a collection, using filter NOT 80 or 443
+POST collections/New_DNSRecon/points/scroll
+{
+  "filter": {
+    "must": [
+      {
+        "key": "port",
+        "match": {
+          "except": ["80", "443"]
+        }
+      }
+    ]
+  },
+  "limit": 283,
+  "with_payload": true,
+  "with_vector": false
+}
+// Grab the original record blob for export/debug
+POST /collections/New_DNSmap/points/scroll
+{
+  "filter": {
+    "must": [
+      { "key": "index", "match": { "value": 11 } }
+    ]
+  },
+  "limit": 1,
+  "with_payload": true
+}
+
+// All records for a specific hostname
+POST /collections/New_DNSmap/points/scroll
+{
+  "filter": {
+    "must": [
+      { "key": "host", "match": { "value": "go.23andme.com" } }
+    ]
+  },
+  "limit": 1000,
+  "with_payload": true
+}
+
+// Pivot on an IP (or IPv6) address
+// Which hostnames point to 2606:4700::6810:b649 (shared infra, load balancer, //. CDN edge, etc.)?”
+POST /collections/New_DNSmap/points/scroll
+{
+  "filter": {
+    "must": [
+      { "key": "address", "match": { "value": "2606:4700::6810:b649" } }
+    ]
+  },
+  "limit": 1000,
+  "with_payload": true
+}
+
+// Filter for only IPv6 assets
+POST /collections/New_DNSmap/points/scroll
+{
+  "filter": {
+    "must": [
+      { "key": "domain", "match": { "value": "23andme" } },
+      { "key": "is_ipv6", "match": { "value": true } }
+    ]
+  },
+  "limit": 1000,
+  "with_payload": true
+}
+
+// Filter for only IPv4 assets
+POST /collections/New_DNSmap/points/scroll
+{
+  "filter": {
+    "must": [
+      { "key": "domain", "match": { "value": "23andme" } },
+      { "key": "is_ipv6", "match": { "value": false } }
+    ]
+  },
+  "limit": 1000,
+  "with_payload": true
+}
+
+// Restrict by record type (AAAA vs A vs CNAME, etc.)
+POST /collections/New_DNSmap/points/scroll
+{
+  "filter": {
+    "must": [
+      { "key": "domain", "match": { "value": "23andme" } },
+      { "key": "type", "match": { "value": "AAAA" } }
+    ]
+  },
+  "limit": 1000,
+  "with_payload": true
+}
+
+POST /collections/New_DNSmap/points/scroll
+{
+  "filter": {
+    "must": [
+      { "key": "domain", "match": { "value": "23andme" } },
+      { "key": "type", "match": { "value": "A" } }
+    ]
+  },
+  "limit": 1000,
+  "with_payload": true
+}
+
+POST /collections/New_DNSmap/points/scroll
+{
+  "filter": {
+    "must": [
+      { "key": "domain", "match": { "value": "23andme" } },
+      { "key": "type", "match": { "value": "CNAME" } }
+    ]
+  },
+  "limit": 1000,
+  "with_payload": true
+}
+
+// Filter by data source of Unix timestamp
+POST /collections/New_DNSmap/points/scroll
+{
+  "filter": {
+    "must": [
+      {
+        "key": "timestamp_unix",
+        "range": { "gte": 1771872000 }
+      }
+    ]
+  },
+  "limit": 1000,
+  "with_payload": true
+}
+
+// Filter by data source
+POST /collections/New_DNSmap/points/scroll
+{
+  "filter": {
+    "must": [
+      { "key": "source", "match": { "value": "csv_import" } }
+    ]
+  },
+  "limit": 10000,
+  "with_payload": true
+}
+
+
+POST /collections/New_DNSmap/points/scroll
+{
+  "filter": {
+    "must": [
+      { "key": "address", "match": { "value": "2606:4700" } }
+    ]
+  },
+  "limit": 10000,
+  "with_payload": true
+}

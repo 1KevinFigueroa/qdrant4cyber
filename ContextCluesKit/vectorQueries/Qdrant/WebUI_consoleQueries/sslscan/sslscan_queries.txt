@@ -1,0 +1,226 @@
+
+////////////////////////////////////
+////
+////
+////     SSLScan Queries
+////
+////
+////////////////////////////////////
+
+GET collections/New_sslscan/
+
+POST /collections/New_sslscan/points/count
+{
+  "exact": true
+}
+POST collections/New_sslscan/points/scroll
+{
+  "limit": 145
+}
+POST collections/New_sslscan/points/scroll
+{
+  "limit": 145,
+  "with_payload": {
+    "include": ["id", "target", "ip", "heartbleed"]
+  }
+}
+
+POST collections/New_sslscan/points/scroll
+{
+  "limit": 145,
+  "with_payload": true
+}
+
+// Filter on IP, Domain, and whether SSL or TLS protocols 
+// disable or enable of SSLv1, SSLv2, TLSv1.0, TLSv1.1, TLSv2.2
+POST /collections/New_sslscan/points/scroll
+{
+  "limit": 145,
+  "with_payload": {
+    "include": ["ip", "target", "protocols"]
+  }
+}
+
+//All sslscan results for a specific target 
+POST /collections/New_sslscan/points/scroll
+{
+  "filter": {
+    "must": [
+      { "key": "target", "match": { "value": "calendar.360.yandex.ru" } }
+    ]
+  },
+  "limit": 100,
+  "with_payload": true
+}
+
+// Certificate reconnaissance by issuer
+// Intent: "All services using GlobalSign certificates."
+POST /collections/New_sslscan/points/scroll
+{
+  "filter": {
+    "must": [
+      { "key": "certificate_issuer", "match": { "value": "GlobalSign RSA OV SSL CA 2018" } }
+    ]
+  },
+  "limit": 1000,
+  "with_payload": true
+}
+
+POST /collections/New_sslscan/points/scroll
+{
+  "limit": 145,
+  "with_payload": {
+    "include": ["ip", "target", "altnames"]
+  }
+}
+
+// Pivot by IP address (shared infrastructure)
+// Intent: "Which domains share IP 213.180.204.97?"
+POST /collections/New_sslscan/points/scroll
+{
+  "filter": {
+    "must": [
+      { "key": "ip", "match": { "value": "213.180.204.97" } }
+    ]
+  },
+  "limit": 1000,
+  "with_payload": true
+}
+
+// High SAN count certificates (recon target)
+POST /collections/New_sslscan/points/scroll
+{
+  "filter": {
+    "must": [
+      {
+        "key": "certificate_altnames_count",
+        "range": { "gte": 20 }
+      }
+    ]
+  },
+  "limit": 1000,
+  "with_payload": true
+}
+
+// Extract all SAN names for a certificate
+POST /collections/New_sslscan/points/scroll
+{
+  "filter": {
+    "must": [
+      { "key": "entry_id", "match": { "value": 2 } }
+    ]
+  },
+  "limit": 1,
+  "with_payload": true
+}
+
+// Weak key strength hunt
+POST /collections/New_sslscan/points/scroll
+{
+  "limit": 145,
+  "with_payload": {
+    "include": ["ip", "target", "rsa_key_strength", "protocols"]
+  }
+}
+
+//Find hosts with weak TLS protocols enabled
+POST /collections/New_sslscan/points/scroll
+{
+  "filter": {
+    "must": [
+      { "key": "protocols.SSLv2", "match": { "value": "enabled" } }
+    ]
+  },
+  "limit": 1000
+}
+
+//Find hosts with weak TLS protocols enabled - OPTIONS:
+// SSLv2, SSLv3, TLSv1.0, TLSv1.1, TLSv1.2, TLSv1.3
+POST /collections/New_sslscan/points/scroll
+{
+  "limit": 31,
+  "must": [{
+    "key": "protocols.TLSv1.0",
+      "match": {
+      "text": "disabled"
+    }
+  }]
+}
+
+POST /collections/New_sslscan/points/scroll
+{
+  "limit": 31,
+  "must": [{
+    "key": "protocols.SSLv2",
+      "match": {
+      "text": "enabled"
+    }
+  }]
+}
+
+//Find hosts with weak TLS protocols disable
+POST /collections/New_sslscan/points/scroll
+{
+  "filter": {
+    "must": [
+      { "key": "protocols.TLSv1.3", "match": { "value": "disabled" } }
+    ]
+  },
+  "limit": 10000,
+  "with_payload": true
+}
+
+
+POST collections/New_sslscan/points/scroll
+{
+  "query": [0.2, 0.1, 0.9, 0.7],
+  "filter": {
+    "should": [
+      {"key": "heartbleed", "match": {"text": "TLS"}},
+      {"key": "heartbleed", "match": {"text": "legacy"}},
+      {"key": "heartbleed", "match": {"text": "old"}},
+      {"key": "heartbleed", "match": {"text": "backup"}}
+    ]
+  },
+  "limit": 145,
+  "with_payload": true
+}
+
+// Expiring certificates (near expiry)
+POST /collections/New_sslscan/points/scroll
+{
+  "filter": {
+    "must": [
+      {
+        "key": "not_valid_after_ts",
+        "range": { "lte": 1779724800 }
+      }
+    ]
+  },
+  "limit": 1000,
+  "with_payload": true
+}
+
+// Filter for a IP address in a domain
+POST collections/New_sslscan/points/scroll
+{
+    "limit": 150,
+    "filter": {
+    "must": [
+      {
+      "key": "ip",
+      "match": {
+          "text": "213.180.204.242"
+          }
+      }
+    ]
+  }
+}
+
+// Which services still support TLS 1.0/1.1?
+// Which IPs host multiple Yandex services? (shared infra)
+// Which certificates expire soon? (DoS vector)
+// Which certs have high SAN counts? (subdomain enum)
+// Which services lack TLS 1.3?
+// GlobalSign vs Let's Encrypt usage patterns?
+// RSA 1024-bit leftovers?

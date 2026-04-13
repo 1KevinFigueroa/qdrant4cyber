@@ -1,0 +1,67 @@
+
+////////////////////////////////////
+////
+////
+////     DIRSearch Queries
+////
+////
+////////////////////////////////////
+GET collections/New_dirsearch
+
+POST collections/New_dirsearch/points/scroll
+{
+  "limit": 259
+}
+
+POST /collections/New_dirsearch/points/count
+{
+  "exact": true
+}
+
+// Filter by HTTP status
+POST /collections/New_dirsearch/points/scroll
+{
+  "filter": {
+    "must_not": [
+      { "key": "status", "match": { "value": 404 } }
+    ]
+  },
+  "limit": 10000,
+  "with_payload": true
+}
+
+POST /collections/New_dirsearch/points/scroll
+{
+  "filter": {
+    "must": [
+      { "key": "status", "match": { "value": 200 } }
+    ]
+  },
+  "limit": 10000,
+  "with_payload": true
+}
+
+// Focus on “.well-known” endpoints *****!!!!!!
+//***********************
+POST /collections/New_dirsearch/points/scroll
+{
+  "filter": {
+    "must": [
+      { "key": "url", "match": { "value": ".well-known" } }
+    ]
+  },
+  "limit": 10000,
+  "with_payload": true
+}
+
+
+POST /collections/New_dirsearch/points/scroll
+{
+  "filter": {
+    "must": [
+      { "key": "url", "match": { "value": "https://yandex.ru" } }
+    ]
+  },
+  "limit": 10000,
+  "with_payload": true
+}
