@@ -14,11 +14,11 @@
   <tr>
     <td align="center" width="50%">
       <a href="">
-        <img src="https://github.com/1KevinFigueroa/vector4cyber/blob/main/RTFM-Knowledge/img/appLogos/cewl.svg" width="300" alt="Cewl Logo">
+        <img src="https://github.com/1KevinFigueroa/vector4cyber/blob/main/ContextCluesKit/RTFM-Knowledge/img/appLogos/cewl.svg" width="300" alt="Cewl Logo">
       </a>
     </td>
     <td align="center" width="50%">
-      <img src="https://github.com/1KevinFigueroa/vector4cyber/blob/main/RTFM-Knowledge/img/Vector4Cyber_extraSmalllogo.png" width="300" alt="Program Logo">
+      <img src="https://github.com/1KevinFigueroa/vector4cyber/blob/main/ContextCluesKit/RTFM-Knowledge/img/Vector4Cyber_extraSmalllogo.png" width="300" alt="Program Logo">
     </td>
   </tr>
 </table>
