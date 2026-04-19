@@ -1,13 +1,13 @@
 """
-Nmap to ChromaDB Importer
---------------------------
+Nmap to ChromaDB Importer-OpenAI-ada-002
+----------------------------------------
 This script imports nmap scan results from a JSON file into a ChromaDB collection.
 
 Usage:
-    python nmap_to_chromadb.py <json_file_path>
+    python nmap_to_chromadb-OpenAI-ada-002.py <json_file_path>
 
 Example:
-    python nmap_to_chromadb.py LocalNmapTest.json
+    python nmap_to_chromadb-OpenAI-ada-002.py LocalNmapTest.json
 """
 
 import os
@@ -27,10 +27,10 @@ def print_usage():
     print("Nmap to ChromaDB Importer")
     print("="*70)
     print("\nUsage:")
-    print("    python nmap_to_chromadb.py <json_file_path>")
+    print("    python nmap_to_chromadb-OpenAI-ada-002.py <json_file_path>")
     print("\nExample:")
-    print("    python nmap_to_chromadb.py LocalNmapTest.json")
-    print("    python nmap_to_chromadb.py /path/to/nmap_scan.json")
+    print("    python nmap_to_chromadb-OpenAI-ada-002.py LocalNmapTest.json")
+    print("    python nmap_to_chromadb-OpenAI-ada-002.py /path/to/nmap_scan.json")
     print("\nDescription:")
     print("    This script imports nmap scan results from a JSON file")
     print("    into a ChromaDB collection named 'nmaptest_openAI'.")
