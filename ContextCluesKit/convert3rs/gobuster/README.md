@@ -35,7 +35,8 @@ The problem with gobuster's output to a text file will be structured subdomains 
 convert3r_gobusterEmbed.py [-h] [--embed] [-o OUTPUT_FILE] input_file
 
 ### Gobuster file structure output example ❌
-/_archive              (Status: 302)   [Size: 43]  [--> https://wwww.example.com]  
+```
+/_archive              (Status: 302)   [Size: 43]  [--> hxxps://wwww.example.com]  
 /_images               (Status: 302)   [Size: 41]  [--> //example.com/blog]  
 /~logs                 (Status: 302)   [Size: 39]  [--> //example.com/blogs2]  
 /1000                  (Status: 302)   [Size: 0]  [--> hxxps://example.com]  
@@ -51,7 +52,7 @@ convert3r_gobusterEmbed.py [-h] [--embed] [-o OUTPUT_FILE] input_file
 /ADM                   (Status: 302)   [Size: 44]  [--> hxxps://example.com/adv/]  
 /adm                   (Status: 302)   [Size: 44]  [--> hxxps://example.com/adv/]  
 /adv                  (Status: 200)   [Size: 613789]
-  
+```
 
 ### A JSON structure option to vectorized ✅
 JSON file structure example:
