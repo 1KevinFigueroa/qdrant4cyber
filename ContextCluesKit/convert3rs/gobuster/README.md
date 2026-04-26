@@ -15,7 +15,7 @@
   <tr>
     <td align="center" width="50%">
       <a href="">
-        <img src="https://github.com/1KevinFigueroa/vector4cyber/blob/main/ContextCluesKit/RTFM-Knowledge/img/appLogos/gobuster2.png" width="200" alt="Gobuster Logo">
+        <img src="https://github.com/1KevinFigueroa/vector4cyber/blob/main/ContextCluesKit/RTFM-Knowledge/img/appLogos/gobuster2.png" width="300" alt="Gobuster Logo">
       </a>
     </td>
     <td align="center" width="50%">
