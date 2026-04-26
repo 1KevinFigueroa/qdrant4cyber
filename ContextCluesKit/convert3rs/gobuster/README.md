@@ -56,6 +56,7 @@ convert3r_gobusterEmbed.py [-h] [--embed] [-o OUTPUT_FILE] input_file
 
 ### A JSON structure option to vectorized ✅
 JSON file structure example:
+```
 {
       "path": "/_archive",
       "status": 302,
@@ -65,6 +66,7 @@ JSON file structure example:
       "raw_line": "/_archive              (Status: 302)   [Size: 43]  [--> https://www.example.com",
       "id": 1
     }
+```
 
 With a plain text file, two important pieces of information are missing: the original input and the source from which the data was obtained. From a cybersecurity perspective, these small but crucial data points are essential for traceability, context, and confident decision-making during analysis.
 
