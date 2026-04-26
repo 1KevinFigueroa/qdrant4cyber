@@ -1,7 +1,7 @@
 <table align="center">
   <tr>
     <td align="center" width="50%">
-      <a href="https://github.com/epi052/feroxbuster">
+      <a href="https://github.com/Oj/gobuster">
         <img src="https://img.shields.io/badge/Open%20Source-10000000?style=flat&logo=github&logoColor=black" alt="Gobuster open-source tool" width="100">
       </a>
     </td>
@@ -15,7 +15,7 @@
   <tr>
     <td align="center" width="50%">
       <a href="">
-        <img src="https://github.com/1KevinFigueroa/vector4cyber/blob/main/ContextCluesKit/RTFM-Knowledge/img/appLogos/gobuster.png" width="200" alt="Amass Logo">
+        <img src="https://github.com/1KevinFigueroa/vector4cyber/blob/main/ContextCluesKit/RTFM-Knowledge/img/appLogos/gobuster2.png" width="200" alt="Gobuster Logo">
       </a>
     </td>
     <td align="center" width="50%">
@@ -38,18 +38,18 @@ convert3r_gobusterEmbed.py [-h] [--embed] [-o OUTPUT_FILE] input_file
 /_archive              (Status: 302)   [Size: 43]  [--> https://wwww.example.com]  
 /_images               (Status: 302)   [Size: 41]  [--> //example.com/blog]  
 /~logs                 (Status: 302)   [Size: 39]  [--> //example.com/blogs2]  
-/1000                  (Status: 302)   [Size: 0]  [--> https://example.com]  
-/20                    (Status: 302)   [Size: 0]  [--> https://example.com]  
-/42                    (Status: 302)   [Size: 0]  [--> https://example.com]  
-/a                     (Status: 302)   [Size: 0]  [--> https://example.com/]  
-/about                 (Status: 302)   [Size: 47]  [--> https://example.com/company]  
-/About                 (Status: 302)   [Size: 47]  [--> https://example.com/company]  
-/activate              (Status: 302)   [Size: 75]  [--> https://passport.example.com/auth/device?origin=smarttv]  
-/ad                    (Status: 302)   [Size: 44]  [--> https://example.com/adv/]  
-/add                   (Status: 302)   [Size: 44]  [--> https://example.com/adv/]  
-/address               (Status: 302)   [Size: 57]  [--> https://example.com/company/contacts/]  
-/ADM                   (Status: 302)   [Size: 44]  [--> https://example.com/adv/]  
-/adm                   (Status: 302)   [Size: 44]  [--> https://example.com/adv/]  
+/1000                  (Status: 302)   [Size: 0]  [--> hxxps://example.com]  
+/20                    (Status: 302)   [Size: 0]  [--> hxxps://example.com]  
+/42                    (Status: 302)   [Size: 0]  [--> hxxps://example.com]  
+/a                     (Status: 302)   [Size: 0]  [--> hxxps://example.com/]  
+/about                 (Status: 302)   [Size: 47]  [--> hxxps://example.com/company]  
+/About                 (Status: 302)   [Size: 47]  [--> hxxps://example.com/company]  
+/activate              (Status: 302)   [Size: 75]  [--> hxxps://passport.example.com/auth/device?origin=smarttv]  
+/ad                    (Status: 302)   [Size: 44]  [--> hxxps://example.com/adv/]  
+/add                   (Status: 302)   [Size: 44]  [--> hxxps://example.com/adv/]  
+/address               (Status: 302)   [Size: 57]  [--> hxxps://example.com/company/contacts/]  
+/ADM                   (Status: 302)   [Size: 44]  [--> hxxps://example.com/adv/]  
+/adm                   (Status: 302)   [Size: 44]  [--> hxxps://example.com/adv/]  
 /adv                  (Status: 200)   [Size: 613789]
   
 
