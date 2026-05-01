@@ -30,9 +30,7 @@ AI-driven threat landscape.
 
 Our mission is to modernize cybersecurity operations by vectorizing corporate data, enabling organizations to unlock deeper contextual intelligence across 
 their environments. By converting unstructured data sources such as logs, tools reults, telemetry, threat intelligence, and asset inventories into 
-high-dimensional embeddings. This will empower security teams to move beyond traditional analysis toward a more dynamic, correlation-driven approach.
-
-At the core of our approach is to integration of vector databases within secure, air-gapped AI-driven architectures. This design ensures that organizations 
+high-dimensional embeddings. This will empower security teams to move beyond traditional analysis toward a more dynamic, correlation-driven approach.At the core of our approach is to integration of vector databases within secure, air-gapped AI-driven architectures. This design ensures that organizations 
 can leverage advanced AI capabilities such as similarity search, behavioral clustering, and context-aware threat detection—without compromising sensitive 
 data or exposing critical systems to external risk.
 
