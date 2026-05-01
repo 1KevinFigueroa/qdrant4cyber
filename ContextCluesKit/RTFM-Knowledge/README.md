@@ -19,9 +19,7 @@
 </p>
 
 # RTFM KNOWLEDGE
-In the most polite way possible, RTFM-Knowledge, is my way of bringing old school slag from the earlier times, 1999 @ DEFCON 7 
-
-# RTFM is KEY!
+In the most polite way possible, RTFM-Knowledge, is my way of bringing old school slag from the earlier times, 1999 @ DEFCON 7; RTFM is KEY!
 
 # UnrealSec the founders of Project Context-Clues
 
