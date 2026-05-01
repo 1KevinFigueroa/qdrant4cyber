@@ -19,16 +19,27 @@
 </p>
 
 # RTFM KNOWLEDGE
-In the most polite way possible, RTFM-Knowledge, is my way of bringing old school slag from the earlier times, 1999 @ DEFCON 7 Alexis Park Resort and boy what a resort. 
+In the most polite way possible, RTFM-Knowledge, is my way of bringing old school slag from the earlier times, 1999 @ DEFCON 7 
 
 # RTFM is KEY!
 
-## Purpose:
-Modern cyber operations generate massive, high‑dimensional data, alerts, asset inventories, scan results, DNS and
-TLS telemetry, threat intel feeds, and more. Most teams still force this data into legacy, row‑and‑column patterns that were never designed for AI‑driven analysis. This talk presents a practical approach to modernize, vectorize, and visualize your cyber operations data using the Qdrant vector database as the core of a next‑generation threat intelligence and recon platform.
+# UnrealSec the founders of Project Context-Clues
 
-## Abstract:
-We will walk through how to transform heterogeneous cyber data (from tools like Nmap, Amass, sslscan, passive DNS, and OSINT sources) into embeddings that capture semantic relationships-between assets, indicators, behaviors, and attack paths-instead of just static fields. Once vectorized, Qdrant enables fast similarity search, context‑aware pivoting (e.g., “find assets that behave like this compromised host”), and automated clustering for campaign or infrastructure grouping. On top of that, we will show how to leverage Qdrant’s filtering and metadata capabilities to combine classic threat hunting (by IP, ASN, tags, exposure) with vector search workflows.
+UnrealSec is a cybersecurity focused organization dedicated to transforming how enterprises operationalize and secure their data in an increasingly 
+AI-driven threat landscape.
 
-## Description:
-The session will include live examples of: building a small open‑source cyber dataops pipeline around Qdrant; mapping external attack surface and TLS posture into vectors; and visualizing neighborhoods of risky assets using dimensionality reduction and graph‑style views to support recon and threat modeling. Attendees will leave with concrete patterns, schema ideas, and code‑level concepts they can immediately apply to replace brittle dashboards and ad‑hoc spreadsheets with a scalable, AI‑ready, vector‑driven threat intel backbone.
+Our mission is to modernize cybersecurity operations by vectorizing corporate data, enabling organizations to unlock deeper contextual intelligence across 
+their environments. By converting unstructured data sources such as logs, tools reults, telemetry, threat intelligence, and asset inventories into 
+high-dimensional embeddings. This will empower security teams to move beyond traditional analysis toward a more dynamic, correlation-driven approach.
+
+At the core of our approach is to integration of vector databases within secure, air-gapped AI-driven architectures. This design ensures that organizations 
+can leverage advanced AI capabilities such as similarity search, behavioral clustering, and context-aware threat detection—without compromising sensitive 
+data or exposing critical systems to external risk.
+
+UnrealSec enables security teams to identify patterns, detect anomalies, and uncover hidden relationships across their attack surface with greater speed 
+and precision. By combining vectorization, visualization, and AI-driven analytics, we provide a next-gen foundation for proactive threat hunting, 
+adversary emulation, and operational resilience.
+
+Our goal is to redefine CyberOps by delivering secure, scalable, and intelligent vector database solutions that align with the evolving demands of modern cybersecurity.
+
+
