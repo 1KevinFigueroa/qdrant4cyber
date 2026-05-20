@@ -9,6 +9,8 @@ from pathlib import Path
 from types import SimpleNamespace
 from unittest.mock import MagicMock
 
+import pytest
+
 ROOT = Path(__file__).resolve().parents[3]
 CONVERTER = ROOT / "convert3rs" / "dnsx" / "convert3r_dnsx.py"
 INGESTOR = Path(__file__).with_name("ingest3r_dnsx.py")
@@ -144,9 +146,10 @@ def test_ingestor_uploads_without_correlation():
     client.create_collection.assert_called_once()
     client.upsert.assert_called_once()
     point = client.upsert.call_args.kwargs["points"][0]
-    assert point.id == 1
+    assert point.id != 1
     assert len(point.vector) == 8
     assert point.payload["host"] == "www.example.com"
+    assert point.payload["normalized_host"] == "www.example.com"
 
 
 def test_ingestor_reuses_existing_dns_record_id_on_update():
@@ -167,3 +170,140 @@ def test_ingestor_reuses_existing_dns_record_id_on_update():
     point = client.upsert.call_args.kwargs["points"][0]
     assert point.id == 99
     assert point.payload["id"] == 99
+
+
+def test_ingestor_uses_stable_deterministic_id_without_correlation():
+    install_fake_qdrant_modules()
+    ingestor_mod = load_module("dnsx_ingestor_deterministic_test", INGESTOR)
+    client = MagicMock()
+    client.get_collections.return_value = SimpleNamespace(collections=[])
+
+    ingestor = ingestor_mod.DNSxIngestor(client, "dnsx_records", vector_size=8)
+    records = [
+        {"id": 1, "host": "WWW.Example.com.", "a": ["93.184.216.34"]},
+        {"id": 999, "host": "www.example.com", "a": ["93.184.216.34"]},
+    ]
+
+    first = ingestor.ingest_records([records[0]], batch_size=100)
+    second = ingestor.ingest_records([records[1]], batch_size=100)
+
+    first_point = client.upsert.call_args_list[-2].kwargs["points"][0]
+    second_point = client.upsert.call_args_list[-1].kwargs["points"][0]
+    assert first == {"total": 1, "inserted": 1, "updated": 0, "correlated": 0, "errors": 0}
+    assert second == {"total": 1, "inserted": 1, "updated": 0, "correlated": 0, "errors": 0}
+    assert first_point.id == second_point.id
+    assert first_point.id not in {1, 999}
+    assert first_point.payload["normalized_host"] == "www.example.com"
+
+
+def test_linked_subdomain_update_waits_for_successful_dns_upload():
+    install_fake_qdrant_modules()
+    ingestor_mod = load_module("dnsx_ingestor_deferred_update_test", INGESTOR)
+    client = MagicMock()
+    client.get_collections.return_value = SimpleNamespace(collections=[])
+    client.upsert.side_effect = RuntimeError("upsert failed")
+    engine = MagicMock()
+    engine.correlate_dns_record.side_effect = lambda record: {
+        **record,
+        "correlation_status": "matched",
+        "linked_subdomain_id": 42,
+        "linked_collection": "Subfinder_json",
+    }
+    engine.prepare_upsert_operation.return_value = {"operation": "insert", "point_id": None, "record": {}}
+
+    ingestor = ingestor_mod.DNSxIngestor(client, "dnsx_records", vector_size=8)
+
+    with pytest.raises(RuntimeError, match="upsert failed"):
+        ingestor.ingest_records([{"host": "www.example.com"}], correlation_engine=engine, batch_size=100)
+
+    engine.update_subdomain_with_dns_info.assert_not_called()
+
+
+def test_linked_subdomain_update_runs_after_successful_dns_upload():
+    install_fake_qdrant_modules()
+    ingestor_mod = load_module("dnsx_ingestor_deferred_update_success_test", INGESTOR)
+    client = MagicMock()
+    client.get_collections.return_value = SimpleNamespace(collections=[])
+    engine = MagicMock()
+    engine.correlate_dns_record.side_effect = lambda record: {
+        **record,
+        "correlation_status": "matched",
+        "linked_subdomain_id": 42,
+        "linked_collection": "Subfinder_json",
+    }
+    engine.prepare_upsert_operation.return_value = {"operation": "insert", "point_id": None, "record": {}}
+    calls = MagicMock()
+    calls.attach_mock(client.upsert, "upsert")
+    calls.attach_mock(engine.update_subdomain_with_dns_info, "update_subdomain")
+
+    ingestor = ingestor_mod.DNSxIngestor(client, "dnsx_records", vector_size=8)
+    ingestor.ingest_records([{"host": "www.example.com"}], correlation_engine=engine, batch_size=100)
+
+    assert client.upsert.called
+    engine.update_subdomain_with_dns_info.assert_called_once()
+    assert calls.mock_calls[0][0] == "upsert"
+    assert calls.mock_calls[1][0] == "update_subdomain"
+    updated_record = engine.update_subdomain_with_dns_info.call_args.args[0]
+    assert updated_record["id"] == client.upsert.call_args.kwargs["points"][0].id
+
+
+def test_correlation_normalizes_hostname_for_exact_match():
+    install_fake_qdrant_modules()
+    correlation = load_module("dnsx_correlation_normalized_test", CORRELATION)
+    client = MagicMock()
+    client.get_collections.return_value = SimpleNamespace(collections=[SimpleNamespace(name="Subfinder_json")])
+
+    def scroll_side_effect(*, collection_name, scroll_filter, limit, with_payload, with_vectors):
+        condition = scroll_filter.must[0]
+        if condition.key == "hostname" and condition.match.value == "www.example.com":
+            return ([SimpleNamespace(id=42, payload={"hostname": "www.example.com"})], None)
+        return ([], None)
+
+    client.scroll.side_effect = scroll_side_effect
+    engine = correlation.DNSCorrelationEngine(client, collections=["Subfinder_json"])
+    record = engine.correlate_dns_record({"id": 1, "host": " WWW.Example.com. ", "a": ["93.184.216.34"]})
+
+    assert record["correlation_status"] == "matched"
+    assert record["normalized_host"] == "www.example.com"
+    assert record["linked_subdomain_id"] == 42
+
+
+def test_correlation_qdrant_collection_failure_is_visible():
+    install_fake_qdrant_modules()
+    correlation = load_module("dnsx_correlation_collection_failure_test", CORRELATION)
+    client = MagicMock()
+    client.get_collections.side_effect = RuntimeError("qdrant unavailable")
+    engine = correlation.DNSCorrelationEngine(client, collections=["Subfinder_json"])
+
+    with pytest.raises(RuntimeError, match="qdrant unavailable"):
+        engine.find_matching_subdomain("www.example.com")
+
+
+def test_correlation_scroll_failure_is_visible_for_existing_dns_lookup():
+    install_fake_qdrant_modules()
+    correlation = load_module("dnsx_correlation_scroll_failure_test", CORRELATION)
+    client = MagicMock()
+    client.scroll.side_effect = RuntimeError("bad filter")
+    engine = correlation.DNSCorrelationEngine(client, collections=[])
+
+    with pytest.raises(RuntimeError, match="bad filter"):
+        engine.find_existing_dns_record("www.example.com")
+
+
+def test_correlation_finds_existing_dns_record_by_normalized_host():
+    install_fake_qdrant_modules()
+    correlation = load_module("dnsx_correlation_existing_normalized_test", CORRELATION)
+    client = MagicMock()
+
+    def scroll_side_effect(*, collection_name, scroll_filter, limit, with_payload, with_vectors):
+        condition = scroll_filter.must[0]
+        if condition.key == "normalized_host" and condition.match.value == "www.example.com":
+            return ([SimpleNamespace(id=99, payload={"normalized_host": "www.example.com"})], None)
+        return ([], None)
+
+    client.scroll.side_effect = scroll_side_effect
+    engine = correlation.DNSCorrelationEngine(client, collections=[])
+
+    existing = engine.find_existing_dns_record("WWW.Example.com.")
+
+    assert existing == {"id": 99, "payload": {"normalized_host": "www.example.com"}}

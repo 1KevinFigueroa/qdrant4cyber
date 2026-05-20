@@ -2,12 +2,22 @@
 
 from __future__ import annotations
 
-from typing import Any, Dict, Iterable, List, Optional, Sequence
+from typing import Any, Dict, Optional, Sequence
 
 try:  # qdrant-client is an optional runtime dependency for this repository.
     from qdrant_client.http import models
 except ImportError:  # pragma: no cover - exercised in environments without qdrant-client.
     models = None  # type: ignore[assignment]
+
+try:
+    from dns_payload_service import subdomain_dns_payload
+except ImportError:  # pragma: no cover
+    from .dns_payload_service import subdomain_dns_payload
+
+
+def normalize_hostname(hostname: Any) -> str:
+    """Return a canonical hostname for exact Qdrant payload matching."""
+    return str(hostname or "").strip().lower().rstrip(".")
 
 
 class DNSCorrelationEngine:
@@ -21,7 +31,7 @@ class DNSCorrelationEngine:
         "amass",
         "assetfinder",
     ]
-    MATCH_FIELDS = ("hostname", "host", "subdomain", "domain", "name")
+    MATCH_FIELDS = ("normalized_host", "hostname", "host", "subdomain", "domain", "name")
 
     def __init__(self, client: Any, collections: Optional[Sequence[str]] = None):
         self.client = client
@@ -29,11 +39,7 @@ class DNSCorrelationEngine:
         self.stats = {"matched": 0, "unmatched": 0, "updated": 0, "errors": 0}
 
     def _collection_names(self) -> set[str]:
-        try:
-            return {collection.name for collection in self.client.get_collections().collections}
-        except Exception as exc:
-            print(f"⚠️ Could not list Qdrant collections: {exc}")
-            return set()
+        return {collection.name for collection in self.client.get_collections().collections}
 
     def _scroll_field_match(self, collection_name: str, field: str, value: str):
         if models is None:
@@ -49,8 +55,8 @@ class DNSCorrelationEngine:
         )
 
     def find_matching_subdomain(self, hostname: str) -> Optional[Dict[str, Any]]:
-        hostname = (hostname or "").strip()
-        if not hostname:
+        normalized = normalize_hostname(hostname)
+        if not normalized:
             return None
 
         available = self._collection_names()
@@ -58,11 +64,7 @@ class DNSCorrelationEngine:
             if collection_name not in available:
                 continue
             for field in self.MATCH_FIELDS:
-                try:
-                    points, _ = self._scroll_field_match(collection_name, field, hostname)
-                except Exception as exc:
-                    print(f"⚠️ Error searching {collection_name}.{field}: {exc}")
-                    continue
+                points, _ = self._scroll_field_match(collection_name, field, normalized)
                 if points:
                     point = points[0]
                     return {
@@ -74,36 +76,31 @@ class DNSCorrelationEngine:
         return None
 
     def find_existing_dns_record(self, hostname: str, collection_name: str = "dnsx_records") -> Optional[Dict[str, Any]]:
-        hostname = (hostname or "").strip()
-        if not hostname:
+        normalized = normalize_hostname(hostname)
+        if not normalized:
             return None
-        try:
-            points, _ = self._scroll_field_match(collection_name, "host", hostname)
-        except Exception as exc:
-            print(f"⚠️ Error checking existing dnsx record: {exc}")
-            return None
-        if not points:
-            return None
-        point = points[0]
-        return {"id": point.id, "payload": getattr(point, "payload", {}) or {}}
+        for field in ("normalized_host", "host"):
+            points, _ = self._scroll_field_match(collection_name, field, normalized)
+            if points:
+                point = points[0]
+                return {"id": point.id, "payload": getattr(point, "payload", {}) or {}}
+        return None
 
     def correlate_dns_record(self, dns_record: Dict[str, Any]) -> Dict[str, Any]:
-        hostname = str(dns_record.get("host") or "").strip()
+        hostname = normalize_hostname(dns_record.get("host"))
         if not hostname:
             self.stats["errors"] += 1
             dns_record["correlation_status"] = "missing_host"
             return dns_record
 
+        dns_record["normalized_host"] = hostname
         subdomain = self.find_matching_subdomain(hostname)
         if subdomain:
             dns_record["linked_subdomain_id"] = subdomain["id"]
             dns_record["linked_collection"] = subdomain["collection"]
             dns_record["linked_match_field"] = subdomain["matched_field"]
             dns_record["correlation_status"] = "matched"
-            if dns_record.get("a"):
-                dns_record["resolved_ips"] = dns_record["a"]
-            if dns_record.get("aaaa"):
-                dns_record["resolved_ipv6"] = dns_record["aaaa"]
+            dns_record.update(subdomain_dns_payload(dns_record))
             self.stats["matched"] += 1
         else:
             dns_record["correlation_status"] = "unmatched"
@@ -123,12 +120,7 @@ class DNSCorrelationEngine:
             "latest_dns_timestamp": dns_record.get("timestamp"),
             "dns_correlation_status": "active",
         }
-        if dns_record.get("a"):
-            payload["resolved_ips"] = dns_record["a"]
-        if dns_record.get("aaaa"):
-            payload["resolved_ipv6"] = dns_record["aaaa"]
-        if dns_record.get("cname"):
-            payload["cname"] = dns_record["cname"]
+        payload.update(subdomain_dns_payload(dns_record))
 
         try:
             self.client.set_payload(collection_name=collection, points=[subdomain_id], payload=payload)
@@ -139,7 +131,7 @@ class DNSCorrelationEngine:
         return True
 
     def prepare_upsert_operation(self, dns_record: Dict[str, Any], collection_name: str = "dnsx_records") -> Dict[str, Any]:
-        existing = self.find_existing_dns_record(str(dns_record.get("host") or ""), collection_name)
+        existing = self.find_existing_dns_record(str(dns_record.get("normalized_host") or dns_record.get("host") or ""), collection_name)
         if existing:
             return {"operation": "update", "point_id": existing["id"], "record": dns_record}
         return {"operation": "insert", "point_id": None, "record": dns_record}

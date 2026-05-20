@@ -22,9 +22,15 @@ except ImportError:
     SentenceTransformer = None  # type: ignore[assignment]
 
 try:
-    from correlation_engine import DNSCorrelationEngine
+    from correlation_engine import DNSCorrelationEngine, normalize_hostname
 except ImportError:  # pragma: no cover
-    DNSCorrelationEngine = None  # type: ignore[assignment]
+    try:
+        from .correlation_engine import DNSCorrelationEngine, normalize_hostname
+    except ImportError:
+        DNSCorrelationEngine = None  # type: ignore[assignment]
+
+        def normalize_hostname(hostname: Any) -> str:
+            return str(hostname or "").strip().lower().rstrip(".")
 
 DEFAULT_HOST = "localhost"
 DEFAULT_PORT = 6333
@@ -129,7 +135,7 @@ class DNSxIngestor:
         self.create_payload_indexes()
 
     def create_payload_indexes(self) -> None:
-        for field in ("host", "status_code", "source_tool", "correlation_status", "linked_collection"):
+        for field in ("host", "normalized_host", "status_code", "source_tool", "correlation_status", "linked_collection"):
             try:
                 self.client.create_payload_index(
                     collection_name=self.collection_name,
@@ -151,11 +157,26 @@ class DNSxIngestor:
             return vector + [0.0] * (self.vector_size - len(vector))
         return deterministic_vector(text, self.vector_size)
 
-    def next_insert_id(self) -> int:
-        try:
-            return int(self.client.count(collection_name=self.collection_name).count) + 1
-        except Exception:
-            return 1
+    def deterministic_point_id(self, record: Dict[str, Any]) -> int:
+        """Return a stable Qdrant integer point ID for a DNS record identity.
+
+        Converter-assigned IDs and input order are intentionally ignored so reruns,
+        deletes, and mixed correlation modes cannot overwrite unrelated records.
+        """
+        normalized_host = normalize_hostname(record.get("normalized_host") or record.get("host"))
+        identity = {
+            "host": normalized_host,
+            "source_tool": str(record.get("source_tool") or "dnsx"),
+        }
+        digest = hashlib.sha256(json.dumps(identity, sort_keys=True).encode("utf-8")).digest()
+        return int.from_bytes(digest[:8], "big") & ((1 << 63) - 1)
+
+    def flush_batch(self, points: List[Any], linked_updates: List[Dict[str, Any]], correlation_engine: Optional[Any]) -> None:
+        self.upload_batch(points)
+        if correlation_engine is None:
+            return
+        for record in linked_updates:
+            correlation_engine.update_subdomain_with_dns_info(record)
 
     def ingest_records(
         self,
@@ -164,28 +185,29 @@ class DNSxIngestor:
         batch_size: int = 100,
     ) -> Dict[str, int]:
         stats = {"total": len(dns_records), "inserted": 0, "updated": 0, "correlated": 0, "errors": 0}
-        next_id = self.next_insert_id()
         batch: List[Any] = []
+        linked_updates: List[Dict[str, Any]] = []
 
         for index, original in enumerate(dns_records, start=1):
             try:
                 record = dict(original)
+                normalized_host = normalize_hostname(record.get("host"))
+                if normalized_host:
+                    record["normalized_host"] = normalized_host
+
                 if correlation_engine is not None:
                     record = correlation_engine.correlate_dns_record(record)
                     if record.get("correlation_status") == "matched":
                         stats["correlated"] += 1
-
-                if correlation_engine is not None:
                     upsert_info = correlation_engine.prepare_upsert_operation(record, self.collection_name)
                     if upsert_info["operation"] == "update":
                         point_id = upsert_info["point_id"]
                         stats["updated"] += 1
                     else:
-                        point_id = next_id
-                        next_id += 1
+                        point_id = self.deterministic_point_id(record)
                         stats["inserted"] += 1
                 else:
-                    point_id = record.get("id", index)
+                    point_id = self.deterministic_point_id(record)
                     stats["inserted"] += 1
 
                 record["id"] = point_id
@@ -193,17 +215,19 @@ class DNSxIngestor:
                 batch.append(models.PointStruct(id=point_id, vector=vector, payload=record))
 
                 if correlation_engine is not None and record.get("correlation_status") == "matched":
-                    correlation_engine.update_subdomain_with_dns_info(record)
-
-                if len(batch) >= batch_size:
-                    self.upload_batch(batch)
-                    batch = []
+                    linked_updates.append(record)
             except Exception as exc:
                 print(f"⚠️ Failed to process dnsx record {index}: {exc}")
                 stats["errors"] += 1
+                continue
+
+            if len(batch) >= batch_size:
+                self.flush_batch(batch, linked_updates, correlation_engine)
+                batch = []
+                linked_updates = []
 
         if batch:
-            self.upload_batch(batch)
+            self.flush_batch(batch, linked_updates, correlation_engine)
         return stats
 
     def upload_batch(self, points: List[Any]) -> None:
